@@ -1,0 +1,34 @@
+<!-- Only render main content when personal info is available -->
+<div *ngIf="personalInfo()">
+  <!-- Connect & Collaborate Section -->
+  <div class="connect-container">
+    <div class="connect-section">
+
+      <div class="connect-content">
+        <div class="connect-header">
+          <h3>Let's Connect & Collaborate</h3>
+          <p>I'm always excited to discuss new opportunities, share knowledge, or simply connect with fellow enthusiasts
+            in the field. Let's build something amazing together!</p>
+        </div>
+
+        <div class="social-showcase">
+          @for (platform of socialPlatforms(); track platform.platform) {
+          <app-social-card [platform]="platform.platform" [title]="platform.title" [description]="platform.description"
+            [href]="platform.href" [icon]="platform.icon" [external]="platform.external">
+          </app-social-card>
+          }
+        </div>
+
+        <div class="quote-masterpiece">
+          <div class="quote-content">
+            <blockquote>
+              "{{ personalInfo()?.bio?.summary || 'From scripting enthusiast to formal education, exploring the
+              intersection of mathematics, physics, and computer science.' }}"
+            </blockquote>
+            <cite>— {{ personalInfo()?.bio?.author || 'Abdelkader KANTAOUI' }}</cite>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

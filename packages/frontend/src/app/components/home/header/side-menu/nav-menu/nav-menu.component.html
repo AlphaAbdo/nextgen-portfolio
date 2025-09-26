@@ -1,0 +1,21 @@
+<div class="nav-wrapper">
+  <ul class="main-menu">
+    @for (item of menuItems; track $index) {
+    <li>
+      <a
+        href="#{{item.section}}"
+        [class.active]="activeSection === item.section"
+        [attr.aria-current]="activeSection === item.section ? 'page' : null"
+  (click)="handleNavigateClick($event, item.section)"
+  (keydown.enter)="handleNavigateClick($event, item.section)"
+  (keydown.space)="handleNavigateClick($event, item.section)"
+        [title]="item.description"
+        role="link"
+        tabindex="0"
+      >
+        <i [class]="'fas ' + item.icon"></i>
+        {{ item.label }}
+      </a>
+    </li>}
+  </ul>
+</div>

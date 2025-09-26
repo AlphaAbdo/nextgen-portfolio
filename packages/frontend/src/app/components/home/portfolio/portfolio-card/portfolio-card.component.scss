@@ -1,0 +1,367 @@
+/* ========== PORTFOLIO CARD COMPONENT ========== */
+
+.portfolio-card {
+  position: relative;
+  width: 100%;
+  perspective: 1000px;
+  cursor: pointer;
+  z-index: 1; /* Base z-index */
+  overflow: hidden; /* Prevent content overflow during transforms */
+  
+  /* Performance optimizations for blur effects */
+  transform: translateZ(0);
+  will-change: transform;
+  contain: layout style paint;
+  
+  /* Bring hovered card to front without creating new stacking context */
+  &:hover {
+    z-index: 10; /* Bring hovered card to front */
+  }
+}
+
+/* Force proper 3D rendering context */
+.flip-card {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d; /* Ensure 3D context is established */
+  transform: translateZ(0); /* Force hardware acceleration */
+  
+  /* Particle Effects - controlled globally via :hover rule */
+  .particle-background {
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    right: -10px;
+    bottom: -10px;
+    background: radial-gradient(
+      circle at 20% 80%,
+      hsla(var(--color-primary-hue), 70%, 60%, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 80% 20%,
+      hsla(var(--color-secondary-hue, 210), 70%, 60%, 0.3) 0%,
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 40% 40%,
+      hsla(var(--color-primary-hue), 60%, 70%, 0.2) 0%,
+      transparent 40%
+    );
+    opacity: 0;
+    transition: opacity 0.6s ease;
+    z-index: -1;
+    border-radius: 20px;
+    filter: blur(3px);
+  }
+}
+
+.flip-card-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s ease-in-out;
+  /* Performance optimizations */
+  transform: translateZ(0);
+  will-change: transform;
+  transform-origin: center center;
+  
+  .flip-card:not(.no-flip):hover & {
+    transform: rotateY(180deg);
+  }
+}
+
+/* Hide visual effects during flip animation */
+.flip-card:hover {
+  .content-overlay,
+  .particle-background {
+    opacity: 0 !important;
+    transition: opacity 0.1s ease;
+  }
+}
+
+/* ========== CARD FACES ========== */
+
+.flip-card-front,
+.flip-card-back {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.1),
+    0 2px 8px rgba(0, 0, 0, 0.05);
+  top: 0;
+  left: 0;
+}
+
+/* ========== FRONT FACE - Dynamic Content ========== */
+
+.flip-card-front {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--color-primary-hue), 40%, 15%, 0.1) 0%,
+    hsla(var(--color-primary-hue), 30%, 10%, 0.15) 100%
+  );
+  z-index: 1;
+  border: 1px solid hsla(var(--color-primary-hue), 50%, 50%, 0.15);
+  backdrop-filter: blur(6px); /* Reduced from 12px for better performance */
+  position: relative;
+  /* Optimize for performance */
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+/* Dynamic Content Styles */
+.dynamic-image,
+.dynamic-html,
+app-animated-background {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: opacity 0.6s ease;
+}
+
+.flip-card:not(.no-flip):hover .dynamic-image {
+  opacity: 0.5;
+}
+
+/* Content Overlay - controlled globally via :hover rule */
+.content-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.1);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+/* ========== BACK FACE - Project Information ========== */
+
+.flip-card-back {
+  background: var(--color-bg-glass);
+  backdrop-filter: blur(8px) contrast(120%) saturate(150%); /* Reduced blur from 15px to 8px */
+  border: 1px solid var(--color-border-primary);
+  transform: rotateY(180deg);
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px;
+  
+  /* Ensure proper z-index stacking */
+  z-index: 2;
+  /* Optimize for performance */
+  transform: rotateY(180deg) translateZ(0);
+  will-change: transform;
+  
+  /* Allow the front content to show through */
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(2px);
+    z-index: -1;
+    border-radius: 16px;
+  }
+}
+
+.card-content {
+  text-align: center;
+  color: var(--color-text-primary);
+  
+  h4 {
+    margin: 0 0 16px 0;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--color-primary);
+    line-height: 1.3;
+  }
+  
+  p {
+    margin: 0 0 20px 0;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-text-secondary);
+    max-width: 280px;
+  }
+}
+
+/* ========== TECH STACK TAGS ========== */
+
+.tech-stack {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.tech-tag {
+  background: var(--color-bg-glass-hover);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 12px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: var(--color-text-primary);
+  backdrop-filter: blur(5px);
+}
+
+/* ========== ACTION BUTTON ========== */
+
+.view-project-btn {
+  display: inline-block;
+  padding: 12px 24px;
+  background: linear-gradient(
+    135deg,
+    var(--color-primary) 0%,
+    var(--color-secondary) 100%
+  );
+  color: var(--color-white);
+  text-decoration: none;
+  border: none;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  
+  &:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+  }
+}
+
+/* ========== PROJECT STATUS ========== */
+
+.project-status {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  
+  &[data-status="completed"] {
+    background: rgba(40, 167, 69, 0.2);
+    color: var(--color-success);
+    border: 1px solid rgba(40, 167, 69, 0.4);
+  }
+  
+  &[data-status="in-progress"] {
+    background: rgba(255, 193, 7, 0.2);
+    color: var(--color-warning);
+    border: 1px solid rgba(255, 193, 7, 0.4);
+  }
+  
+  &[data-status="archived"] {
+    background: rgba(108, 117, 125, 0.2);
+    color: #6c757d;
+    border: 1px solid rgba(108, 117, 125, 0.4);
+  }
+}
+
+/* Loading and error states are handled by the shared `app-loading` component. */
+
+/* ========== THEME VARIATIONS ========== */
+
+[data-theme="dark"] .flip-card-back {
+  background: var(--color-bg-overlay-dark);
+  backdrop-filter: blur(8px) contrast(130%) saturate(150%); /* Reduced from 15px */
+  border: 1px solid var(--color-border-primary);
+  
+  &::before {
+    background: var(--color-bg-overlay-dark);
+  }
+}
+
+[data-theme="light"] .flip-card-back {
+  background: var(--color-bg-glass-hover);
+  backdrop-filter: blur(8px) contrast(110%) saturate(150%); /* Reduced from 15px */
+  border: 1px solid var(--color-border-primary);
+  
+  &::before {
+    background: var(--color-bg-glass);
+  }
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+@media (max-width: 767px) {
+  .card-content {
+    padding: 20px;
+    
+    h4 {
+      font-size: 1.3rem;
+    }
+    
+    p {
+      font-size: 0.9rem;
+    }
+  }
+  
+  .tech-tag {
+    font-size: 0.7rem;
+    padding: 3px 6px;
+  }
+}
+
+/* ========== ACCESSIBILITY ========== */
+
+@media (prefers-reduced-motion: reduce) {
+  .flip-card-inner {
+    transition: none;
+  }
+  
+  .flip-card:hover .flip-card-inner {
+    transform: none;
+  }
+  
+  .view-project-btn:hover {
+    transform: none;
+  }
+  
+}
+
+/* Light mode overrides for better contrast */
+[data-theme="light"] .flip-card-front {
+  background: linear-gradient(
+    135deg,
+    hsla(var(--color-primary-hue), 40%, 95%, 0.05) 0%,  /* Much lighter: 95% instead of 15% */
+    hsla(var(--color-primary-hue), 30%, 98%, 0.08) 100%  /* Much lighter: 98% instead of 10% */
+  );
+  border: 1px solid hsla(var(--color-primary-hue), 50%, 50%, 0.08); /* Lighter border */
+}
+
+[data-theme="light"] .flip-card-back .background-effects {
+  background: radial-gradient(
+    circle at 20% 80%,
+    hsla(var(--color-primary-hue), 70%, 60%, 0.15) 0%,  /* Lighter opacity */
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 80% 20%,
+    hsla(var(--color-secondary-hue, 210), 70%, 60%, 0.15) 0%,  /* Lighter opacity */
+    transparent 50%
+  ),
+  radial-gradient(
+    circle at 40% 40%,
+    hsla(var(--color-primary-hue), 60%, 70%, 0.1) 0%,  /* Lighter opacity */
+    transparent 40%
+  );
+}

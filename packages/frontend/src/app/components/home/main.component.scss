@@ -1,0 +1,64 @@
+/* App Layout - Proper Flexbox Structure with Spacer */
+
+.app-layout {
+  display: flex;
+  min-height: 100vh;
+  
+  /* Desktop: Side-by-side layout with spacer for fixed sidebar */
+  @media screen and (min-width: 1024px) {
+    ::ng-deep .sidebar-spacer {
+      flex-shrink: 0;
+      width: calc(18vw + 1vw); /* Match side-menu width (16.67vw) + left margin (1vw) */
+      height: 100vh;
+      /* Invisible spacer that takes up sidebar space + margin */
+    }
+    
+    .main-content {
+      flex: 1;
+      min-width: 0; /* Prevent flex item overflow */
+    }
+  }
+  
+  /* Responsive spacer widths to match side-menu breakpoints */
+  @media screen and (max-width: 1024px) and (min-width: 769px) {
+    ::ng-deep .sidebar-spacer {
+      width: calc(14.58vw + 1vw); /* Match 14.58vw side-menu + 1vw margin */
+    }
+  }
+  
+  @media screen and (max-width: 768px) {
+    ::ng-deep .sidebar-spacer {
+      width: calc(13.02vw + 1vw); /* Match 13.02vw side-menu + 1vw margin */
+    }
+  }
+  
+  /* Mobile: Stack layout (sidebar will be overlay) */
+  @media screen and (max-width: 845px) {
+    flex-direction: column;
+    
+    .main-content {
+      flex: 1;
+      width: 100%;
+    }
+  }
+}
+
+/* Animated background sits behind content */
+.animated-background,
+app-animated-background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* App shell mapping to class names used in template */
+/* Backward-compatible class names are intentionally not defined here to avoid empty rulesets.
+  The canonical layout classes are `.app-layout`, `.sidebar-spacer`, and `.main-content`.
+  The template still uses `.app-shell`, `.left-decoy`, and `.app-main` which are functionally
+  equivalent and rely on the main layout rules above. */
+
+/* Utility: map the lighter names to the structured layout used here */
+.app-shell { @extend .app-layout; }
+.left-decoy { @extend .sidebar-spacer; }
+.app-main { @extend .main-content; }

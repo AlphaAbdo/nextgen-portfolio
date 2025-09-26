@@ -1,0 +1,9 @@
+{
+  "proxy": {
+    "baseUrl": "http://localhost:3001",
+    "endpoint": "/proxy"
+  },
+  "outreach": {
+    "configPath": "https://drive.google.com/uc?export=download&id=1HIRd7BJYv1h5PJEilDepv9-yjgJZaADQ"
+  }
+}

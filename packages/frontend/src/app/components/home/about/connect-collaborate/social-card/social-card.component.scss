@@ -1,0 +1,87 @@
+.social-card {
+        background: var(--color-bg-glass);
+        backdrop-filter: blur(8px); /* Reduced from 20px for better performance */
+        border-radius: 20px;
+        padding: 2px;
+        border: 1px solid var(--color-border-primary);
+        text-decoration: none;
+        color: var(--text-primary);
+        transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+        overflow: hidden;
+
+        height: 120px; // Fixed height for consistent card sizes
+        min-height: 120px; // Ensure minimum height matches fixed height
+
+        &:hover {
+          transform: translateY(-8px);
+          box-shadow: 0 25px 50px var(--shadow-dark);
+          border-color: var(--color-border-secondary);
+
+          .social-arrow {
+            transform: translateX(5px);
+          }
+        }
+
+        .social-icon {
+          width: 60px;
+          height: 60px;
+          border-radius: 50%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 1.8rem;
+          background: var(--color-bg-glass);
+          border: 1px solid var(--color-border-primary);
+        }
+
+        .social-info {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          h4 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+          }
+
+          p {
+            font-size: 0.9rem;
+            color: var(--color-text-secondary);
+            margin: 0;
+          }
+        }
+
+        .social-arrow {
+          font-size: 1.2rem;
+          transition: transform 0.3s ease;
+          color: var(--color-text-primary);
+        }
+
+        // Platform-specific styling
+        &.email {
+          &:hover .social-icon {
+            background: linear-gradient(135deg, var(--color-secondary), var(--color-secondary-light));
+            border-color: var(--color-secondary);
+          }
+        }
+
+        &.linkedin {
+          &:hover .social-icon {
+            background: linear-gradient(135deg, #0a66c2, #378fe9);
+            border-color: #0a66c2;
+          }
+        }
+
+        &.github {
+          &:hover .social-icon {
+            background: linear-gradient(135deg, var(--color-text-primary), var(--color-text-secondary));
+            border-color: var(--color-text-primary);
+          }
+        }
+      }
+

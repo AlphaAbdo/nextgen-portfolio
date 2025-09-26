@@ -1,0 +1,63 @@
+services:
+  # Frontend with Docker Compose watch - automatically syncs and rebuilds
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "4201:4201"
+    environment:
+      - NODE_ENV=development
+    depends_on:
+      - backend
+    networks:
+      - portfolio-network
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/frontend/src
+          target: /app/src
+        - action: sync
+          path: ./packages/frontend/public
+          target: /app/public
+        - action: sync
+          path: ./packages/frontend/angular.json
+          target: /app/angular.json
+        - action: sync
+          path: ./packages/frontend/tsconfig.json
+          target: /app/tsconfig.json
+        - action: sync
+          path: ./packages/frontend/tsconfig.app.json
+          target: /app/tsconfig.app.json
+        - action: sync
+          path: ./packages/frontend/tsconfig.spec.json
+          target: /app/tsconfig.spec.json
+        - action: rebuild
+          path: ./packages/frontend/package.json
+
+  # Backend with Docker Compose watch - automatically syncs and rebuilds
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+      - PORT=3001
+    networks:
+      - portfolio-network
+    develop:
+      watch:
+        - action: sync
+          path: ./packages/backend
+          target: /app
+          ignore:
+            - node_modules/
+            - .git/
+        - action: rebuild
+          path: ./packages/backend/package.json
+
+networks:
+  portfolio-network:
+    driver: bridge

@@ -1,0 +1,248 @@
+/* Side Menu Component - Flexible for Desktop & Reduced */
+
+.side-menu {
+  display: flex;
+  flex-direction: column;
+  width: 18vw; /* Proportional to screen size: 320px/1920px = 16.67% */
+  height: 100vh;
+  
+  /* Semi-transparent background with theme integration and noise */
+  background: 
+    radial-gradient(circle at 50% 50%, 
+      hsla(var(--color-primary-hue), 60%, 20%, 0.15) 0%,
+      hsla(var(--color-primary-hue), 40%, 15%, 0.25) 40%,
+      hsla(var(--color-primary-hue), 30%, 10%, 0.35) 100%);
+  
+  /* Enhanced backdrop blur and border effects */
+  backdrop-filter: blur(10px) saturate(150%);
+  border: 1px solid hsla(var(--color-primary-hue), 50%, 50%, 0.2);
+  box-shadow: 
+    2px 0 20px hsla(var(--color-primary-hue), 60%, 30%, 0.3),
+    inset 0 0 0 1px hsla(var(--color-primary-hue), 70%, 80%, 0.1);
+  
+  /* Responsive width - proportional to screen size */
+  @media (max-width: 1024px) {
+    width: 14.58vw; /* 280px/1920px = 14.58% */
+    min-width: 200px; /* Prevent menu from becoming too small */
+  }
+  
+  @media (max-width: 768px) {
+    width: 13.02vw; /* 250px/1920px = 13.02% */
+    min-width: 180px; /* Prevent menu from becoming too small */
+  }
+  
+  /* Desktop: Fixed positioning to overlay with left margin */
+  &:not(.reduced) {
+    position: fixed;
+    top: 0;
+    left: 1vw; /* Push sidebar 1vw from left edge - responsive */
+    z-index: 100;
+    overflow: hidden;
+  }
+  
+  /* Reduced: Overlay with animation */
+  &.reduced {
+    width: 280px; /* Fixed width for overlay mode */
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transform: translateX(-100%);
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    overflow: hidden;
+    
+    &.open {
+      transform: translateX(0);
+    }
+  }
+}
+
+/* Light mode overrides for better contrast */
+[data-theme="light"] .side-menu {
+  /* Lighter background gradient for light mode */
+  background: 
+    radial-gradient(circle at 50% 50%, 
+      hsla(var(--color-primary-hue), 60%, 85%, 0.08) 0%,   /* Much lighter: 85% instead of 20% */
+      hsla(var(--color-primary-hue), 40%, 90%, 0.12) 40%,  /* Much lighter: 90% instead of 15% */
+      hsla(var(--color-primary-hue), 30%, 95%, 0.15) 100%); /* Much lighter: 95% instead of 10% */
+  
+  /* Lighter borders and shadows for light mode */
+  border: 1px solid hsla(var(--color-primary-hue), 50%, 50%, 0.1);
+  box-shadow: 
+    2px 0 20px hsla(var(--color-primary-hue), 60%, 30%, 0.15),
+    inset 0 0 0 1px hsla(var(--color-primary-hue), 70%, 80%, 0.05);
+}
+
+/* Light mode navigation overrides */
+/* light-mode nav overrides moved to nav-menu.component.scss */
+
+.menu-container {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  padding: 1.04vw; /* 20px at 1920px */
+  text-align: center;
+  overflow-y: auto; /* Allow scrolling only when content overflows */
+  overflow-x: hidden; /* Hide horizontal scrolling */
+  
+  /* Custom scrollbar styling */
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  &::-webkit-scrollbar-track {
+    background: hsla(var(--color-primary-hue), 30%, 20%, 0.3);
+    border-radius: 3px;
+  }
+  
+  &::-webkit-scrollbar-thumb {
+    background: hsla(var(--color-primary-hue), 50%, 50%, 0.6);
+    border-radius: 3px;
+    
+    &:hover {
+      background: hsla(var(--color-primary-hue), 60%, 60%, 0.8);
+    }
+  }
+}
+
+/* Header Section */
+.menu-header {
+  flex-shrink: 0;
+  flex-basis: auto;
+  margin-bottom: 30px;
+  
+  /* CV Download component is now used instead of image */
+}
+
+/* Navigation Section - Takes available space, allows expansion */
+.menu-navigation {
+  flex: 1 1 auto; /* Allow growth and shrinking */
+  display: flex;
+  align-items: center;
+  width: 100%;
+
+  app-nav-menu {
+    width: 100%;
+  }
+}
+
+/* Footer Section - Fixed positioning */
+.menu-footer {
+  flex-shrink: 0;
+  margin-top: auto; /* Push to bottom */
+  padding-top: 20px;
+  
+  .social-network {
+    margin-bottom: 20px;
+    
+    .social-icons {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      gap: 0.63vw; /* 12px at 1920px */
+      flex-wrap: wrap;
+      
+      li {
+        a {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          width: 3.08vw; /* 40px at 1920px */
+          height: 3.08vw; /* 40px at 1920px */
+          background: var(--color-bg-glass);
+          border: 1px solid var(--color-border-secondary);
+          border-radius: 50%;
+          color: var(--color-text-primary);
+          text-decoration: none;
+          transition: all 0.3s ease;
+          
+          &:hover {
+            background: var(--color-primary);
+            border-color: var(--color-primary);
+            color: var(--color-white);
+            transform: translateY(-2px);
+          }
+          
+          i {
+            font-size: 1.33vw; /* 16px at 1920px */
+          }
+        }
+      }
+    }
+  }
+  
+  .copyright-text {
+    padding-top: 15px;
+    border-top: 1px solid var(--color-border-secondary);
+    
+    p {
+      color: var(--color-text-primary);
+      font-size: 0.63vw; /* 12px at 1920px */
+      margin: 0;
+      line-height: 1.4;
+    }
+  }
+}
+
+/* Reduced specific adjustments */
+.side-menu.reduced {
+  /* Navigation styles moved to nav-menu component */
+  
+  .menu-footer .social-network .social-icons li a {
+    width: 36px;
+    height: 36px;
+    
+    i {
+      font-size: 0.73vw; /* 14px at 1920px */
+    }
+  }
+}
+
+/* Tablets & below: Switch to fixed px units */
+@media (max-width: 1024px) {
+  .menu-container {
+    padding: 20px;
+  }
+
+  .menu-footer {
+    padding-top: 20px;
+
+    .social-network {
+      margin-bottom: 20px;
+
+      .social-icons {
+        gap: 12px;
+
+        li a {
+          width: 40px;
+          height: 40px;
+
+          i {
+            font-size: 16px;
+          }
+        }
+      }
+    }
+
+    .copyright-text {
+      padding-top: 15px;
+
+      p {
+        font-size: 12px;
+      }
+    }
+  }
+
+  /* Reduced mode adjustments for tablets */
+  .side-menu.reduced .menu-footer .social-network .social-icons li a {
+    width: 36px;
+    height: 36px;
+
+    i {
+      font-size: 14px;
+    }
+  }
+}
+

@@ -1,0 +1,163 @@
+/* Advanced Animated Background Component */
+
+.animated-background {
+  /* Full-screen mode (default) */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none; /* Allow interactions to pass through */
+  
+  /* Card mode - when hideControls is true */
+  &.card-mode {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+  }
+}
+
+.background-canvas {
+  display: block;
+  width: 100%;
+  height: 100%;
+  /* Hardware acceleration for smooth animations */
+  transform: translateZ(0);
+  will-change: transform;
+  /* Smooth edges on different devices */
+  image-rendering: crisp-edges;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+/* Performance indicator for development */
+.performance-indicator {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.7);
+  color: var(--text-accent);
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  pointer-events: none;
+  opacity: 0.7;
+  
+  /* Hide in production */
+  @media (min-width: 1px) {
+    display: none;
+  }
+}
+
+/* Show performance indicator only in dev mode */
+:host-context([data-dev-mode]) .performance-indicator {
+  display: block;
+}
+
+/* Responsive optimizations */
+@media (max-width: 768px) {
+  .background-canvas {
+    /* Slightly reduce quality on mobile for better performance */
+    image-rendering: auto;
+  }
+}
+
+/* Performance Controls Panel - MAXIMUM VISIBILITY */
+.performance-controls {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 2147483647; /* Maximum possible z-index for absolute top layer */
+  pointer-events: auto; /* Enable interactions */
+  
+  .controls-panel {
+    background: rgba(0, 20, 0, 0.95); /* Darker green background for better visibility */
+    border: 2px solid #00ff88;
+    border-radius: 8px;
+    padding: 15px;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    min-width: 250px;
+    box-shadow: 0 0 10px rgba(0, 255, 136, 0.3); /* Reduced glow from 20px for better performance */
+    backdrop-filter: blur(10px);
+    
+    h4 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      color: var(--text-accent);
+      text-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
+    }
+    
+    button {
+      display: block;
+      width: 100%;
+      margin: 5px 0;
+      padding: 8px 12px;
+      background: rgba(0, 255, 136, 0.1);
+      border: 1px solid rgba(0, 255, 136, 0.3);
+      border-radius: 4px;
+      color: var(--text-accent);
+      cursor: pointer;
+      font-size: 12px;
+      transition: all 0.2s ease;
+      font-weight: bold;
+      
+      &:hover {
+        background: rgba(0, 255, 136, 0.2);
+        transform: translateY(-1px);
+        box-shadow: 0 2px 8px rgba(0, 255, 136, 0.3);
+      }
+      
+      &.btn-log {
+        border-color: var(--color-success);
+        &:hover { background: rgba(40, 167, 69, 0.2); }
+      }
+      
+      &.btn-reset {
+        border-color: var(--color-warning);
+        &:hover { background: rgba(255, 193, 7, 0.2); }
+      }
+      
+      &.btn-close {
+        border-color: var(--color-error);
+        &:hover { background: rgba(220, 53, 69, 0.2); }
+      }
+    }
+  }
+}
+
+/* Reduce motion for accessibility */
+@media (prefers-reduced-motion: reduce) {
+  .animated-background {
+    display: none;
+    
+    /* Fallback to static gradient */
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, 
+        hsl(220, 70%, 15%) 0%,
+        hsl(240, 60%, 8%) 50%,
+        hsl(260, 50%, 5%) 100%
+      );
+      z-index: -1;
+    }
+  }
+}
+
+/* High contrast mode support */
+@media (prefers-contrast: high) {
+  .background-canvas {
+    opacity: 0.3;
+  }
+}

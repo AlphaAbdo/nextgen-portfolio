@@ -1,0 +1,78 @@
+<!-- Profile Showcase Section -->
+<div class="hero-section">
+  <!-- Loading State -->
+  <app-loading
+    *ngIf="isLoading"
+    message="Loading profile information..."
+    size="large">
+  </app-loading>
+
+  <!-- Error State -->
+  <app-loading
+    *ngIf="error && !isLoading"
+    [error]="error"
+    message="Failed to load profile"
+    size="large"
+    [isRetrying]="isRetrying"
+    (retry)="retryLoad()">
+  </app-loading>
+
+  <!-- Main Content -->
+  <div *ngIf="!isLoading && !error && personalInfo">
+  <div class="hero-background">
+    <div class="floating-elements">
+      <div class="float-item float-1"></div>
+      <div class="float-item float-2"></div>
+      <div class="float-item float-3"></div>
+    </div>
+  </div>
+  
+  <div class="profile-showcase" #showcaseContainer>
+    <div class="profile-visual">
+      <div class="profile-frame">
+        <img [src]="profileImageSrc()"
+             alt="{{ personalInfo.profile.image.alt }}" />
+        <div class="profile-glow"></div>
+      </div>
+      <div class="profile-badge">
+        <i class="fas fa-code"></i>
+      </div>
+      <div class="skill-orbits">
+        @for (skill of topSkills; track skill) {
+          <div class="orbit" [ngStyle]="getOrbitStyles($index)">
+            <div class="skill-dot" [ngStyle]="getSkillDotStyles($index)">{{ skill }}</div>
+          </div>
+        }
+      </div>
+    </div>
+    
+    <div class="profile-content">
+      <h1 class="gradient-text">{{ personalInfo.name }}</h1>
+      <div class="title-wrapper">
+        <h2 class="animated-title">{{ personalInfo.title }}</h2>
+        <div class="title-underline"></div>
+      </div>
+      <div class="bio-section" *ngIf="personalInfo.bio" style="margin: 1.5rem 0; font-size: 1.1rem; color: rgba(255, 255, 255, 0.8); line-height: 1.6;">
+        <p>{{ personalInfo.bio.tagline }}</p>
+      </div>
+      <div class="location-info">
+        <div class="location-item">
+          <i class="fas fa-map-marker-alt"></i>
+          <span>{{ personalInfo.location.current }}</span>
+        </div>
+        <div class="location-divider">•</div>
+        <div class="location-item">
+          <i class="fas fa-heart"></i>
+          <span>Originally from {{ personalInfo.location.origin }}</span>
+        </div>
+      </div>
+      <div class="profile-stats">
+        <div class="stat-item" *ngFor="let stat of personalInfo.stats">
+          <div class="stat-number">{{ stat.value }}</div>
+          <div class="stat-label">{{ stat.label }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,45 @@
+<section class="section my-work" data-section="section3" id="section3">
+  <div class="container">
+    <div class="section-heading">
+      @if (sectionHeader(); as header) {
+        <h2>{{ header.title }}</h2>
+        <div class="line-dec"></div>
+        <span>{{ header.description }}</span>
+      } @else {
+        <app-loading message="Loading portfolio content..." size="large"></app-loading>
+      }
+    </div>
+    <div class="row">
+      <div class="isotope-wrapper">
+        <form class="isotope-toolbar">
+          @for (category of categories(); track category.id) {
+            <input 
+              type="radio" 
+              [attr.data-type]="category.id" 
+              [id]="category.id" 
+              name="isotope-filter" 
+              [checked]="activeFilter() === category.id"
+              (change)="filterItems(category.id)" />
+            <label [for]="category.id"><span>{{ category.label }}</span></label>
+          }
+        </form>
+        
+        <div class="isotope-box">
+          
+          @for (item of filteredItems(); track item.id) {
+            <app-portfolio-card 
+              [data]="item"
+              [config]="{
+                enableFlip: true,
+                enableParticles: true,
+                height: '300px',
+                theme: 'glass'
+              }">
+            </app-portfolio-card>
+          }
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

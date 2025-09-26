@@ -1,0 +1,236 @@
+// Journey Timeline Reduced Component Styles
+// Mobile mode with simple vertical timeline line
+
+:host {
+  display: block;
+  width: 100%;
+}
+
+.enhanced-timeline.mobile-timeline {
+  position: relative;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0 1rem;
+  display: flex; // Side by side layout
+  align-items: flex-start;
+
+  .timeline-line-container {
+    position: relative;
+    width: 6px; // Narrow vertical line
+    flex-shrink: 0;
+    margin-right: 1rem;
+
+    .timeline-line {
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+      background: linear-gradient(to bottom,
+        var(--color-primary),
+        var(--color-primary-light),
+        var(--color-secondary));
+      border-radius: 3px;
+      box-shadow: 0 0 10px rgba(var(--color-primary-rgb), 0.3);
+    }
+  }
+
+  .timeline-items-wrapper {
+    flex: 1; // Take remaining space
+    position: relative;
+
+    .timeline-item.mobile-item {
+      position: relative;
+      margin-bottom: 3rem;
+      display: flex;
+      align-items: flex-start;
+
+      .timeline-connector {
+        position: relative;
+        width: 50px;
+        height: 50px;
+        margin-right: 1rem;
+        flex-shrink: 0;
+
+        .timeline-marker {
+          position: absolute;
+          left: -28px; // Position on the timeline line
+          top: 0;
+          width: 50px;
+          height: 50px;
+          border-radius: 50%;
+          background: linear-gradient(135deg,
+            var(--color-secondary),
+            var(--color-primary));
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+          border: 3px solid rgba(255, 255, 255, 0.1);
+          z-index: 2;
+
+          i {
+            font-size: 1.1rem;
+          }
+        }
+      }
+
+      .timeline-content {
+        flex: 1;
+        transition: all 0.3s ease;
+
+        .content-card {
+        background: rgba(255, 255, 255, 0.05);
+        backdrop-filter: blur(20px);
+        border-radius: 15px;
+        padding: 1.5rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        cursor: pointer;
+        transition: all 0.3s ease;
+
+        &:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 1rem;
+
+          h3 {
+            font-size: 1.3rem;
+            font-weight: 700;
+            background: linear-gradient(135deg,
+              var(--color-white),
+              var(--color-text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin: 0;
+            flex: 1;
+          }
+
+          .timeline-date {
+            font-size: 0.9rem;
+            color: var(--color-primary-light);
+            font-weight: 600;
+            margin-left: 1rem;
+            white-space: nowrap;
+          }
+
+          .expand-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 1rem;
+            flex-shrink: 0;
+
+            &:hover {
+              background: rgba(255, 255, 255, 0.2);
+              transform: scale(1.1);
+            }
+
+            i {
+              font-size: 0.9rem;
+            }
+          }
+        }
+
+        .content-text {
+          overflow: hidden;
+          transition: all 0.3s ease;
+
+          &.collapsed {
+            max-height: 60px;
+            mask-image: linear-gradient(to bottom, black 40px, transparent 60px);
+            -webkit-mask-image: linear-gradient(to bottom, black 40px, transparent 60px);
+          }
+
+          p {
+            font-size: 1rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin: 0;
+
+            strong {
+              background: linear-gradient(135deg,
+                var(--color-primary-light),
+                var(--color-primary));
+              -webkit-background-clip: text;
+              -webkit-text-fill-color: transparent;
+              background-clip: text;
+              font-weight: 700;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Mobile responsive adjustments
+@media (max-width: 480px) {
+  .enhanced-timeline.mobile-timeline {
+    padding: 0 0.5rem;
+
+    .timeline-line-container {
+      width: 4px; // Even narrower on small screens
+      margin-right: 0.5rem;
+    }
+
+    .timeline-items-wrapper .timeline-item.mobile-item {
+      margin-bottom: 2rem;
+
+      .timeline-connector {
+        width: 40px;
+        height: 40px;
+        margin-right: 0.5rem;
+
+        .timeline-marker {
+          width: 40px;
+          height: 40px;
+          left: -22px; // Adjusted for smaller marker
+
+          i {
+            font-size: 1rem;
+          }
+        }
+      }
+
+      .timeline-content .content-card {
+        padding: 1rem;
+
+        .card-header {
+          h3 {
+            font-size: 1.1rem;
+          }
+
+          .timeline-date {
+            font-size: 0.8rem;
+            margin-left: 0.5rem;
+          }
+
+          .expand-btn {
+            width: 32px;
+            height: 32px;
+
+            i {
+              font-size: 0.8rem;
+            }
+          }
+        }
+      }
+    }
+  }
+}

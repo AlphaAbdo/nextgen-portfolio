@@ -1,0 +1,590 @@
+// Holographic CV Display Terminal
+// Perfect craftsmanship with sci-fi aesthetics
+
+.holographic-terminal {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  perspective: 1000px; // Enable 3D transforms
+  user-select: none;
+}
+
+// Main Terminal Frame
+.terminal-frame {
+  position: relative;
+  width: 95%; /* Responsive width: 95% of parent container */
+  height: auto; /* Allow content to determine height */
+  background: 
+    linear-gradient(145deg, 
+      color-mix(in srgb, var(--color-bg-glass) 5%, transparent), 
+      color-mix(in srgb, var(--color-bg-glass) 2%, transparent));
+  border: 2px solid var(--color-border-primary);
+  border-radius: 20px;
+  backdrop-filter: blur(8px); /* Reduced from 20px for better performance */
+  box-shadow: 
+    inset 0 1px 0 rgba(255,255,255,0.1),
+    0 10px 30px rgba(0,0,0,0.1);
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // Stabilization state (rainbow effect)
+  &.stabilizing {
+    border-color: var(--color-primary);
+    box-shadow: 
+      inset 0 1px 0 rgba(255,255,255,0.2),
+      0 0 20px var(--color-primary),
+      0 15px 40px rgba(0,0,0,0.15);
+    animation: terminal-pulse 2s ease-in-out infinite;
+  }
+  
+  // Materialization state (download active)
+  &.materialized {
+    transform: scale(1.05);
+    border-color: var(--color-success);
+    box-shadow: 
+      0 0 40px var(--color-success),
+      0 20px 50px rgba(0,0,0,0.2);
+  }
+}
+
+// Hologram Viewport (Interactive Area)
+.hologram-viewport {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1; /* Square canvas: height equals width */
+  cursor: pointer;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+  
+  &:hover {
+    transform: rotateX(-2deg) rotateY(1deg);
+  }
+  
+  &:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-primary) 30%, transparent);
+  }
+}
+
+// CV Data Layers (Holographic Projections)
+.hologram-layers {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 80%; // Proportional to square viewport
+  height: 80%; // Proportional to square viewport
+  transform: translate(-50%, -50%);
+  transform-style: preserve-3d;
+}
+
+.hologram-layer {
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 1;
+  background: linear-gradient(135deg, 
+    color-mix(in srgb, var(--color-secondary) 8%, transparent),
+    color-mix(in srgb, var(--color-secondary) 15%, transparent));
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 8px;
+  backdrop-filter: blur(6px); /* Reduced from 10px for better performance */
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  // Enhanced focus state on hover
+  &.layer-focused {
+    border-color: color-mix(in srgb, var(--color-primary) 60%, transparent);
+    box-shadow: 
+      0 0 20px color-mix(in srgb, var(--color-primary) 30%, transparent),
+      inset 0 1px 0 rgba(255,255,255,0.2);
+  }
+}
+
+// Layer Content
+.layer-content {
+  padding: 4.3%; // 12px / 280px = 4.3%
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  
+  .layer-header {
+    font-family: 'Courier New', monospace;
+    font-size: 0.52vw; /* 10px at 1920px */
+    font-weight: 700;
+    color: var(--color-primary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-shadow: 0 0 6px currentColor;
+  }
+  
+  .layer-data {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1%; // 3px / 280px = 1.1%
+    
+    .data-bar {
+      height: 0.7%; // 2px / 280px = 0.7%
+      background: linear-gradient(90deg,
+        transparent,
+        color-mix(in srgb, var(--color-primary) 60%, transparent),
+        transparent);
+      border-radius: 1px;
+      animation: data-flow 3s linear infinite;
+      
+      &:nth-child(2) { animation-delay: 0.5s; width: 80%; }
+      &:nth-child(3) { animation-delay: 1s; width: 90%; }
+      &:nth-child(4) { animation-delay: 1.5s; width: 70%; }
+    }
+  }
+}
+
+// Layer Glow Effect
+.layer-glow {
+  position: absolute;
+  top: -2%;
+  left: -2%;
+  right: -2%;
+  bottom: -2%;
+  background: linear-gradient(45deg,
+    color-mix(in srgb, var(--color-primary) 10%, transparent),
+    color-mix(in srgb, var(--color-secondary) 10%, transparent));
+  border-radius: 12px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+  
+  .layer-focused & {
+    opacity: 1;
+    animation: layer-glow-pulse 2s ease-in-out infinite;
+  }
+}
+
+// Central CV Icon
+.central-icon {
+  aspect-ratio: 1;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 21.4%; // 60px / 280px = 21.4%
+  transform: translate(-50%, -50%) translateZ(60px);
+  z-index: 10;
+  
+  i {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 2rem;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    
+    &.fa-file-pdf {
+      font-size: 3.1vw !important;
+      color: var(--color-text-primary);
+      text-shadow: 0 0 10px currentColor;
+      
+      &.icon-transform {
+        opacity: 0.2;
+        transform: translate(-50%, -50%) scale(0.8) rotateY(15deg);
+      }
+    }
+    
+    &.fa-download {
+      color: var(--color-primary);
+      text-shadow: 0 0 15px currentColor;
+      opacity: 0;
+      transform: translate(-50%, -50%) scale(0.5) rotateY(-15deg);
+      
+      &.show-download {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1) rotateY(0deg);
+      }
+    }
+  }
+  
+  // Icon activation effects
+  &.icon-activated {
+    animation: icon-float 2s ease-in-out infinite;
+  }
+  
+  &.icon-materializing {
+    animation: icon-materialize 1s ease-out;
+  }
+}
+
+// Icon Hologram Effect
+.icon-hologram {
+  position: absolute;
+  top: -16.7%; // -10px / 60px = -16.7%
+  left: -16.7%;
+  right: -16.7%;
+  bottom: -16.7%;
+  border: 1px solid color-mix(in srgb, var(--color-primary) 30%, transparent);
+  border-radius: 50%;
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--color-primary) 10%, transparent),
+    transparent 70%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  
+  .icon-activated & {
+    opacity: 1;
+    animation: icon-hologram-pulse 1.5s ease-in-out infinite;
+  }
+}
+
+// Scanning Beam (Rainbow Effect)
+.scanning-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 1.1%; // 3px / 280px = 1.1%
+  background: linear-gradient(90deg, transparent, #00ffff, transparent);
+  z-index: 5;
+  animation: scanning-sweep 2s linear infinite;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -333%; // -10px / 3px = -333%
+    left: 0;
+    right: 0;
+    height: 766%; // 23px / 3px = 766%
+    background: linear-gradient(to bottom,
+      transparent,
+      rgba(0,255,255,0.1),
+      transparent);
+    pointer-events: none;
+  }
+}
+
+// Particle System
+.particle-system {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+.particle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: radial-gradient(circle,
+    color-mix(in srgb, var(--color-secondary) 80%, transparent),
+    color-mix(in srgb, var(--color-primary) 60%, transparent),
+    transparent);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 8;
+}
+
+// Hologram Interference Lines
+.interference-lines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  opacity: 0;
+  pointer-events: none;
+  
+  &.active {
+    opacity: 0.1;
+  }
+  
+  .line {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 0.36%; // 1px / 280px = 0.36%
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(255,255,255,0.5),
+      transparent);
+    
+    &:nth-child(1) { top: 20%; animation: interference-flicker 3s linear infinite; }
+    &:nth-child(2) { top: 35%; animation: interference-flicker 2.5s linear infinite 0.5s; }
+    &:nth-child(3) { top: 50%; animation: interference-flicker 3.5s linear infinite 1s; }
+    &:nth-child(4) { top: 65%; animation: interference-flicker 2.8s linear infinite 1.5s; }
+    &:nth-child(5) { top: 80%; animation: interference-flicker 3.2s linear infinite 2s; }
+  }
+}
+
+// Terminal Brackets (UI Elements)
+.terminal-brackets {
+  .bracket {
+    position: absolute;
+    width: 7.1%; // 20px / 280px = 7.1%
+    height: 10%; // 20px / 200px = 10%
+    border: 2px solid var(--color-primary);
+    opacity: 0.6;
+    
+    &.top-left {
+      top: 5%; // 10px / 200px = 5%
+      left: 3.6%; // 10px / 280px = 3.6%
+      border-right: none;
+      border-bottom: none;
+    }
+    
+    &.top-right {
+      top: 5%;
+      right: 3.6%;
+      border-left: none;
+      border-bottom: none;
+    }
+    
+    &.bottom-left {
+      bottom: 5%; // 70px / 200px = 35%
+      left: 3.6%;
+      border-right: none;
+      border-top: none;
+    }
+    
+    &.bottom-right {
+      bottom: 5%;
+      right: 3.6%;
+      border-left: none;
+      border-top: none;
+    }
+  }
+}
+
+// Terminal Status Bar
+.terminal-status {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 21.4%; // 60px / 280px = 21.4%
+  padding: 0 7.1%; // 20px / 280px = 7.1%
+  background: color-mix(in srgb, var(--color-bg-glass) 3%, transparent);
+  border-top: 1px solid color-mix(in srgb, var(--color-border-primary) 20%, transparent);
+}
+
+.status-indicator {
+  display: flex;
+  align-items: center;
+  gap: 8px; // 8px / 280px = 2.9%
+  
+  .status-dot {
+    aspect-ratio: 1;
+    width: 8px; // 8px / 280px = 2.9%
+    height: 8px; // 8px / 60px = 13.3%
+    background: var(--color-success);
+    border-radius: 50%;
+    box-shadow: 0 0 10px currentColor;
+    
+    .status-indicator.stabilizing & {
+      aspect-ratio: 1;
+      background: var(--color-warning);
+      animation: status-blink 1s ease-in-out infinite;
+    }
+    
+    .status-indicator.materializing & {
+      aspect-ratio: 1;
+      background: var(--color-primary);
+      animation: status-materialize 0.5s ease-in-out infinite;
+    }
+  }
+  
+  .status-text {
+    font-family: 'Courier New', monospace;
+    font-size: 0.75vw;
+    font-weight: 700;
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+}
+
+.terminal-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.76vw;
+  font-weight: 600;
+  color: var(--color-primary);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 0 0 6px currentColor;
+  transition: all 0.3s ease;
+}
+
+// System Error
+.system-error {
+  display: flex;
+  align-items: center;
+  gap: 2.9%; // 8px / 280px = 2.9%
+  padding: 2.9% 5.7%; // 8px 16px / 280px
+  background: color-mix(in srgb, var(--color-error) 10%, transparent);
+  color: var(--color-error);
+  border: 1px solid color-mix(in srgb, var(--color-error) 30%, transparent);
+  border-radius: 8px;
+  font-family: 'Courier New', monospace;
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  backdrop-filter: blur(6px); /* Reduced from 10px for better performance */
+  
+  i {
+    animation: error-blink 1s ease-in-out infinite;
+  }
+}
+
+// Accessibility Pulse (Reduced Motion)
+.accessibility-pulse {
+  position: absolute;
+  top: -1.4%; // -4px / 280px = -1.4%
+  left: -1.4%;
+  right: -1.4%;
+  bottom: -1.4%;
+  border: 2px solid var(--color-primary);
+  border-radius: 24px;
+  opacity: 0;
+  pointer-events: none;
+  
+  &.active {
+    animation: accessibility-gentle-pulse 2s ease-in-out infinite;
+  }
+}
+
+// ===== ANIMATIONS =====
+
+@keyframes terminal-pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.01); }
+}
+
+@keyframes data-flow {
+  0% { opacity: 0.3; transform: translateX(-100%); }
+  50% { opacity: 1; }
+  100% { opacity: 0.3; transform: translateX(100%); }
+}
+
+@keyframes layer-glow-pulse {
+  0%, 100% { opacity: 0.5; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.05); }
+}
+
+@keyframes icon-float {
+  0%, 100% { transform: translate(-50%, -50%) translateZ(60px) translateY(0); }
+  50% { transform: translate(-50%, -50%) translateZ(60px) translateY(-5px); }
+}
+
+@keyframes icon-materialize {
+  0% { transform: translate(-50%, -50%) translateZ(60px) scale(1); }
+  50% { transform: translate(-50%, -50%) translateZ(60px) scale(1.2); }
+  100% { transform: translate(-50%, -50%) translateZ(60px) scale(1); }
+}
+
+@keyframes icon-hologram-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 1; transform: scale(1.1); }
+}
+
+@keyframes scanning-sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes interference-flicker {
+  0%, 90%, 100% { opacity: 0; }
+  5%, 85% { opacity: 0.3; }
+  10%, 80% { opacity: 0; }
+  15%, 75% { opacity: 0.2; }
+}
+
+@keyframes status-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+@keyframes status-materialize {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.3); }
+}
+
+@keyframes error-blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+@keyframes accessibility-gentle-pulse {
+  0%, 100% { opacity: 0.3; transform: scale(1); }
+  50% { opacity: 0.6; transform: scale(1.02); }
+}
+
+// ===== RESPONSIVE DESIGN =====
+
+@media (max-width: 768px) {
+  .terminal-frame {
+    width: 240px;
+  }
+  
+  .layer-content .layer-header {
+    font-size: 8px;
+  }
+  
+  .terminal-label,
+  .status-indicator .status-text {
+    font-size: 9px;
+  }
+}
+
+@media (max-width: 480px) {
+  .terminal-frame {
+    width: 200px;
+  }
+  
+  .central-icon i {
+    font-size: 1.25rem;
+  }
+}
+
+// ===== REDUCED MOTION =====
+
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  
+  .hologram-layer,
+  .central-icon,
+  .scanning-beam,
+  .interference-lines {
+    transform: none !important;
+  }
+  
+  .terminal-frame.stabilizing {
+    animation: none;
+    border-color: var(--color-primary);
+  }
+  
+  .accessibility-pulse.active {
+    animation: accessibility-gentle-pulse 2s ease-in-out infinite;
+  }
+}
+
+/* Tablets & below: Switch to fixed px units */
+@media (max-width: 1024px) {
+  .layer-header {
+    font-size: 10px;
+  }
+  
+  .fa-file-pdf {
+    font-size: 60px !important;
+  }
+  
+  .status-text {
+    font-size: 14px;
+  }
+  
+  .terminal-label {
+    font-size: 15px;
+  }
+}

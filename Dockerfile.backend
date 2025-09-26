@@ -1,0 +1,23 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files from backend package
+COPY packages/backend/package*.json packages/backend/nodemon.json ./
+
+# Install dependencies (including dev dependencies for development)
+RUN npm install
+
+# Copy source code (will be synced by Docker Compose watch in development)
+# These COPY commands are for production builds only
+COPY packages/backend/ .
+
+# Expose port
+EXPOSE 3001
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
+  CMD curl -f http://localhost:3001/health || exit 1
+
+# Start server (use dev script for development with nodemon)
+CMD ["npm", "run", "dev"]

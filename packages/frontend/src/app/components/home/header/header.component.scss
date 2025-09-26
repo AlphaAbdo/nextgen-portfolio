@@ -1,0 +1,94 @@
+/* Header Component - Now just reduced controls */
+
+/* Reduced wrapper and controls */
+.reduced-wrapper {
+  position: relative;
+  z-index: 1000;
+}
+
+/* Reduced burger button */
+.reduced-menu-btn {
+  display: block;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1001;
+  width: 50px;
+  height: 50px;
+  background: var(--color-bg-glass);
+  border: 1px solid var(--color-border-secondary);
+  border-radius: 50%;
+  cursor: pointer;
+  padding: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  
+  span {
+    display: block;
+    position: absolute;
+    height: 2px;
+    width: 20px;
+    background: var(--color-text-primary);
+    border-radius: 1px;
+    opacity: 1;
+    left: 50%;
+    transform: translateX(-50%);
+    transition: all 0.25s ease-in-out;
+    
+    &:nth-child(1) {
+      top: 15px;
+    }
+    
+    &:nth-child(2) {
+      top: 24px;
+    }
+    
+    &:nth-child(3) {
+      top: 33px;
+    }
+  }
+  
+  &:hover {
+    background: var(--color-bg-glass-hover);
+    border-color: var(--color-primary);
+  }
+  
+  /* Transform to X when active */
+  &.active {
+    background: var(--color-primary-alpha-10);
+    border-color: var(--color-primary);
+    
+    span:nth-child(1) {
+      top: 24px;
+      transform: translateX(-50%) rotate(135deg);
+    }
+    
+    span:nth-child(2) {
+      opacity: 0;
+      left: 60%;
+    }
+    
+    span:nth-child(3) {
+      top: 24px;
+      transform: translateX(-50%) rotate(-135deg);
+    }
+  }
+}
+
+/* Menu overlay for click outside to close */
+.menu-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: var(--color-bg-overlay-dark);
+  z-index: 999;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s ease;
+  
+  &.active {
+    opacity: 1;
+    visibility: visible;
+  }
+}

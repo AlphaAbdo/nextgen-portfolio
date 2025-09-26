@@ -1,0 +1,58 @@
+<div class="enhanced-timeline desktop-timeline">
+  <div class="timeline-item"
+       *ngFor="let block of contentBlocks; let i = index"
+       [ngClass]="i % 2 === 0 ? 'timeline-left' : 'timeline-right'">
+
+    <!-- Left-aligned timeline item -->
+    <ng-container *ngIf="i % 2 === 0">
+      <div class="timeline-content">
+        <div class="content-card" [attr.data-date]="getTimelineDate(block.id)">
+          <h3>{{ getTimelineTitle(block.id) }}</h3>
+          <p>{{ block.content.text }}</p>
+        </div>
+      </div>
+      <div class="timeline-connector">
+        <div class="timeline-marker">
+          <i class="fas fa-{{getIconForBlock(block.id)}}"></i>
+        </div>
+      </div>
+      <div class="timeline-visual">
+        <div class="visual-frame">
+          <img [src]="block.image.src"
+               [alt]="block.image.alt"
+               loading="lazy" />
+          <div class="image-overlay"></div>
+        </div>
+      </div>
+    </ng-container>
+
+    <!-- Right-aligned timeline item -->
+    <ng-container *ngIf="i % 2 === 1">
+      <div class="timeline-visual">
+        <div class="visual-frame">
+          <img [src]="block.image.src"
+               [alt]="block.image.alt"
+               loading="lazy" />
+          <div class="image-overlay"></div>
+        </div>
+      </div>
+      <div class="timeline-connector">
+        <div class="timeline-marker">
+          <i class="fas fa-{{getIconForBlock(block.id)}}"></i>
+        </div>
+      </div>
+      <div class="timeline-content">
+        <div class="content-card" [attr.data-date]="getTimelineDate(block.id)">
+          <h3>{{ getTimelineTitle(block.id) }}</h3>
+          <p>{{ block.content.text }}</p>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</div>

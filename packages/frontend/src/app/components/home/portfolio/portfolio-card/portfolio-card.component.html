@@ -1,0 +1,107 @@
+<div class="portfolio-card" 
+     [attr.data-category]="data.category"
+     [attr.data-theme]="config.theme"
+     [style.height]="config.height">
+  
+  <div class="flip-card" [class.no-flip]="!config.enableFlip">
+    <!-- Particle Effects (if enabled) -->
+    @if (config.enableParticles) {
+      <div class="particle-background"></div>
+    }
+    
+    <div class="flip-card-inner" (click)="onCardClick()">
+      <!-- FRONT FACE - Dynamic Content -->
+      <div class="flip-card-front">
+        @if (isLoading()) {
+          <app-loading *ngIf="isLoading()" message="Loading card..." size="small"></app-loading>
+        }
+        
+        @if (hasError()) {
+          <div class="error-state">
+            <div class="error-icon">⚠️</div>
+            <p>Content unavailable</p>
+          </div>
+        }
+        
+        @if (!isLoading() && !hasError()) {
+          <!-- Dynamic Content Based on Type -->
+          @switch (data.background.type) {
+            @case ('image') {
+              <img 
+                #imageElement
+                [src]="imageSrc()"
+                [alt]="data.title"
+                (load)="onContentLoad()"
+                (error)="onImageError($event)"
+                class="dynamic-image" />
+            }
+            
+            @case ('component') {
+              @if (data.background.content === 'animated-background') {
+                <!-- <app-animated-background [hideControls]="true"></app-animated-background> -->
+                <div class="placeholder">Animated Background Placeholder</div>
+              } @else if (data.background.content === 'animated-card-demo') {
+                <app-animated-card-demo></app-animated-card-demo>
+              } @else {
+                <div class="unsupported-content">
+                  <p>Component type: {{ data.background.content }}</p>
+                </div>
+              }
+            }
+            
+            @case ('html') {
+              <div 
+                [innerHTML]="sanitizedContent()"
+                (load)="onContentLoad()"
+                class="dynamic-html">
+              </div>
+            }
+            
+            @default {
+              <div class="unsupported-content">
+                <p>Unsupported content type: {{ data.background.type }}</p>
+              </div>
+            }
+          }
+        }
+        
+        <!-- Overlay for better text readability -->
+        <div class="content-overlay"></div>
+      </div>
+      
+      <!-- BACK FACE - Project Information -->
+      @if (config.enableFlip) {
+        <div class="flip-card-back">
+          <div class="card-content">
+            <h4>{{ data.title }}</h4>
+            <p>{{ data.description }}</p>
+            
+            @if (data.metadata.tech && data.metadata.tech.length > 0) {
+              <div class="tech-stack">
+                @for (tech of data.metadata.tech; track tech) {
+                  <span class="tech-tag">{{ tech }}</span>
+                }
+              </div>
+            }
+            
+            @if (data.link) {
+              <button class="view-project-btn" type="button">
+                @if (data.interactive) {
+                  🚀 Explore
+                } @else {
+                  👁️ View Project
+                }
+              </button>
+            }
+            
+            @if (data.metadata.status) {
+              <div class="project-status" [attr.data-status]="data.metadata.status">
+                {{ data.metadata.status }}
+              </div>
+            }
+          </div>
+        </div>
+      }
+    </div>
+  </div>
+</div>

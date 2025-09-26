@@ -1,0 +1,158 @@
+.nav-wrapper {
+  position: relative;
+  border-radius: 16px;
+  padding: 0.83vw; /* 16px at 1920px */
+  margin: 1.04vw auto 0; /* Add top margin for spacing from cv-download */
+  width: 95%;
+  max-width: 100%;
+
+  /* Almost transparent with very slight contrast */
+  background: color-mix(in srgb, var(--color-bg-overlay-dark) 25%, transparent);
+  border: 1px solid var(--color-border-primary);
+  box-shadow:
+    inset 0 1px 0 var(--color-bg-glass),
+    0 2px 8px var(--shadow-light);
+
+  overflow: visible; /* Allow content to expand and push other elements */
+
+  .main-menu {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.21vw; /* 4px at 1920px */
+
+    li {
+      a {
+        display: block;
+        width: 100%;
+        color: var(--color-text-primary);
+        text-decoration: none;
+        font-size: 0.78vw; /* 15px at 1920px */
+        font-weight: 500;
+        padding: 0.73vw 1.04vw; /* 14px 20px at 1920px */
+        border-radius: 0.42vw; /* 8px at 1920px */
+        transition: all 0.3s ease;
+        position: relative;
+        cursor: pointer;
+
+        background: transparent;
+        border: 1px solid transparent;
+
+        &:hover {
+          color: var(--color-text-primary);
+          background: hsla(var(--color-primary-hue), 50%, 50%, 0.1);
+          border-color: hsla(var(--color-primary-hue), 50%, 40%, 0.2);
+          box-shadow: 
+            0 2px 8px hsla(var(--color-primary-hue), 60%, 30%, 0.1),
+            inset 0 1px 0 hsla(var(--color-primary-hue), 70%, 60%, 0.05);
+          transform: translateX(4px);
+        }
+
+        &.active {
+          color: var(--color-primary);
+          font-weight: 600;
+          background: transparent;
+          border: 2px solid hsla(var(--color-primary-hue), 70%, 60%, 0.8);
+          box-shadow: 
+            0 0 12px hsla(var(--color-primary-hue), 70%, 50%, 0.3),
+            inset 0 0 0 1px hsla(var(--color-primary-hue), 80%, 80%, 0.2);
+          transform: translateX(2px);
+        }
+
+        &::before {
+          content: '';
+          position: absolute;
+          left: -1px;
+          top: 50%;
+          width: 0.21vw; /* 4px at 1920px */
+          height: 70%;
+          background: linear-gradient(to bottom,
+            hsla(var(--color-primary-hue), 80%, 70%, 0.8),
+            var(--color-primary),
+            hsla(var(--color-primary-hue), 80%, 70%, 0.8)
+          );
+          border-radius: 0 0.16vw 0.16vw 0; /* 0 3px 3px 0 at 1920px */
+          opacity: 0;
+          transform: translateY(-50%) scaleY(0.5);
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: 0 0 8px hsla(var(--color-primary-hue), 80%, 60%, 0.5);
+        }
+
+        &:hover::before {
+          opacity: 0.7;
+          transform: translateY(-50%) scaleY(0.8);
+        }
+
+        &.active::before {
+          opacity: 1;
+          transform: translateY(-50%) scaleY(1);
+        }
+      }
+    }
+  }
+
+  /* Mobile adjustments - use px units for very small screens */
+  @media (max-width: 600px) {
+    padding: 12px;
+    margin: 16px auto 0; /* Smaller top margin for very small screens */
+    border-radius: 12px;
+
+    .main-menu li a {
+      padding: 12px 16px;
+      font-size: 14px;
+    }
+  }
+
+  /* Tablets & below: Switch to fixed px units */
+  @media (max-width: 1024px) {
+    padding: 16px;
+    margin: 20px auto 0; /* Fixed px top margin */
+    border-radius: 16px;
+
+    .main-menu {
+      gap: 4px;
+
+      li a {
+        font-size: 15px;
+        padding: 14px 20px;
+        border-radius: 8px;
+
+        &::before {
+          width: 4px;
+          border-radius: 0 3px 3px 0;
+        }
+      }
+    }
+  }
+}
+
+  /* Light mode overrides moved from parent to avoid duplicate rules */
+  :host-context([data-theme="light"]) {
+    .nav-wrapper {
+      li a:hover {
+        background: hsla(var(--color-primary-hue), 50%, 50%, 0.05);
+        border-color: hsla(var(--color-primary-hue), 50%, 40%, 0.1);
+        box-shadow: 
+          0 2px 8px hsla(var(--color-primary-hue), 60%, 30%, 0.05),
+          inset 0 1px 0 hsla(var(--color-primary-hue), 70%, 60%, 0.02);
+      }
+
+      li a.active {
+        border: 2px solid hsla(var(--color-primary-hue), 70%, 60%, 0.4);
+        box-shadow: 
+          0 0 12px hsla(var(--color-primary-hue), 70%, 50%, 0.15),
+          inset 0 0 0 1px hsla(var(--color-primary-hue), 80%, 80%, 0.1);
+      }
+
+      li a::before {
+        background: linear-gradient(to bottom,
+          hsla(var(--color-primary-hue), 80%, 70%, 0.4),
+          var(--color-primary),
+          hsla(var(--color-primary-hue), 80%, 70%, 0.4)
+        );
+        box-shadow: 0 0 8px hsla(var(--color-primary-hue), 80%, 60%, 0.25);
+      }
+    }
+  }

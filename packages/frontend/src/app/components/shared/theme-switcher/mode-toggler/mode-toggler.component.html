@@ -1,0 +1,24 @@
+<div class="theme-toggle-container">
+  <button
+    class="theme-toggle-button"
+    [class.dark-mode]="getCurrentMode() === 'dark'"
+    [class.light-mode]="getCurrentMode() === 'light'"
+    [class.is-animating]="getIsAnimating()"
+    (click)="toggleTheme()"
+    [attr.aria-label]="ariaLabel()"
+    [attr.aria-pressed]="getCurrentMode() === 'dark'"
+    type="button"
+    role="switch"
+  >
+    <div class="button-track">
+      <div class="button-slider">
+        <div class="mode-face light-face" [style.transform]="getLightFaceTransform()">
+          <app-sun [isActive]="getCurrentMode() === 'light'"></app-sun>
+        </div>
+        <div class="mode-face dark-face" [style.transform]="getDarkFaceTransform()">
+          <app-moon [isActive]="getCurrentMode() === 'dark'"></app-moon>
+        </div>
+      </div>
+    </div>
+  </button>
+</div>

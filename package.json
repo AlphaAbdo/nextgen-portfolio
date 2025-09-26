@@ -1,0 +1,31 @@
+{
+  "name": "nextgen-portfolio-monorepo",
+  "version": "1.0.0",
+  "description": "Next Generation Portfolio - Monorepo with Angular frontend and Express backend",
+  "private": true,
+  "workspaces": {
+    "packages": ["packages/frontend"],
+    "nohoist": []
+  },
+  "scripts": {
+    "build": "lerna run build",
+    "start": "lerna run start --parallel",
+    "dev": "lerna run dev --parallel",
+    "frontend": "lerna run dev --scope=@nextgen-portfolio/frontend",
+    "backend": "lerna run dev --scope=@nextgen-portfolio/backend",
+    "test": "lerna run test",
+    "lint": "lerna run lint",
+    "clean": "lerna clean",
+    "docker:watch": "docker-compose up --watch",
+    "docker:build": "docker-compose up --build"
+  },
+  "devDependencies": {
+    "lerna": "^8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "."
+  },
+  "author": "",
+  "license": "MIT"
+}

@@ -1,0 +1,87 @@
+/* Modern Portfolio Component - Enhanced with Universal Theme */
+
+/* ========== PORTFOLIO STRUCTURE (Ported from templatemo-style.css) ========== */
+.isotope-wrapper {
+  position: relative;
+  width: 100%;
+  margin: auto;
+}
+
+.isotope-toolbar {
+  text-align: center;
+  margin: 10px;
+}
+
+.isotope-toolbar input[type="radio"] {
+  display: none;
+}
+
+.isotope-toolbar label {
+  cursor: pointer;
+}
+
+.isotope-toolbar span {
+  text-transform: capitalize;
+  display: inline-block;
+  margin-right: 15px;
+  padding-bottom: 3px;
+  font-size: 15px;
+  font-weight: 700;
+  border-bottom: 2px solid transparent;
+  transition: ease-in-out 0.5s;
+  cursor: pointer;
+  color: var(--color-text-primary);
+}
+
+.isotope-toolbar input[type="radio"]:checked + label span {
+  color: var(--color-secondary);
+  border-bottom: 2px solid var(--color-secondary);
+}
+
+.isotope-toolbar p {
+  border-top: 1px solid var(--color-text-primary);
+  padding-top: 15px;
+}
+
+.isotope-toolbar a {
+  color: var(--color-text-primary);
+}
+
+/* ========== PORTFOLIO SECTION LAYOUT ========== */
+
+/* Respect original isotope layout - use CSS Grid */
+.isotope-box {
+  display: grid;
+  gap: 20px;
+  padding: 20px 0;
+  
+  /* Mobile: 1 column */
+  grid-template-columns: 1fr;
+  
+  /* Desktop: 2 columns */
+  @media (min-width: 768px) {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  
+  /* Large monitors: 3 columns */
+  @media (min-width: 1200px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ========== RESPONSIVE DESIGN ========== */
+
+@media (max-width: 767px) {
+  .isotope-box {
+    gap: 15px;
+    padding: 15px 0;
+  }
+}
+
+/* ========== ACCESSIBILITY ========== */
+
+.flip-card:focus-within {
+  outline: 3px solid var(--color-primary);
+  outline-offset: 4px;
+  border-radius: 20px;
+}

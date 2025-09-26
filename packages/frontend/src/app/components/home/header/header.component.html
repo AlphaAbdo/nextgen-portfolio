@@ -1,0 +1,36 @@
+<!-- Desktop Side Menu -->
+
+
+@if (!alwaysReduced && isDesktop()) {
+  <app-side-menu
+    [isReduced]="false"
+    [isOpen]="true"
+    [activeSection]="activeSection()"
+    [menuInteraction$]="menuInteraction$"
+  (navigate)="navigateTo($event)">
+  </app-side-menu>
+}
+
+<!-- Reduced Side Menu with Burger Button -->
+@if (alwaysReduced || !isDesktop()) {
+  <div class="reduced-wrapper">
+    <!-- Reduced burger button -->
+    <button #burgerBtn class="reduced-menu-btn" [attr.aria-expanded]="isReducedMenuOpen()" [attr.aria-label]="isReducedMenuOpen() ? 'Close menu' : 'Open menu'" aria-controls="side-menu-reduced" [class.active]="isReducedMenuOpen()" (click)="toggleReducedMenu()">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+    <!-- Menu overlay for click outside to close -->
+    <div #overlay class="menu-overlay" [class.active]="isReducedMenuOpen()" (click)="closeReducedMenu()" tabindex="-1"></div>
+    <!-- Reduced Side Menu -->
+    <app-side-menu
+      [isReduced]="true"
+      [isOpen]="isReducedMenuOpen()"
+      [activeSection]="activeSection()"
+      [menuInteraction$]="menuInteraction$"
+  (navigate)="navigateTo($event)"
+  (closeMenu)="handleMenuClose()"
+  [class.reduced]="true">
+    </app-side-menu>
+  </div>
+}

@@ -1,0 +1,32 @@
+<!-- Side Navigation Menu -->
+<nav class="side-menu" [attr.id]="isReduced ? 'side-menu-reduced' : 'side-menu'" [class.reduced]="isReduced" [class.open]="isOpen" role="navigation" aria-label="Main navigation" (mouseenter)="menuInteraction$?.next({ kind: 'interact' })">
+  <div class="menu-container">
+    <div>
+      <app-cv-download [cvUrl]="cvUrl" [menuInteraction$]="menuInteraction$"></app-cv-download>
+    </div>
+    
+    <div class="menu-navigation">
+      <app-nav-menu [menuItems]="menuItems" [activeSection]="activeSection" (navigate)="handleNavigate($event)"></app-nav-menu>
+    </div>
+    
+    <!-- Footer moved: Theme switcher removed from side menu to fix placement -->
+    <div class="menu-footer">
+      <div class="social-network">
+        <ul class="social-icons">
+          <li *ngFor="let platform of personalInfo?.contact?.social">
+            <a [href]="platform.href"
+               [target]="platform.external ? '_blank' : null"
+               [rel]="platform.external ? 'noreferrer' : null"
+               [attr.aria-label]="platform.title">
+              <i [class]="platform.icon"></i>
+            </a>
+          </li>
+        </ul>
+      </div>
+
+      <div class="copyright-text">
+        <p>&copy; 2024 Abdelkader KANTAOUI<br>All Rights Reserved</p>
+      </div>
+    </div>
+  </div>
+</nav>

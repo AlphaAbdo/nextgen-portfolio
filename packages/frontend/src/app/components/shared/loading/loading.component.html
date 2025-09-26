@@ -1,0 +1,28 @@
+<div class="loading-container" [ngClass]="containerClasses" role="status" aria-live="polite" [attr.aria-busy]="visible">
+  <div class="easter-top" *ngIf="showEasterEggs && visible">{{ topMessage }}</div>
+
+  <div class="loading-spinner" *ngIf="visible" [style.width]="spinnerSize" [style.height]="spinnerSize">
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+    <div class="spinner-ring"></div>
+  </div>
+
+  <div class="loading-content" *ngIf="visible">
+    <p class="loading-text" [style.font-size]="textSize">
+      {{ error ? error : (currentMessage || message) }}
+    </p>
+
+    <button
+      *ngIf="showRetry && error"
+      (click)="onRetry()"
+      class="retry-button"
+      [disabled]="isRetrying"
+      type="button"
+      aria-label="Retry loading"
+      autofocus>
+      <span class="retry-icon" *ngIf="!isRetrying">↻</span>
+      <span class="retry-icon spinning" *ngIf="isRetrying">↻</span>
+      {{ isRetrying ? 'Retrying...' : 'Retry' }}
+    </button>
+  </div>
+</div>

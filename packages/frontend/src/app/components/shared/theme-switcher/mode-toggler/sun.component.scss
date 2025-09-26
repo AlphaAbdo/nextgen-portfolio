@@ -1,0 +1,132 @@
+.sun-container, .moon-container {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.active .sun-icon {
+  transform: scale(1.1);
+  filter: drop-shadow(0 0 10px rgba(255, 167, 38, 0.6));
+}
+
+.sun-icon, .moon-icon {
+  width: 22px;
+  height: 22px;
+  transition: transform 0.3s ease;
+  z-index: 2;
+  position: relative;
+}
+
+.sun-rays {
+  transform-origin: 50px 50px;
+  animation: rotateRays 8s linear infinite;
+}
+
+.light-clouds {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.cloud {
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 20px;
+}
+
+.cloud::before,
+.cloud::after {
+  content: '';
+  position: absolute;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 50%;
+}
+
+.cloud-1 {
+  width: 20px;
+  height: 8px;
+  top: 20%;
+  left: 20%;
+  animation: floatCloud1 4s ease-in-out infinite;
+}
+
+.cloud-1::before {
+  width: 10px;
+  height: 10px;
+  top: -5px;
+  left: 2px;
+}
+
+.cloud-1::after {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  right: 2px;
+}
+
+.cloud-2 {
+  width: 16px;
+  height: 6px;
+  top: 60%;
+  right: 25%;
+  animation: floatCloud2 5s ease-in-out infinite;
+}
+
+.cloud-2::before {
+  width: 8px;
+  height: 8px;
+  top: -4px;
+  left: 2px;
+}
+
+.cloud-2::after {
+  width: 6px;
+  height: 6px;
+  top: -3px;
+  right: 2px;
+}
+
+/* Animation keyframes */
+@keyframes rotateRays {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+@keyframes floatCloud1 {
+  0%, 100% { transform: translateX(0px) translateY(0px); }
+  50% { transform: translateX(3px) translateY(-2px); }
+}
+
+@keyframes floatCloud2 {
+  0%, 100% { transform: translateX(0px) translateY(0px); }
+  50% { transform: translateX(-2px) translateY(2px); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .sun-icon, .moon-icon {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+@media (max-width: 480px) {
+  .sun-icon, .moon-icon {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .sun-rays,
+  .cloud {
+    animation: none !important;
+  }
+}

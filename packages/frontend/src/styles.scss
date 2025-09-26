@@ -1,0 +1,213 @@
+/* Import Universal Theme System - Must come first for @use */
+@use 'app/styles/theme' as *;
+
+/* FontAwesome Icons */
+@import '@fortawesome/fontawesome-free/css/all.min.css';
+
+/* Essential Global Styles - Portfolio App */
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@100;300;400;700;900&display=swap');
+
+/* Critical: Remove all default spacing */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html, body {
+  margin: 0 !important;
+  padding: 0 !important;
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+}
+
+body {
+  font-family: 'Lato', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  line-height: 1.6;
+  color: var(--color-text-primary);
+  /* Removed static background - now using animated background component */
+  background: transparent;
+}
+
+/* Avoid performance-heavy fixed backgrounds on mobile */
+@media (max-width: 768px) {
+  :root, body {
+    background-attachment: scroll !important;
+    background-attachment: unset !important;
+  }
+}
+
+/* Provide utility to opt-out of fixed backgrounds where truly needed */
+.bg-fixed-safe {
+  background-attachment: fixed;
+  background-size: cover;
+  background-repeat: no-repeat;
+}
+
+/* Essential Typography - From Original Template */
+p {
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--color-text-primary);
+}
+
+h4 {
+  font-size: 26px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+input,
+select,
+textarea {
+  outline: none;
+}
+
+a,
+a:hover {
+  text-decoration: none;
+}
+
+#page-wrapper {
+  /* Static background removed - now using animated background component */
+  background: transparent;
+  width: 100%;
+}
+
+/* Essential Layout - Section Structure */
+.section {
+  color: var(--color-text-primary);
+  position: relative;
+  min-height: 100vh;
+  padding: 40px 20px 80px 20px;
+  
+  /* Desktop: Content in flex layout */
+  @media screen and (min-width: 846px) {
+    /* No fixed positioning needed - flexbox handles layout */
+    width: 100%;
+  }
+  
+  /* Mobile: Full width */
+  @media screen and (max-width: 845px) {
+    width: 100%;
+    padding: 20px 15px 60px 15px;
+  }
+}
+
+.section-heading {
+  text-align: center;
+  padding: 80px 45px;
+}
+
+.section-heading h2 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-text-primary);
+}
+
+.section-heading h3 {
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--color-primary-light);
+}
+
+.section-heading h5 {
+  font-size: 12px;
+  color: var(--color-text-secondary);
+}
+
+.section-heading .line-dec {
+  width: 60px;
+  height: 3px;
+  background-color: var(--color-primary);
+  margin: 10px auto;
+}
+
+.section-heading span {
+  margin-top: 5px;
+  font-size: 16px;
+  color: var(--color-text-primary);
+  letter-spacing: 0.5px;
+}
+
+/* ========== ESSENTIAL GRID LAYOUT (Bootstrap-like) ========== */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 15px;
+}
+
+.row {
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 -15px;
+}
+
+.col-md-6 {
+  flex: 0 0 50%;
+  max-width: 50%;
+  padding: 0 15px;
+}
+
+@media (max-width: 768px) {
+  .col-md-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+}
+
+/* ========== RESPONSIVE LAYOUT (Critical for Proper Functioning) ========== */
+/* Layout is now handled by app flexbox structure */
+
+@media screen and (max-width: 845px) {        
+  .responsive-nav {
+    display: inline-block;
+  }
+  
+  .isotope-item {
+    width: 94%;
+    margin: 3%;
+  }
+}
+
+/* Ensure app container takes full space */
+app-root {
+  display: block;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+#page-wrapper {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* Modern accessibility */
+:focus-visible {
+  outline: 2px solid var(--color-focus);
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

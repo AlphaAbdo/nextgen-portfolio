@@ -1,0 +1,27 @@
+<div class="enhanced-timeline mobile-timeline">
+  <div class="timeline-item mobile-item"
+       *ngFor="let block of contentBlocks; let i = index">
+
+    <div class="timeline-connector">
+      <div class="timeline-marker">
+        <i class="fas fa-{{getIconForBlock(block.id)}}"></i>
+      </div>
+    </div>
+
+    <div class="timeline-content">
+      <div class="content-card" [attr.data-date]="getTimelineDate(block.id)">
+        <h3>{{ getTimelineTitle(block.id) }}</h3>
+        <p>{{ block.content.text }}</p>
+      </div>
+    </div>
+
+    <div class="timeline-visual">
+      <div class="visual-frame">
+        <img [src]="block.image.src"
+             [alt]="block.image.alt"
+             loading="lazy" />
+        <div class="image-overlay"></div>
+      </div>
+    </div>
+  </div>
+</div>

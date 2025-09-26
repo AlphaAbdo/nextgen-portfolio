@@ -1,0 +1,122 @@
+<div class="holographic-terminal">
+  <!-- Terminal Frame -->
+  <div class="terminal-frame" 
+       [ngStyle]="terminalStyles"
+       [class.stabilizing]="showRainbow"
+       [class.materialized]="isDownloading">
+    
+    <!-- Hologram Viewport -->
+    <div class="hologram-viewport"
+         (click)="onDownloadClick()"
+         (mouseenter)="onMouseEnter()"
+         (mouseleave)="onMouseLeave()"
+         [attr.aria-label]="'Download CV - Holographic Interface'"
+         role="button"
+         tabindex="0">
+      
+      <!-- CV Data Layers (Holographic Projections) -->
+      <div class="hologram-layers">
+        @for (layer of hologramLayers; track layer.id) {
+        <div class="hologram-layer"
+             [ngStyle]="getLayerStyles(layer)"
+             [class.layer-focused]="isHovered"
+             [attr.data-layer]="layer.id">
+          
+          <!-- Layer Content -->
+          <div class="layer-content">
+            <div class="layer-header">{{ layer.content }}</div>
+            <div class="layer-data">
+              <!-- Simulated data visualization -->
+              @for (i of [1,2,3,4]; track $index) {
+              <div class="data-bar"></div>
+              }
+            </div>
+          </div>
+          
+          <!-- Layer Glow Effect -->
+          <div class="layer-glow"></div>
+        </div>
+        }
+      </div>
+      
+      <!-- Central CV Icon -->
+      <div class="central-icon"
+           [class.icon-activated]="isHovered"
+           [class.icon-materializing]="isDownloading">
+        <i class="fas fa-file-pdf" 
+           [class.icon-transform]="isHovered"
+           aria-hidden="true"></i>
+        <i class="fas fa-download" 
+           [class.show-download]="isHovered"
+           aria-hidden="true"></i>
+        
+        <!-- Icon Holographic Effect -->
+        <div class="icon-hologram"></div>
+      </div>
+      
+      <!-- Scanning Beam (Rainbow Effect) -->
+      <div class="scanning-beam" 
+           *ngIf="showRainbow && !shouldReduceMotion"
+           [ngStyle]="scanlineStyles">
+      </div>
+      
+      <!-- Particle System -->
+      <div class="particle-system" 
+           *ngIf="!shouldReduceMotion">
+        @for (particle of particles; track particle.id) {
+        <div class="particle"
+             [ngStyle]="getParticleStyles(particle)">
+        </div>
+        }
+      </div>
+      
+      <!-- Hologram Interference Lines -->
+      <div class="interference-lines" 
+           [class.active]="showRainbow">
+        @for (i of [1,2,3,4,5]; track $index) {
+        <div class="line"></div>
+        }
+      </div>
+      
+      <!-- Corner Brackets (Terminal UI) -->
+      <div class="terminal-brackets">
+        <div class="bracket top-left"></div>
+        <div class="bracket top-right"></div>
+        <div class="bracket bottom-left"></div>
+        <div class="bracket bottom-right"></div>
+      </div>
+    </div>
+    
+    <!-- Terminal Status Bar -->
+    <div class="terminal-status">
+      <div class="status-indicator" 
+           [class.active]="!showRainbow"
+           [class.stabilizing]="showRainbow"
+           [class.materializing]="isDownloading">
+        <span class="status-dot"></span>
+        <span class="status-text">
+          {{ isDownloading ? 'MATERIALIZING...' : (showRainbow ? 'STABILIZING...' : 'PROJECTION READY') }}
+        </span>
+      </div>
+      
+      <div class="terminal-label">
+        {{ isHovered ? 'DOWNLOAD CV.PDF' : 'HOLOGRAPHIC_CV_v2.1' }}
+      </div>
+    </div>
+  </div>
+  
+  <!-- Error State -->
+  <div class="system-error" 
+       *ngIf="!cvUrl" 
+       role="alert"
+       aria-live="polite">
+    <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>
+    <span>PROJECTION SOURCE NOT FOUND</span>
+  </div>
+  
+  <!-- Accessibility Pulse (Reduced Motion Alternative) -->
+  <div class="accessibility-pulse" 
+       *ngIf="shouldReduceMotion && showRainbow"
+       [class.active]="showRainbow">
+  </div>
+</div>

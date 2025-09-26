@@ -1,0 +1,46 @@
+// About Me Component - Premium Design with Theme Colors + Container Queries
+// Making styles globally accessible to child components
+:host ::ng-deep {
+
+.about-me {
+  position: relative;
+  min-height: 100vh;
+  background: transparent; // Let particle background show through
+  overflow-x: hidden;
+  padding: 0;
+  color: var(--text-primary);
+  
+  // Container queries for responsive design
+  container-type: inline-size;
+  container-name: about-container;
+
+  .container {
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0 2rem;
+    position: relative;
+    z-index: 1;
+  }
+}
+
+
+
+// Responsive Design
+@media (max-width: 768px) {
+  .container {
+    padding: 0 1rem;
+  }
+}
+
+// Override AOS library defaults to ensure content visibility
+
+/* ========================================
+   CONTAINER QUERIES - MODERN RESPONSIVE
+   ======================================== */
+
+[data-aos] {
+  opacity: 1 !important;
+}
+
+
+} // End of :host ::ng-deep

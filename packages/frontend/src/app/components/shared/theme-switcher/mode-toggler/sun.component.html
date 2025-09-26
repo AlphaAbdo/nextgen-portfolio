@@ -1,0 +1,19 @@
+<div class="sun-container" [class.active]="isActive">
+  <svg class="sun-icon" viewBox="0 0 100 100" fill="none">
+    <circle cx="50" cy="50" r="20" fill="#FFA726" stroke="#FF8F00" stroke-width="2"/>
+    <g class="sun-rays" stroke="#FF8F00" stroke-width="3" stroke-linecap="round">
+      <line x1="50" y1="8" x2="50" y2="18"/>
+      <line x1="50" y1="82" x2="50" y2="92"/>
+      <line x1="8" y1="50" x2="18" y2="50"/>
+      <line x1="82" y1="50" x2="92" y2="50"/>
+      <line x1="21.21" y1="21.21" x2="28.28" y2="28.28"/>
+      <line x1="71.72" y1="71.72" x2="78.79" y2="78.79"/>
+      <line x1="21.21" y1="78.79" x2="28.28" y2="71.72"/>
+      <line x1="71.72" y1="28.28" x2="78.79" y2="21.21"/>
+    </g>
+  </svg>
+  <div class="light-clouds">
+    <div class="cloud cloud-1"></div>
+    <div class="cloud cloud-2"></div>
+  </div>
+</div>

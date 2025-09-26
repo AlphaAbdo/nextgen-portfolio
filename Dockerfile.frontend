@@ -1,0 +1,23 @@
+FROM node:20-alpine
+
+WORKDIR /app
+
+# Copy package files from frontend package
+COPY packages/frontend/package*.json packages/frontend/angular.json packages/frontend/tsconfig*.json ./
+
+# Install dependencies
+RUN npm install
+
+# Install Angular CLI globally
+RUN npm install -g @angular/cli
+
+# Copy source code (will be synced by Docker Compose watch in development)
+# These COPY commands are for production builds only
+COPY packages/frontend/src ./src
+COPY packages/frontend/public ./public
+
+# Expose port
+EXPOSE 4201
+
+# Start development server
+CMD ["npm", "run", "dev"]

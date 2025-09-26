@@ -1,0 +1,25 @@
+<!-- Separator Component Usage Examples -->
+
+<!-- 1. Elegant separator with icon and particles (currently used between skills and portfolio) -->
+<app-separator [variant]="'elegant'" [showIcon]="true" [showParticles]="true">
+  <div icon>✨</div>
+</app-separator>
+
+<!-- 2. Minimal separator with text -->
+<app-separator [variant]="'minimal'" [text]="'Next Section'" [showText]="true"></app-separator>
+
+<!-- 3. Default separator with custom icon -->
+<app-separator [showIcon]="true">
+  <div icon>🌟</div>
+</app-separator>
+
+<!-- 4. Elegant separator with text and icon -->
+<app-separator [variant]="'elegant'" [text]="'Portfolio'" [showText]="true" [showIcon]="true">
+  <div icon>🎨</div>
+</app-separator>
+
+<!-- 5. Simple line separator -->
+<app-separator></app-separator>
+
+<!-- 6. Particles only separator -->
+<app-separator [showParticles]="true"></app-separator>
