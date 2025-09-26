@@ -1,0 +1,9 @@
+{
+  "proxy": {
+    "baseUrl": "https://nextgen-portfolio.onrender.com",
+    "endpoint": "/proxy"
+  },
+  "outreach": {
+    "configPath": "https://drive.google.com/uc?export=download&id=1HIRd7BJYv1h5PJEilDepv9-yjgJZaADQ"
+  }
+}

@@ -1,0 +1,117 @@
+{
+  "configVersion": 1,
+  "timestamp": 1758906809133,
+  "index": "/nextgen-portfolio/index.html",
+  "assetGroups": [
+    {
+      "name": "app",
+      "installMode": "prefetch",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/nextgen-portfolio/chunk-7UGYIN64.js",
+        "/nextgen-portfolio/chunk-JBK6HRIG.js",
+        "/nextgen-portfolio/chunk-XX72M4SM.js",
+        "/nextgen-portfolio/chunk-ZANWRL3T.js",
+        "/nextgen-portfolio/favicon.ico",
+        "/nextgen-portfolio/index.html",
+        "/nextgen-portfolio/main-ZTGLG6TU.js",
+        "/nextgen-portfolio/manifest.webmanifest",
+        "/nextgen-portfolio/polyfills-YMBILSHJ.js",
+        "/nextgen-portfolio/styles-E7FFL7B4.css"
+      ],
+      "patterns": []
+    },
+    {
+      "name": "assets",
+      "installMode": "lazy",
+      "updateMode": "prefetch",
+      "cacheQueryOptions": {
+        "ignoreVary": true
+      },
+      "urls": [
+        "/nextgen-portfolio/assets/FishEngine/Sea.jpg",
+        "/nextgen-portfolio/assets/FishEngine/path-to-your-banner-image.jpg",
+        "/nextgen-portfolio/assets/FishEngine/path-to-your-banner-image.png",
+        "/nextgen-portfolio/assets/fonts/Flaticon.woff",
+        "/nextgen-portfolio/assets/fonts/flexslider-icon.svg",
+        "/nextgen-portfolio/assets/fonts/flexslider-icon.woff",
+        "/nextgen-portfolio/assets/fonts/fontawesome-webfont.svg",
+        "/nextgen-portfolio/assets/fonts/fontawesome-webfont.woff",
+        "/nextgen-portfolio/assets/fonts/fontawesome-webfont.woff2",
+        "/nextgen-portfolio/assets/fonts/slick.svg",
+        "/nextgen-portfolio/assets/fonts/slick.woff",
+        "/nextgen-portfolio/icons/icon-128x128.png",
+        "/nextgen-portfolio/icons/icon-144x144.png",
+        "/nextgen-portfolio/icons/icon-152x152.png",
+        "/nextgen-portfolio/icons/icon-192x192.png",
+        "/nextgen-portfolio/icons/icon-384x384.png",
+        "/nextgen-portfolio/icons/icon-512x512.png",
+        "/nextgen-portfolio/icons/icon-72x72.png",
+        "/nextgen-portfolio/icons/icon-96x96.png",
+        "/nextgen-portfolio/media/fa-brands-400-E3YNADOB.woff2",
+        "/nextgen-portfolio/media/fa-regular-400-UOSVBSEG.woff2",
+        "/nextgen-portfolio/media/fa-solid-900-6JWCQRDQ.woff2",
+        "/nextgen-portfolio/media/fa-v4compatibility-WACJNF5X.woff2"
+      ],
+      "patterns": []
+    }
+  ],
+  "dataGroups": [],
+  "hashTable": {
+    "/nextgen-portfolio/assets/FishEngine/Sea.jpg": "44ebe4b52a1a4f90252ffd10e491a77809c8b342",
+    "/nextgen-portfolio/assets/FishEngine/path-to-your-banner-image.jpg": "9c5c1410efd4672deae6b5b6e70a5ea8b139a275",
+    "/nextgen-portfolio/assets/FishEngine/path-to-your-banner-image.png": "6fbb212c8b5e99fda86f0890f1f3d224416c3f94",
+    "/nextgen-portfolio/assets/fonts/Flaticon.woff": "c4f58b20981d5e72f9eae7b59e138b1dbb5bb024",
+    "/nextgen-portfolio/assets/fonts/flexslider-icon.svg": "543217a071760398e9b74b9ad59c14832e31d3f1",
+    "/nextgen-portfolio/assets/fonts/flexslider-icon.woff": "9876bce2a7b39125bd7a406c445e46e704d7b37e",
+    "/nextgen-portfolio/assets/fonts/fontawesome-webfont.svg": "0b42e5ee7daafb72b1237b9d5b7f5ab0775fffc7",
+    "/nextgen-portfolio/assets/fonts/fontawesome-webfont.woff": "56ce13e71c2150d81bc972940584915181bd6081",
+    "/nextgen-portfolio/assets/fonts/fontawesome-webfont.woff2": "1075231650f579955905bb2f6527148a8e2b4b16",
+    "/nextgen-portfolio/assets/fonts/slick.svg": "8abc209b72ca066da711e6110f2e1981f653c770",
+    "/nextgen-portfolio/assets/fonts/slick.woff": "af91c12f0f406a4f801aeb3b398768fe41d8f864",
+    "/nextgen-portfolio/chunk-7UGYIN64.js": "307243fe51cba869225baf5bf9d11bd33fc63b76",
+    "/nextgen-portfolio/chunk-JBK6HRIG.js": "0c423c874b60969dc7f9bd126bf64b2ad0a6c1e5",
+    "/nextgen-portfolio/chunk-XX72M4SM.js": "3b2f925eb57379a31cb3872602f05cb66ab1de3d",
+    "/nextgen-portfolio/chunk-ZANWRL3T.js": "1ed948968659fa62e7749464afbba6416ff117ae",
+    "/nextgen-portfolio/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
+    "/nextgen-portfolio/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
+    "/nextgen-portfolio/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
+    "/nextgen-portfolio/icons/icon-152x152.png": "eae6e0f0c8afb8aaae339e2a569b43e9238e5e6c",
+    "/nextgen-portfolio/icons/icon-192x192.png": "15c4180454633880d98674aa7394656196c91584",
+    "/nextgen-portfolio/icons/icon-384x384.png": "94a915751ef6c9282df9aea405ad679230631814",
+    "/nextgen-portfolio/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
+    "/nextgen-portfolio/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
+    "/nextgen-portfolio/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
+    "/nextgen-portfolio/index.html": "722049968c0a024fb915c2844505c7595be72af7",
+    "/nextgen-portfolio/main-ZTGLG6TU.js": "3183b075056d5e9fa3fd84336d2bbff03d10345c",
+    "/nextgen-portfolio/manifest.webmanifest": "e590d820f7600f0ab814a73ed3f5055fd6ceadf3",
+    "/nextgen-portfolio/media/fa-brands-400-E3YNADOB.woff2": "6cf201b0c8ccdc9e2ea944de2a1c8a51f8a5383d",
+    "/nextgen-portfolio/media/fa-regular-400-UOSVBSEG.woff2": "b63917db95b560aa0d896147489761d2906ee47b",
+    "/nextgen-portfolio/media/fa-solid-900-6JWCQRDQ.woff2": "a5e7bc931d9a1539224a4b88aadeb6cf91d35ef8",
+    "/nextgen-portfolio/media/fa-v4compatibility-WACJNF5X.woff2": "15618ffd11afec913271bbb93b5077adb626723e",
+    "/nextgen-portfolio/polyfills-YMBILSHJ.js": "f2241e9a25858f895ce299d15f6f22e849e2fd72",
+    "/nextgen-portfolio/styles-E7FFL7B4.css": "6d665776542745b89550daa75dfc0d53fd40c9aa"
+  },
+  "navigationUrls": [
+    {
+      "positive": true,
+      "regex": "^\\/.*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*\\.[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*$"
+    },
+    {
+      "positive": false,
+      "regex": "^\\/(?:.+\\/)?[^/]*__[^/]*\\/.*$"
+    }
+  ],
+  "navigationRequestStrategy": "performance"
+}
