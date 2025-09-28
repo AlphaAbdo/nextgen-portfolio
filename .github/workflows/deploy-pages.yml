@@ -1,64 +1,62 @@
-name: Deploy Frontend to GitHub Pages
+name: Deploy Frontend to GitHub Pages (gh-pages push)
 
-# Responsibilities:
-# - Build the frontend artifact and deploy it to GitHub Pages.
-# - Triggered only for `main` branch pushes/PRs and manually via workflow_dispatch.
-# - Keep the heavy build and deploy steps isolated from the main CI matrix.
+# Build the frontend (inside Docker to ensure Node 20.x) and push the built
+# site to the `gh-pages` branch using peaceiris/actions-gh-pages@v3.
+#
+# This flow is a pragmatic fallback to the Pages API when artifact exchange
+# or Pages API runs run into transient permission/handshake failures.
 
 on:
   push:
     branches: [ main ]
-  pull_request:
-    branches: [ main ]
   workflow_dispatch:
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  build-and-upload:
-    name: Build and upload artifact
+  build-and-push:
+    name: Build frontend and push to gh-pages
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
     steps:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '18'
-
-      - name: Cache frontend node_modules
-        uses: actions/cache@v4
-        with:
-          path: packages/frontend/node_modules
-          key: ${{ runner.os }}-frontend-${{ hashFiles('packages/frontend/package-lock.json') }}
-          restore-keys: |
-            ${{ runner.os }}-frontend-
-
-      - name: Install frontend dependencies
-        run: npm ci
-        working-directory: packages/frontend
-
-      - name: Build frontend (production)
-        run: npm run build:prod
-        working-directory: packages/frontend
+      - name: Build frontend inside Docker (Node 20.19)
+        run: |
+          echo "Building frontend inside Docker (node:20.19)..."
+          docker run --rm \
+            -v "$GITHUB_WORKSPACE":/work \
+            -w /work/packages/frontend \
+            node:20.19-bullseye sh -c "npm install --no-audit --no-fund && npm run build:prod"
 
       - name: Find deploy directory
         id: find
         run: |
-          NODE_PATH=./node_modules node ./scripts/find-deploy-dir.js packages/frontend/dist/portfolio-app > deploy_dir.txt
+          node ./scripts/find-deploy-dir.js packages/frontend/dist/portfolio-app > deploy_dir.txt
           echo "deploy_path=$(cat deploy_dir.txt)" >> $GITHUB_OUTPUT
 
-      - name: Upload Pages artifact
-        uses: actions/upload-pages-artifact@v1
-        with:
-          path: ${{ steps.find.outputs.deploy_path }}
+      - name: Verify index.html exists
+        run: |
+          echo "Checking for index.html in ${{ steps.find.outputs.deploy_path }}"
+          if [ ! -f "${{ steps.find.outputs.deploy_path }}/index.html" ]; then
+            echo "ERROR: index.html not found in ${{ steps.find.outputs.deploy_path }}"
+            ls -la "${{ steps.find.outputs.deploy_path }}"
+            exit 2
+          fi
 
-  deploy:
-    name: Deploy to GitHub Pages
-    runs-on: ubuntu-latest
-    needs: build-and-upload
-    permissions:
-      pages: write
-      id-token: write
-    steps:
-      - name: Deploy to GitHub Pages
-        uses: actions/deploy-pages@v1
+      - name: Deploy to gh-pages (peaceiris)
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_PAGES_PAT }}
+          publish_dir: ${{ steps.find.outputs.deploy_path }}
+          publish_branch: gh-pages
+          keep_files: false
+          force_orphan: false
+        env:
+          TZ: UTC
