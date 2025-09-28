@@ -1,7 +1,12 @@
+/* Reset default margin and padding */
+:host, h1, h2, p {
+  margin: 0;
+  padding: 0;
+}
 :host {
   font-family: Arial, sans-serif;
   color: #333;
-  background-image: url("/assets/FishEngine/Sea.jpg");
+  background-image: url("../../../assets/FishEngine/Sea.jpg");
   background-size: cover;
   background-repeat: no-repeat;
   background-attachment: fixed; /* Keeps the background fixed while scrolling */
@@ -10,7 +15,7 @@
 
 header {
   position: relative;
-  background-image: url("/assets/FishEngine/path-to-your-banner-image.png");
+  background-image: url("../../../assets/FishEngine/path-to-your-banner-image.png");
   background-size: cover;
   text-align: center;
 }
@@ -105,7 +110,7 @@ footer {
   margin-bottom: 10px;
   color: #00ff9d7c;
 }
-.feature k {
+.feature p {
   font-size: 16px;
   color: #ffffff;
 }
@@ -129,7 +134,7 @@ footer {
   margin: 0 auto;
 }
 
-.video-wrapper iframe, .video-wrapper video {
+.video-wrapper iframe {
   position: absolute;
   width: 100%;
   height: 100%;
