@@ -13,6 +13,7 @@
     "dev": "lerna run dev --parallel",
     "frontend": "lerna run dev --scope=@nextgen-portfolio/frontend",
     "backend": "lerna run dev --scope=@nextgen-portfolio/backend",
+  "deploy": "lerna run deploy --scope=@nextgen-portfolio/frontend",
     "test": "lerna run test",
     "lint": "lerna run lint",
     "clean": "lerna clean",
