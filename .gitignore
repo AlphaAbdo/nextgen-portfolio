@@ -12,6 +12,7 @@ packages/*/package-lock.json
 packages/frontend/dist/
 packages/backend/dist/
 
+.github/
 # Angular
 packages/frontend/.angular/
 

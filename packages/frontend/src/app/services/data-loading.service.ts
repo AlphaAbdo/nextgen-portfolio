@@ -213,14 +213,14 @@ export class DataLoadingService {
   constructor(private http: HttpClient) {
     // Initialize config loaders
     this.environmentConfigLoader = new ConfigLoader<any>(
-      '/assets/environment.json',
+      'assets/environment.json',
       this.http,
       null, // No environment config needed for loading environment config
       false // Don't use proxy for environment config (it's always local)
     );
 
     this.outreachConfigLoader = new ConfigLoader<any>(
-      '/assets/outreachConfig.json', // Default path, will be overridden by environment config
+      'assets/outreachConfig.json', // Default path, will be overridden by environment config
       this.http,
       null, // Will be set after environment config loads
       true // Use proxy for external outreach configs
@@ -466,7 +466,7 @@ export class DataLoadingService {
       return endpoint;
     }
     if (endpoint.startsWith('assets/')) {
-      return `/${endpoint}`;
+      return endpoint;
     }
     return `/assets/${endpoint}`;
   }

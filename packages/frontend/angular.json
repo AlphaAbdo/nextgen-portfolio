@@ -28,6 +28,7 @@
             ],
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
+            "namedChunks": false,
             "assets": [
               {
                 "glob": "**/*",

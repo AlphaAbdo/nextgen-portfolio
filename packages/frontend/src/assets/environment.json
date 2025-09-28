@@ -1,6 +1,6 @@
 {
   "proxy": {
-    "baseUrl": "http://localhost:3001",
+    "baseUrl": "https://nextgen-portfolio.onrender.com",
     "endpoint": "/proxy"
   },
   "outreach": {
