@@ -50,6 +50,13 @@ jobs:
             exit 2
           fi
 
+      - name: Show built files (diagnostic)
+        run: |
+          echo "Publish directory: ${{ steps.find.outputs.deploy_path }}"
+          echo "Absolute path on runner: $(realpath ${{ steps.find.outputs.deploy_path }} 2>/dev/null || echo 'N/A')"
+          echo "Listing top-level files:" 
+          ls -la "${{ steps.find.outputs.deploy_path }}" | sed -n '1,200p'
+
       - name: Deploy to gh-pages (peaceiris)
         uses: peaceiris/actions-gh-pages@v3
         with:
