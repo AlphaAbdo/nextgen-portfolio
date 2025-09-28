@@ -1,4 +1,11 @@
-<header>
+<div class="loading-overlay" *ngIf="isLoading">
+  <div class="loading-spinner">
+    <div class="spinner"></div>
+    <p>Loading Fish Engine...</p>
+  </div>
+</div>
+
+<header *ngIf="!isLoading">
   <nav>
     <ul class="navbar">
       <li><a routerLink="/">Home</a></li>
@@ -151,6 +158,18 @@
     </div>
   </section>
 </main>
+
+<!-- Theme Switcher -->
+<app-theme-switcher></app-theme-switcher>
+
+<!-- Scroll to Top Button -->
+<button
+  class="scroll-to-top"
+  [class.visible]="showScrollTop"
+  (click)="scrollToTop()"
+  aria-label="Scroll to top">
+  <i class="fas fa-arrow-up" aria-hidden="true"></i>
+</button>
 
 <footer>
   <p>&copy; 2025 Abdelkader Kantaoui. All rights reserved.</p>
