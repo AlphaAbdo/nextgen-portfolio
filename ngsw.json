@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1759079363833,
+  "timestamp": 1759083011160,
   "index": "/nextgen-portfolio/index.html",
   "assetGroups": [
     {
@@ -11,13 +11,12 @@
         "ignoreVary": true
       },
       "urls": [
-        "/nextgen-portfolio/chunk-MNCMYABA.js",
-        "/nextgen-portfolio/chunk-UQFLTA4I.js",
-        "/nextgen-portfolio/chunk-XX72M4SM.js",
-        "/nextgen-portfolio/chunk-ZANWRL3T.js",
+        "/nextgen-portfolio/chunk-3G2JBNW2.js",
+        "/nextgen-portfolio/chunk-CSTHE6KH.js",
+        "/nextgen-portfolio/chunk-WBRRTWFI.js",
         "/nextgen-portfolio/favicon.ico",
         "/nextgen-portfolio/index.html",
-        "/nextgen-portfolio/main-6IK2KPEW.js",
+        "/nextgen-portfolio/main-PAIM3FMC.js",
         "/nextgen-portfolio/manifest.webmanifest",
         "/nextgen-portfolio/polyfills-YMBILSHJ.js",
         "/nextgen-portfolio/styles-E7FFL7B4.css"
@@ -51,10 +50,12 @@
         "/nextgen-portfolio/icons/icon-512x512.png",
         "/nextgen-portfolio/icons/icon-72x72.png",
         "/nextgen-portfolio/icons/icon-96x96.png",
+        "/nextgen-portfolio/media/Sea-LVM4LVQ2.jpg",
         "/nextgen-portfolio/media/fa-brands-400-E3YNADOB.woff2",
         "/nextgen-portfolio/media/fa-regular-400-UOSVBSEG.woff2",
         "/nextgen-portfolio/media/fa-solid-900-6JWCQRDQ.woff2",
-        "/nextgen-portfolio/media/fa-v4compatibility-WACJNF5X.woff2"
+        "/nextgen-portfolio/media/fa-v4compatibility-WACJNF5X.woff2",
+        "/nextgen-portfolio/media/path-to-your-banner-image-U6EMD4QU.png"
       ],
       "patterns": []
     }
@@ -72,10 +73,9 @@
     "/nextgen-portfolio/assets/fonts/fontawesome-webfont.woff2": "1075231650f579955905bb2f6527148a8e2b4b16",
     "/nextgen-portfolio/assets/fonts/slick.svg": "8abc209b72ca066da711e6110f2e1981f653c770",
     "/nextgen-portfolio/assets/fonts/slick.woff": "af91c12f0f406a4f801aeb3b398768fe41d8f864",
-    "/nextgen-portfolio/chunk-MNCMYABA.js": "ef1ea75718e283bd132edb1a960cb740a968ba7f",
-    "/nextgen-portfolio/chunk-UQFLTA4I.js": "2035e5b5168bbc281869c60fe9480d48ab03ea93",
-    "/nextgen-portfolio/chunk-XX72M4SM.js": "3b2f925eb57379a31cb3872602f05cb66ab1de3d",
-    "/nextgen-portfolio/chunk-ZANWRL3T.js": "1ed948968659fa62e7749464afbba6416ff117ae",
+    "/nextgen-portfolio/chunk-3G2JBNW2.js": "972a99b3e5985683b7a74eb199708cabf3d09179",
+    "/nextgen-portfolio/chunk-CSTHE6KH.js": "000960f97f56ec25502baa10ed8fae394626d614",
+    "/nextgen-portfolio/chunk-WBRRTWFI.js": "6aff539287f64a2e2d4d8df24cbda3af563e1f76",
     "/nextgen-portfolio/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/nextgen-portfolio/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
     "/nextgen-portfolio/icons/icon-144x144.png": "b155fd5f2fd5d2ea7760721063003c4cd95fd783",
@@ -85,13 +85,15 @@
     "/nextgen-portfolio/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/nextgen-portfolio/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/nextgen-portfolio/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/nextgen-portfolio/index.html": "4b38adc8a1798e9175318824252e50d26e9f5924",
-    "/nextgen-portfolio/main-6IK2KPEW.js": "350e1cf55ec69d676bac54b49e055aaee339e61a",
+    "/nextgen-portfolio/index.html": "2aa92442c1ba7837511a6027eb014d156f290d1e",
+    "/nextgen-portfolio/main-PAIM3FMC.js": "d7167aa0cc7c7dff75dd004a4c623256ea8547b8",
     "/nextgen-portfolio/manifest.webmanifest": "e590d820f7600f0ab814a73ed3f5055fd6ceadf3",
+    "/nextgen-portfolio/media/Sea-LVM4LVQ2.jpg": "44ebe4b52a1a4f90252ffd10e491a77809c8b342",
     "/nextgen-portfolio/media/fa-brands-400-E3YNADOB.woff2": "6cf201b0c8ccdc9e2ea944de2a1c8a51f8a5383d",
     "/nextgen-portfolio/media/fa-regular-400-UOSVBSEG.woff2": "b63917db95b560aa0d896147489761d2906ee47b",
     "/nextgen-portfolio/media/fa-solid-900-6JWCQRDQ.woff2": "a5e7bc931d9a1539224a4b88aadeb6cf91d35ef8",
     "/nextgen-portfolio/media/fa-v4compatibility-WACJNF5X.woff2": "15618ffd11afec913271bbb93b5077adb626723e",
+    "/nextgen-portfolio/media/path-to-your-banner-image-U6EMD4QU.png": "6fbb212c8b5e99fda86f0890f1f3d224416c3f94",
     "/nextgen-portfolio/polyfills-YMBILSHJ.js": "f2241e9a25858f895ce299d15f6f22e849e2fd72",
     "/nextgen-portfolio/styles-E7FFL7B4.css": "6d665776542745b89550daa75dfc0d53fd40c9aa"
   },
