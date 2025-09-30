@@ -1,6 +1,6 @@
 {
   "configVersion": 1,
-  "timestamp": 1759259839638,
+  "timestamp": 1759260581684,
   "index": "/nextgen-portfolio/index.html",
   "assetGroups": [
     {
@@ -12,14 +12,14 @@
       },
       "urls": [
         "/nextgen-portfolio/chunk-22DQ4T4C.js",
+        "/nextgen-portfolio/chunk-AZQWGBWK.js",
         "/nextgen-portfolio/chunk-FV7N2273.js",
         "/nextgen-portfolio/chunk-GEZOPFPP.js",
         "/nextgen-portfolio/chunk-HKAON7WB.js",
-        "/nextgen-portfolio/chunk-SOG2HUIB.js",
         "/nextgen-portfolio/chunk-ZJX6KON6.js",
         "/nextgen-portfolio/favicon.ico",
         "/nextgen-portfolio/index.html",
-        "/nextgen-portfolio/main-WMUDTY3Y.js",
+        "/nextgen-portfolio/main-JVX7EDQ6.js",
         "/nextgen-portfolio/manifest.webmanifest",
         "/nextgen-portfolio/polyfills-YMBILSHJ.js",
         "/nextgen-portfolio/styles-E7FFL7B4.css"
@@ -76,10 +76,10 @@
     "/nextgen-portfolio/assets/fonts/slick.svg": "8abc209b72ca066da711e6110f2e1981f653c770",
     "/nextgen-portfolio/assets/fonts/slick.woff": "af91c12f0f406a4f801aeb3b398768fe41d8f864",
     "/nextgen-portfolio/chunk-22DQ4T4C.js": "37db7a360362561f2ccd26397088c15f332498fe",
+    "/nextgen-portfolio/chunk-AZQWGBWK.js": "14b80bbe743386dc3bde921be7cd789f5be48553",
     "/nextgen-portfolio/chunk-FV7N2273.js": "5e202fabe603e62268fff75f75e2362b443ea683",
     "/nextgen-portfolio/chunk-GEZOPFPP.js": "a2d136516fcc5e756e4c89c5976e3c9345788b3f",
     "/nextgen-portfolio/chunk-HKAON7WB.js": "1b9c0b897a3821473ea508ab4f762d18eddd113e",
-    "/nextgen-portfolio/chunk-SOG2HUIB.js": "89051fc2350f93a5821e54947608af92145f87a0",
     "/nextgen-portfolio/chunk-ZJX6KON6.js": "3fcf4667e1be4463c3bb2274802f31d62207f1df",
     "/nextgen-portfolio/favicon.ico": "9c39f434fe1261f68c5e3eefdf734630d99c5670",
     "/nextgen-portfolio/icons/icon-128x128.png": "f912963bdc6d5a38d8f1dd0afbaab2ce8d657acb",
@@ -90,8 +90,8 @@
     "/nextgen-portfolio/icons/icon-512x512.png": "1de182f76f7329dfa8f9fcdd1fdcdd695bea6a99",
     "/nextgen-portfolio/icons/icon-72x72.png": "aa88a6096bd973be7f6d7a5489bfa6bc2463f8c4",
     "/nextgen-portfolio/icons/icon-96x96.png": "7fb8f59c30ce2ff12c700321a0b39e14b3dc8f95",
-    "/nextgen-portfolio/index.html": "e10d2e94a7741d76d9d4b57c5d33e5d3d87c6488",
-    "/nextgen-portfolio/main-WMUDTY3Y.js": "b8501fa9bd5a1c75d3467719df7edc8c6ea7992d",
+    "/nextgen-portfolio/index.html": "5bbb080f01b89e7124b410831241502891720751",
+    "/nextgen-portfolio/main-JVX7EDQ6.js": "4b28a9cca3dcbf7814df763e55e05e5008074eb9",
     "/nextgen-portfolio/manifest.webmanifest": "e590d820f7600f0ab814a73ed3f5055fd6ceadf3",
     "/nextgen-portfolio/media/fa-brands-400-E3YNADOB.woff2": "6cf201b0c8ccdc9e2ea944de2a1c8a51f8a5383d",
     "/nextgen-portfolio/media/fa-regular-400-UOSVBSEG.woff2": "b63917db95b560aa0d896147489761d2906ee47b",
