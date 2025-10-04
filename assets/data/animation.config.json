@@ -1,0 +1,76 @@
+{
+  "particles": {
+    "defaultCount": 40,
+    "minSize": 1.5,
+    "maxSize": 3,
+    "defaultVelocity": 0.5,
+    "maxVelocity": 2
+  },
+  "physics": {
+    "friction": 0.99,
+    "driftSpeed": {
+      "x": 0.002,
+      "y": 0.002
+    },
+    "driftFrequency": {
+      "x": 0.01,
+      "y": 0.008
+    },
+    "bounceMargin": 5,
+    "bounceDamping": 0.8,
+    "wrapMargin": 10
+  },
+  "connections": {
+    "distance": 120,
+    "baseOpacity": 0.3,
+    "lineWidth": 1,
+    "maxConnections": 5
+  },
+  "mouse": {
+    "interactionRadius": 150,
+    "attractionStrength": 0.015,
+    "repulsionStrength": 0.08
+  },
+  "trails": {
+    "enabled": false,
+    "maxLength": 8,
+    "fadeOpacity": 0.3,
+    "lineWidth": 1
+  },
+  "glow": {
+    "enabled": false,
+    "sizeMultiplier": 2,
+    "intensityMultiplier": 3,
+    "opacityBoost": 0.3,
+    "lineWidthBoost": 1
+  },
+  "density": {
+    "enabled": false,
+    "radius": 80,
+    "threshold": 3,
+    "mouseExclusionRadius": 120,
+    "maxIntensity": 0.6,
+    "fadeRate": 0.98,
+    "fadeRateNearMouse": 0.95
+  },
+  "rendering": {
+    "targetFPS": 60,
+    "maxDevicePixelRatio": 1.5,
+    "performanceLogInterval": 5000
+  },
+  "opacity": {
+    "base": 0.3,
+    "speedMultiplier": 20,
+    "max": 0.9
+  },
+  "hue": {
+    "rotationSpeed": 0.1,
+    "saturation": 60,
+    "lightness": 60,
+    "glowLightnessBoost": 20
+  },
+  "background": {
+    "gradientType": "radial",
+    "useThemeColors": true
+  }
+}

@@ -1,0 +1,48 @@
+{
+  "settings": {
+    "defaultThresholdMs": 400,
+    "defaultTimeoutMs": 15000,
+    "enableEasterEggs": true,
+    "messageProgressionDelayMs": 4000,
+    "messageDelayGrowthFactor": 0.5,
+    "messageDelayMaxMs": 8000
+  },
+  "messages": {
+    "default": "Loading...",
+    "initializing": "Loading your content...",
+    "progression": [
+      "Still working on it...",
+      "This is taking a bit longer than expected...",
+      "Fetching data from the server...",
+      "Your data is stuck in traffic... digital traffic",
+      "Organizing the bits and bytes...",
+      "Meanwhile, somewhere in a data center...",
+      "Almost there, promise!",
+      "Fun fact: You're more patient than 83% of users",
+      "The server is thinking really hard about this",
+      "Processing... and maybe grabbing a coffee",
+      "Loading resources (the fancy way of saying 'please wait')",
+      "This message will disappear when loading completes. Hopefully.",
+      "Still here? Thanks for your patience!"
+    ]
+  },
+  "retryMessages": [
+    "Try Again",
+    "Give It Another Shot",
+    "Retry",
+    "One More Time",
+    "Let's Try That Again"
+  ],
+  "retryingMessage": "Giving it another go...",
+  "easterEggs": {
+    "topMessages": [
+      "👾 Loading magic...",
+      "⚡ Charging up...",
+      "🔮 Consulting the oracle...",
+      "✨ Sprinkling some pixels...",
+      "🚀 Launching in 3... 2...",
+      "🎯 Taking aim at your data...",
+      "⏳ Time is relative anyway"
+    ]
+  }
+}
