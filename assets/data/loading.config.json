@@ -1,6 +1,6 @@
 {
   "settings": {
-    "defaultThresholdMs": 400,
+    "defaultThresholdMs": 0,
     "defaultTimeoutMs": 15000,
     "enableEasterEggs": true,
     "messageProgressionDelayMs": 4000,
