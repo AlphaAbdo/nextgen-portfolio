@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable, of, filter } from 'rxjs';
-import { DataLoadingService } from '../../../../services/data-loading.service';
+import { Injectable, inject } from '@angular/core';
+import { BehaviorSubject, Observable, of, filter, firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { ErrorHandlerService } from '../../../../services/error-handler.service';
 
 export interface ISocialPlatform {
   platform: string;
@@ -20,6 +21,12 @@ export interface IPersonalInfo {
       src: string;
       alt: string;
     };
+  };
+  status?: {
+    // Sash configuration properties
+    startAngle?: number;
+    text?: string;
+    isVisible?: boolean;
   };
   career: {
     startYear: number;
@@ -64,8 +71,9 @@ export class PersonalInfoService {
   // Cached data to prevent multiple HTTP requests
   private cachedPersonalInfo: IPersonalInfo | null = null;
   private isLoading = false;
+  private errorHandler = inject(ErrorHandlerService);
 
-  constructor(private dataLoadingService: DataLoadingService) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Get personal info observable - triggers loading if not cached
@@ -99,14 +107,15 @@ export class PersonalInfoService {
       this.loadingSubject.next(true);
       this.errorSubject.next(null);
 
-      const data = await this.dataLoadingService.getData<IPersonalInfo>('assets/data/personal-info.json');
+      // Use standard HttpClient - interceptor handles all enhancements automatically
+      const data = await firstValueFrom(this.http.get<IPersonalInfo>('assets/data/personal-info.json'));
 
       this.cachedPersonalInfo = data;
       this.personalInfoSubject.next(data);
       this.loadingSubject.next(false);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load personal info';
-      this.errorSubject.next(errorMessage);
+      const sanitizedError = this.errorHandler.sanitizeError(error, 'personal information');
+      this.errorSubject.next(sanitizedError);
       this.loadingSubject.next(false);
       this.personalInfoSubject.next(null);
     } finally {

@@ -1,0 +1,115 @@
+<!-- Skill Tree Section - Always exists for navigation detection -->
+<section class="skill-tree-section" data-section="section2" id="section2">
+  <!-- Loading State -->
+  <app-loading
+    *ngIf="isLoading()"
+    message="Growing the skill tree..."
+    size="medium">
+  </app-loading>
+
+  <!-- Error State -->
+  <app-loading
+    *ngIf="!isLoading() && error()"
+    [error]="error()"
+    [showRetry]="true"
+    [isRetrying]="isRetrying()"
+    (retry)="retryLoad()"
+    message="Failed to load skills"
+    size="medium">
+  </app-loading>
+
+  <!-- Skill Tree Content -->
+  <div *ngIf="!isLoading() && !error()">
+  <!-- Header -->
+  <div class="section-header">
+    <h2 class="section-title">{{ title() }}</h2>
+    <p class="section-subtitle" *ngIf="subtitle()">{{ subtitle() }}</p>
+    <p class="section-description">{{ description() }}</p>
+  </div>
+
+  <!-- Tree Container -->
+  <div class="tree-container">
+    <!-- Root/Trunk (Center) -->
+    <div class="tree-trunk">
+      <div class="trunk-label">{{ rootLabel() }}</div>
+      <div class="trunk-line"></div>
+      
+      <div class="trunk-skills" *ngIf="trunk()">
+        <h3 class="trunk-title">{{ trunk()!.label }}</h3>
+        <p class="trunk-description">{{ trunk()!.description }}</p>
+        <div class="trunk-skill-list">
+          <span 
+            *ngFor="let skill of trunk()!.skills; trackBy: trackBySkillName" 
+            class="trunk-skill"
+            [class]="getLevelClass(skill.level)"
+            [title]="skill.level">
+            {{ skill.icon }} {{ skill.name }}
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Branches -->
+    <div class="branches-container">
+      <!-- Left Branches -->
+      <div class="branches-left">
+        <div 
+          *ngFor="let branch of leftBranches(); let i = index; trackBy: trackByBranchId" 
+          class="branch branch-left"
+          [style]="getBranchStyle(branch)"
+          [attr.data-position]="branch.position">
+          
+          <div class="branch-connector"></div>
+          <div class="branch-card">
+            <div class="branch-header">
+              <h4 class="branch-title">{{ branch.label }}</h4>
+            </div>
+            <div class="branch-skills">
+              <div *ngFor="let skill of branch.skills; trackBy: trackBySkillName" class="skill-item" [class]="getLevelClass(skill.level)">
+                <span class="skill-icon" *ngIf="skill.icon">{{ skill.icon }}</span>
+                <span class="skill-name">{{ skill.name }}</span>
+                <span class="skill-years" *ngIf="skill.years">{{ skill.years }}y</span>
+                <div class="skill-level-bar">
+                  <div class="skill-level-fill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Branches -->
+      <div class="branches-right">
+        <div 
+          *ngFor="let branch of rightBranches(); let i = index; trackBy: trackByBranchId" 
+          class="branch branch-right"
+          [style]="getBranchStyle(branch)"
+          [attr.data-position]="branch.position">
+          
+          <div class="branch-connector"></div>
+          <div class="branch-card">
+            <div class="branch-header">
+              <h4 class="branch-title">{{ branch.label }}</h4>
+            </div>
+            <div class="branch-skills">
+              <div *ngFor="let skill of branch.skills; trackBy: trackBySkillName" class="skill-item" [class]="getLevelClass(skill.level)">
+                <span class="skill-icon" *ngIf="skill.icon">{{ skill.icon }}</span>
+                <span class="skill-name">{{ skill.name }}</span>
+                <span class="skill-years" *ngIf="skill.years">{{ skill.years }}y</span>
+                <div class="skill-level-bar">
+                  <div class="skill-level-fill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Separator -->
+<app-separator [variant]="'elegant'" [showIcon]="true" [showParticles]="true">
+  <div icon>⭐</div>
+</app-separator>
+</section>

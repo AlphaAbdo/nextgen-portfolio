@@ -20,6 +20,7 @@ export class SideMenuComponent implements OnInit {
   @Input() isOpen = false;
   @Input() activeSection: string | null = null;
   @Input() menuInteraction$?: Subject<MenuAction>;
+  @Input() sections?: INavItem[]; // Allow custom sections from parent
 
   @Output() navigate = new EventEmitter<string>();
   @Output() closeMenu = new EventEmitter<void>();
@@ -27,11 +28,17 @@ export class SideMenuComponent implements OnInit {
   cvUrl: string = '';
   personalInfo: IPersonalInfo | null = null;
 
-  menuItems: INavItem[] = [
+  // Default menu items (used if no custom sections provided)
+  private defaultMenuItems: INavItem[] = [
     { section: 'section1', label: 'About', icon: 'fa-user', description: 'About me' },
     { section: 'section2', label: 'Skills', icon: 'fa-code', description: 'My skills' },
     { section: 'section3', label: 'Portfolio', icon: 'fa-briefcase', description: 'My work' }
   ];
+
+  // Getter to return custom sections or default
+  get menuItems(): INavItem[] {
+    return this.sections || this.defaultMenuItems;
+  }
 
   constructor(
     private skillsService: SkillsService,

@@ -1,21 +1,19 @@
 <!-- Loading State -->
-<app-loading *ngIf="isLoading" message="Loading timeline..." size="medium"></app-loading>
+<app-loading *ngIf="isLoading()" message="Loading timeline..." size="medium"></app-loading>
 
 <!-- Error State -->
-<div *ngIf="error && !isLoading" class="error-container">
-  <div class="error-message">
-    <i class="fa-solid fa-exclamation-triangle"></i>
-    <h3>Oops! Something went wrong</h3>
-    <p>{{ error }}</p>
-    <button (click)="onRetry()" class="retry-button">
-      <i class="fa-solid fa-refresh"></i>
-      Try Again
-    </button>
-  </div>
-</div>
+<app-loading
+  *ngIf="!isLoading() && error()"
+  [error]="error()"
+  [showRetry]="true"
+  [isRetrying]="isRetrying()"
+  (retry)="onRetry()"
+  message="Failed to load timeline"
+  size="medium">
+</app-loading>
 
 <!-- Journey Timeline Section -->
-<div class="journey-section" *ngIf="aboutContent && !isLoading && !error">
+<div class="journey-section" *ngIf="aboutContent && !isLoading() && !error()">
   <div class="section-header">
     <h2 class="section-title">{{ aboutContent.sectionHeader.title }}</h2>
     <p class="section-subtitle">{{ aboutContent.sectionHeader.description }}</p>

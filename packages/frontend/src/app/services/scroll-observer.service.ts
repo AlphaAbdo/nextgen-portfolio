@@ -1,6 +1,7 @@
 import { Injectable, Inject, PLATFORM_ID } from '@angular/core';
 import { isPlatformBrowser } from '@angular/common';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { isDevMode } from '@angular/core';
 
 @Injectable({ providedIn: 'root' })
 export class ScrollObserverService {
@@ -51,13 +52,21 @@ export class ScrollObserverService {
         
         const processingTime = performance.now() - startTime;
         
-        if (best && bestScore > 30 && best !== this.currentSectionSubject.value) {
+        // Debug logging for section detection
+        if (isDevMode()) {
+          console.log(`[ScrollObserver] Best: ${best} (score: ${bestScore}), Scores:`, Object.fromEntries(scores));
+        }
+        
+        if (best && bestScore > 20 && best !== this.currentSectionSubject.value) {
+          if (isDevMode()) {
+            console.log(`[ScrollObserver] Switching to section: ${best}`);
+          }
           this.currentSectionSubject.next(best);
         }
       }, {
-        // Balanced settings for ScrollObserverService
-        threshold: [0, 0.2, 0.4, 0.5, 0.6, 0.8, 1.0], // 7 thresholds for better responsiveness
-        rootMargin: '-15% 0px -15% 0px' // Reduced from -20% for more frequent callbacks
+        // More sensitive settings for better section detection
+        threshold: [0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1.0], // More thresholds for finer detection
+        rootMargin: '-10% 0px -10% 0px' // More sensitive margin for better responsiveness
       });
 
       sections.forEach(s => this.observer!.observe(s));
@@ -135,7 +144,10 @@ export class ScrollObserverService {
       if (score > bestMatch.score) bestMatch = { sectionId, score };
     });
 
-    if (bestMatch.score > 10 && bestMatch.sectionId !== this.currentSectionSubject.value) {
+    if (bestMatch.score > 5 && bestMatch.sectionId !== this.currentSectionSubject.value) {
+      if (isDevMode()) {
+        console.log(`[ScrollObserver] Fallback switching to section: ${bestMatch.sectionId} (score: ${bestMatch.score})`);
+      }
       this.currentSectionSubject.next(bestMatch.sectionId);
     }
   }

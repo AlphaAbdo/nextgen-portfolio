@@ -1,0 +1,197 @@
+<svg
+  class="smart-sash visible"
+  [class.shimmer-enabled]="shimmerEnabledSignal()"
+  [class.mobile-device]="isMobileDevice()"
+  [attr.viewBox]="viewBox()"
+  [style.width.px]="containerSize()"
+  [style.height.px]="containerSize()"
+  xmlns="http://www.w3.org/2000/svg">
+
+  <defs>
+    <!-- Dynamic text path based on calculated arc -->
+    <path
+      [id]="textPathId()"
+      [attr.d]="textPath()"
+      fill="none"
+      stroke="none" />
+
+    <!-- Premium multi-layer gradient -->
+    <linearGradient [id]="gradientId()" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" [attr.stop-color]="primaryColorSignal()" stop-opacity="1" />
+      <stop offset="15%" [attr.stop-color]="brightenColor(primaryColorSignal(), 0.2)" stop-opacity="1" />
+      <stop offset="35%" [attr.stop-color]="secondaryColorSignal()" stop-opacity="1" />
+      <stop offset="65%" [attr.stop-color]="accentColorSignal()" stop-opacity="1" />
+      <stop offset="85%" [attr.stop-color]="brightenColor(primaryColorSignal(), 0.2)" stop-opacity="1" />
+      <stop offset="100%" [attr.stop-color]="primaryColorSignal()" stop-opacity="1" />
+    </linearGradient>
+
+    <!-- Shimmer overlay gradient -->
+    <linearGradient [id]="shimmerGradientId()" x1="-100%" y1="0%" x2="200%" y2="0%">
+      <stop offset="0%" stop-color="transparent" />
+      <stop offset="40%" stop-color="rgba(255,255,255,0.3)" />
+      <stop offset="50%" stop-color="rgba(255,255,255,0.6)" />
+      <stop offset="60%" stop-color="rgba(255,255,255,0.3)" />
+      <stop offset="100%" stop-color="transparent" />
+    </linearGradient>
+
+    <!-- Inner highlight gradient -->
+    <linearGradient [id]="highlightGradientId()" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.4)" />
+      <stop offset="50%" stop-color="rgba(255,255,255,0.1)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.05)" />
+    </linearGradient>
+
+    <!-- Enhanced premium shadow filter - optimized for performance -->
+    <filter [id]="shadowId()" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="3" result="blur"/>
+      <feOffset dx="0" dy="2" result="offset"/>
+      <feFlood [attr.flood-color]="shadowColorSignal()" flood-opacity="0.3"/>
+      <feComposite in2="offset" operator="in"/>
+      <feMerge>
+        <feMergeNode/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Premium glow filter with optimized performance -->
+    <filter [id]="glowId()" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="4" result="coloredBlur"/>
+      <feMerge>
+        <feMergeNode in="coloredBlur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+
+    <!-- Text outline filter for perfect alignment -->
+    <filter [id]="textOutlineId()" x="-50%" y="-50%" width="200%" height="200%">
+      <feMorphology operator="dilate" radius="1.5" result="dilated"/>
+      <feFlood flood-color="#000000" flood-opacity="0.8" result="outlineColor"/>
+      <feComposite in="outlineColor" in2="dilated" operator="in" result="outline"/>
+      <feMerge>
+        <feMergeNode in="outline"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+
+  <!-- Main sash ribbon with premium styling -->
+  <path
+    [attr.d]="ribbonPath()"
+    fill="none"
+    [attr.stroke]="gradientUrl()"
+    [attr.stroke-width]="normalizedThickness()"
+    stroke-linecap="round"
+    [attr.filter]="shadowUrl()"
+    class="sash-ribbon"
+    [attr.data-continuous]="continuousAnimationsEnabled() ? '1' : '0'" />
+
+  <!-- Inner border highlight -->
+  <path
+    [attr.d]="ribbonPath()"
+    fill="none"
+    [attr.stroke]="highlightGradientUrl()"
+    [attr.stroke-width]="normalizedThickness() * 0.8"
+    stroke-linecap="round"
+    class="sash-inner-highlight" />
+
+  <!-- Outer glow effect -->
+  <path
+    [attr.d]="ribbonPath()"
+    fill="none"
+    [attr.stroke]="primaryColorSignal()"
+    [attr.stroke-width]="normalizedThickness() * 1.4"
+    stroke-linecap="round"
+    [attr.filter]="glowUrl()"
+    class="sash-outer-glow"
+    opacity="0.3" />
+
+  <!-- Shimmer effect overlay -->
+  <path
+    [attr.d]="ribbonPath()"
+    fill="none"
+    [attr.stroke]="shimmerGradientUrl()"
+    [attr.stroke-width]="normalizedThickness() * 0.6"
+    stroke-linecap="round"
+    class="sash-shimmer"
+    opacity="0" />
+
+  <!-- Premium text with enhanced visibility and outline -->
+  <text
+    class="sash-text"
+    [attr.font-size]="normalizedFontSize()"
+    font-family="'SF Pro Display', 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    font-weight="800"
+    [attr.fill]="accessibleTextColorSignal()"
+    [attr.filter]="textOutlineUrl()"
+    text-anchor="middle"
+    dominant-baseline="central"
+    [attr.data-continuous]="continuousAnimationsEnabled() ? '1' : '0'">
+    <textPath
+      [attr.href]="textPathUrl()"
+      startOffset="50%">
+      {{ textSignal() }}
+    </textPath>
+  </text>
+
+  <!-- Premium start cap with gradient -->
+  <circle
+    [attr.cx]="startCap().x"
+    [attr.cy]="startCap().y"
+    [attr.r]="normalizedThickness() * 0.35"
+    [attr.fill]="gradientUrl()"
+    [attr.filter]="shadowUrl()"
+    class="sash-cap" />
+
+  <!-- Start cap highlight -->
+  <circle
+    [attr.cx]="startCap().x"
+    [attr.cy]="startCap().y"
+    [attr.r]="normalizedThickness() * 0.25"
+    fill="rgba(255,255,255,0.2)"
+    class="sash-cap-highlight" />
+
+  <!-- Premium end cap with gradient -->
+  <circle
+    [attr.cx]="endCap().x"
+    [attr.cy]="endCap().y"
+    [attr.r]="normalizedThickness() * 0.35"
+    [attr.fill]="gradientUrl()"
+    [attr.filter]="shadowUrl()"
+    class="sash-cap" />
+
+  <!-- End cap highlight -->
+  <circle
+    [attr.cx]="endCap().x"
+    [attr.cy]="endCap().y"
+    [attr.r]="normalizedThickness() * 0.25"
+    fill="rgba(255,255,255,0.2)"
+    class="sash-cap-highlight" />
+
+  <!-- Subtle inner accent line -->
+  <path
+    [attr.d]="ribbonPath()"
+    fill="none"
+    stroke="rgba(255,255,255,0.25)"
+    [attr.stroke-width]="normalizedThickness() * 0.12"
+    stroke-linecap="round"
+    class="sash-accent" />
+
+  <!-- Premium decorative elements -->
+  <g class="sash-decorative" opacity="0.6">
+    <!-- Start decoration -->
+    <circle
+      [attr.cx]="startCap().x - normalizedThickness() * 0.15"
+      [attr.cy]="startCap().y - normalizedThickness() * 0.15"
+      [attr.r]="normalizedThickness() * 0.08"
+      fill="rgba(255,255,255,0.8)"
+      class="decoration-dot" />
+
+    <!-- End decoration -->
+    <circle
+      [attr.cx]="endCap().x + normalizedThickness() * 0.15"
+      [attr.cy]="endCap().y + normalizedThickness() * 0.15"
+      [attr.r]="normalizedThickness() * 0.08"
+      fill="rgba(255,255,255,0.8)"
+      class="decoration-dot" />
+  </g>
+</svg>

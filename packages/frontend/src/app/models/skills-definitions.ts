@@ -1,3 +1,4 @@
+// Legacy format (keep for backwards compatibility)
 export interface SkillContext {
   label: string;
   skills: string;
@@ -6,8 +7,38 @@ export interface SkillContext {
 export interface SectionHeader {
   title: string;
   description: string;
-  casualPitch: string;
-  toolkitNote: string;
+  casualPitch?: string;
+  toolkitNote?: string;
+  subtitle?: string;
+  rootLabel?: string;
+}
+
+// New Tree format
+export interface Skill {
+  name: string;
+  level: 'beginner' | 'intermediate' | 'advanced' | 'expert';
+  years?: number;
+  icon?: string;
+}
+
+export interface TreeTrunk {
+  label: string;
+  description: string;
+  skills: Skill[];
+}
+
+export interface TreeBranch {
+  id: string;
+  label: string;
+  color: string;
+  side: 'left' | 'right';
+  position: number;
+  skills: Skill[];
+}
+
+export interface SkillTree {
+  trunk: TreeTrunk;
+  branches: TreeBranch[];
 }
 
 export interface CvMetadata {
@@ -41,18 +72,26 @@ export interface OrbitStyles {
 }
 
 export interface SkillsMetadata {
-  displayMode: string;
-  itemsPerRow: {
+  displayMode: 'grid' | 'tree' | 'list';
+  version?: string;
+  mobileStrategy?: 'vertical-cards' | 'accordion' | 'tabs';
+  animations?: {
+    branchGrowth?: boolean;
+    particleFlow?: boolean;
+    hoverGlow?: boolean;
+  };
+  itemsPerRow?: {
     desktop: number;
     mobile: number;
   };
-  orbits: string[];
-  orbitConfig: OrbitConfig;
+  orbits?: string[];
+  orbitConfig?: OrbitConfig;
   cv: CvMetadata;
 }
 
 export interface SkillsData {
   sectionHeader: SectionHeader;
-  skills: SkillContext[];
+  skills?: SkillContext[]; // Legacy format
+  tree?: SkillTree; // New tree format
   metadata: SkillsMetadata;
 }

@@ -1,8 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { ITimelineData, IAboutContent, IContentBlock } from '../journey-timeline/about.types';
 import { AboutContentService } from './about-content.service';
+import { ErrorHandlerService } from '../../../../services/error-handler.service';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +25,8 @@ export class TimelineService {
   public aboutContent$ = this.aboutContentSubject.asObservable();
 
   private initialized = false; // Guard against multiple initializations
+
+  private errorHandler = inject(ErrorHandlerService);
 
   constructor(private aboutContentService: AboutContentService) {
     this.initializeData();
@@ -52,7 +55,8 @@ export class TimelineService {
         this.loadingSubject.next(false);
       },
       error: (error) => {
-        this.errorSubject.next(error.message || 'Failed to load timeline data');
+        const sanitizedError = this.errorHandler.sanitizeError(error, 'timeline data');
+        this.errorSubject.next(sanitizedError);
         this.loadingSubject.next(false);
       }
     });

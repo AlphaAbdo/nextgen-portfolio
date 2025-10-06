@@ -7,6 +7,7 @@
     [isOpen]="true"
     [activeSection]="activeSection()"
     [menuInteraction$]="menuInteraction$"
+    [sections]="sections"
   (navigate)="navigateTo($event)">
   </app-side-menu>
 }
@@ -14,12 +15,20 @@
 <!-- Reduced Side Menu with Burger Button -->
 @if (alwaysReduced || !isDesktop()) {
   <div class="reduced-wrapper">
-    <!-- Reduced burger button -->
-    <button #burgerBtn class="reduced-menu-btn" [attr.aria-expanded]="isReducedMenuOpen()" [attr.aria-label]="isReducedMenuOpen() ? 'Close menu' : 'Open menu'" aria-controls="side-menu-reduced" [class.active]="isReducedMenuOpen()" (click)="toggleReducedMenu()">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
+    <div class="header-controls">
+      <!-- Reduced burger/close button (transforms on click) -->
+      <button #burgerBtn class="reduced-menu-btn" [attr.aria-expanded]="isReducedMenuOpen()" [attr.aria-label]="isReducedMenuOpen() ? 'Close menu' : 'Open menu'" aria-controls="side-menu-reduced" [class.active]="isReducedMenuOpen()" (click)="toggleReducedMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      <!-- Home button (only visible when menu is open and showHomeButton is true) -->
+      @if (showHomeButton && isReducedMenuOpen()) {
+        <a href="/" class="home-icon-btn" aria-label="Go to home">
+          <i class="fa fa-home"></i>
+        </a>
+      }
+    </div>
     <!-- Menu overlay for click outside to close -->
     <div #overlay class="menu-overlay" [class.active]="isReducedMenuOpen()" (click)="closeReducedMenu()" tabindex="-1"></div>
     <!-- Reduced Side Menu -->
@@ -28,6 +37,7 @@
       [isOpen]="isReducedMenuOpen()"
       [activeSection]="activeSection()"
       [menuInteraction$]="menuInteraction$"
+      [sections]="sections"
   (navigate)="navigateTo($event)"
   (closeMenu)="handleMenuClose()"
   [class.reduced]="true">

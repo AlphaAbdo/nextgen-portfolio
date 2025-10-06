@@ -1,4 +1,4 @@
-<div class="animated-background" [class.card-mode]="hideControls">
+<div class="animated-background">
   <canvas 
     #canvas 
     class="background-canvas"
@@ -7,7 +7,7 @@
   </canvas>
   
   <!-- Performance indicator (dev mode) -->
-  @if (!hideControls && isAnimating()) {
+  @if (isAnimating()) {
     <div class="performance-indicator">
       <small>FPS: {{fps()}}</small>
     </div>
@@ -16,17 +16,26 @@
 
 <!-- Performance Control Panel (dev mode - press Ctrl+Alt+D to show) -->
 <!-- MOVED OUTSIDE animated-background for maximum visibility -->
-@if (!hideControls) {
-  <div #perfControls class="performance-controls" 
-       [style.display]="showPerformanceControls ? 'block' : 'none'">
-    <div class="controls-panel">
-      <h4>🎮 Performance Controls</h4>
-      <button (click)="logCurrentPerformance()" class="btn-log">📊 Log Performance Now</button>
-      <button (click)="resetPerformanceCounters()" class="btn-reset">🔄 Reset Counters</button>
-      <button (click)="togglePerformanceControls()" class="btn-close">❌ Close</button>
-      <small style="color: #888; margin-top: 10px; display: block;">
-        Press Ctrl+Alt+D to toggle
-      </small>
-    </div>
+<div #perfControls class="performance-controls" 
+     [style.display]="showPerformanceControls ? 'block' : 'none'">
+  <div class="controls-panel">
+    <h4>🎮 Performance Controls</h4>
+    
+    @if (!isCalibrating) {
+      <button (click)="startCalibration()" class="btn-calibrate">
+        🎯 Recalibrate Particles
+      </button>
+    } @else {
+      <button disabled class="btn-calibrate">
+        ⏳ Calibrating...
+      </button>
+    }
+    
+    <button (click)="logCurrentPerformance()" class="btn-log">📊 Log Performance Now</button>
+    <button (click)="resetPerformanceCounters()" class="btn-reset">🔄 Reset Counters</button>
+    <button (click)="togglePerformanceControls()" class="btn-close">❌ Close</button>
+    <small style="color: #888; margin-top: 10px; display: block;">
+      Press Ctrl+Alt+D to toggle
+    </small>
   </div>
-}
+</div>

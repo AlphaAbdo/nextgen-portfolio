@@ -7,12 +7,17 @@
     
     <!-- Hologram Viewport -->
     <div class="hologram-viewport"
-         (click)="onDownloadClick()"
          (mouseenter)="onMouseEnter()"
          (mouseleave)="onMouseLeave()"
          [attr.aria-label]="'Download CV - Holographic Interface'"
-         role="button"
-         tabindex="0">
+         role="region">
+      
+      <!-- Download Button (Click area) -->
+      <div class="download-area" 
+           (click)="onDownloadClick()"
+           role="button"
+           tabindex="0"
+           [attr.aria-label]="'Download CV'">
       
       <!-- CV Data Layers (Holographic Projections) -->
       <div class="hologram-layers">
@@ -85,6 +90,7 @@
         <div class="bracket bottom-left"></div>
         <div class="bracket bottom-right"></div>
       </div>
+      </div> <!-- End download-area -->
     </div>
     
     <!-- Terminal Status Bar -->
@@ -100,14 +106,54 @@
       </div>
       
       <div class="terminal-label">
-        {{ isHovered ? 'DOWNLOAD CV.PDF' : 'HOLOGRAPHIC_CV_v2.1' }}
+        {{ isHovered ? ('DOWNLOAD CV - ' + (selectedLanguage?.label || 'PDF')) : 'HOLOGRAPHIC_CV_v2.1' }}
+      </div>
+    </div>
+  </div>
+  
+  <!-- 🌍 Permanent Language Selector (Below Terminal) -->
+  <div class="language-selector-permanent" *ngIf="cvLanguages.length > 1">
+    <!-- Language Button (shown when menu is closed) -->
+    <button class="holo-lang-button"
+            *ngIf="!showLanguageMenu"
+            (click)="toggleLanguageMenu($event)"
+            [attr.aria-label]="'Select CV Language'"
+            [attr.aria-expanded]="showLanguageMenu">
+      <span class="holo-bracket">[</span>
+      <span class="holo-icon">{{ selectedLanguage?.icon || '🌍' }}</span>
+      <span class="holo-code">{{ selectedLanguage?.code?.toUpperCase() || 'LANG' }}</span>
+      <span class="holo-bracket">]</span>
+    </button>
+
+    <!-- Holographic Language Menu (transforms from button when opened) -->
+    <div class="holo-lang-menu" *ngIf="showLanguageMenu">
+      <div class="holo-menu-frame">
+        <div class="holo-menu-header">
+          <span class="holo-menu-title">SELECT_LANGUAGE</span>
+          <span class="holo-menu-close" (click)="toggleLanguageMenu($event)">×</span>
+        </div>
+        <div class="holo-menu-items">
+          <button *ngFor="let lang of cvLanguages"
+                  class="holo-lang-option"
+                  [class.selected]="selectedLanguage?.code === lang.code"
+                  (click)="selectLanguage(lang, $event)"
+                  [attr.aria-label]="'Download CV in ' + lang.label">
+            <span class="holo-option-bracket">[</span>
+            <span class="holo-option-icon">{{ lang.icon }}</span>
+            <span class="holo-option-label">{{ lang.label }}</span>
+            <span class="holo-option-code">{{ lang.code.toUpperCase() }}</span>
+            <span class="holo-option-bracket">]</span>
+            <span class="holo-option-indicator" *ngIf="selectedLanguage?.code === lang.code">●</span>
+          </button>
+        </div>
+        <div class="holo-menu-scanline"></div>
       </div>
     </div>
   </div>
   
   <!-- Error State -->
   <div class="system-error" 
-       *ngIf="!cvUrl" 
+       *ngIf="cvLanguages.length === 0 && !cvUrl" 
        role="alert"
        aria-live="polite">
     <i class="fas fa-exclamation-triangle" aria-hidden="true"></i>

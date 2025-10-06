@@ -1,0 +1,207 @@
+.cern-impact {
+  padding: 12rem 2rem 8rem 2rem;
+  min-height: 90vh;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  // Subtle radial accents only
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 30% 40%, rgba(0, 168, 225, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 70% 60%, rgba(0, 196, 140, 0.05) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 1;
+  }
+
+  .impact-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 2;
+
+    h2 {
+      font-family: var(--font-heading, 'Rajdhani', sans-serif);
+      font-size: 3rem;
+      font-weight: 700;
+      color: #00a8e1;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+    }
+
+    .impact-subtitle {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 1.2rem;
+      color: #f8f9fa;
+      opacity: 0.8;
+    }
+  }
+
+  .metrics-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 2rem;
+    max-width: 1200px;
+    width: 100%;
+    position: relative;
+    z-index: 2;
+    margin-bottom: 4rem;
+
+    .metric-card {
+      background: rgba(26, 26, 46, 0.6);
+      border: 2px solid rgba(0, 168, 225, 0.3);
+      border-radius: 16px;
+      padding: 2.5rem 2rem;
+      text-align: center;
+      transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+      overflow: hidden;
+      opacity: 0;
+      transform: translateY(30px);
+
+      // Animated gradient border on hover
+      &::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        border-radius: 16px;
+        padding: 2px;
+        background: linear-gradient(135deg, #0053a1, #00a8e1, #00c48c);
+        -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+        -webkit-mask-composite: xor;
+        mask-composite: exclude;
+        opacity: 0;
+        transition: opacity 0.4s ease;
+      }
+
+      &:hover {
+        transform: translateY(-10px);
+        border-color: #00a8e1;
+        box-shadow: 0 20px 40px rgba(0, 168, 225, 0.3);
+
+        &::before {
+          opacity: 1;
+        }
+
+        .metric-icon {
+          transform: scale(1.2) rotate(5deg);
+        }
+      }
+
+      &.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .metric-icon {
+        font-size: 3rem;
+        margin-bottom: 1rem;
+        transition: transform 0.3s ease;
+        display: block;
+      }
+
+      .metric-value {
+        font-family: var(--font-heading, 'Rajdhani', sans-serif);
+        font-size: 2.8rem;
+        font-weight: 700;
+        color: #00c48c;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 0 20px rgba(0, 196, 140, 0.5);
+      }
+
+      .metric-label {
+        font-family: var(--font-body, 'Inter', sans-serif);
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: #f8f9fa;
+        margin-bottom: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+      }
+
+      .metric-description {
+        font-family: var(--font-body, 'Inter', sans-serif);
+        font-size: 0.9rem;
+        color: #f8f9fa;
+        opacity: 0.7;
+        line-height: 1.4;
+      }
+
+      // Stagger animation delays
+      @for $i from 1 through 6 {
+        &:nth-child(#{$i}) {
+          animation-delay: #{$i * 0.1}s;
+        }
+      }
+    }
+  }
+
+  .impact-statement {
+    max-width: 800px;
+    text-align: center;
+    position: relative;
+    z-index: 2;
+    padding: 3rem;
+    background: rgba(0, 83, 161, 0.1);
+    border-radius: 16px;
+    border: 2px solid rgba(0, 168, 225, 0.3);
+
+    .statement-text {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 1.3rem;
+      line-height: 1.8;
+      color: #f8f9fa;
+      font-style: italic;
+
+      .highlight {
+        color: #00c48c;
+        font-weight: 600;
+        text-shadow: 0 0 10px rgba(0, 196, 140, 0.5);
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .cern-impact {
+    padding: 8rem 1.5rem 6rem 1.5rem;
+
+    .impact-header h2 {
+      font-size: 2.2rem;
+    }
+
+    .metrics-grid {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+
+      .metric-card {
+        padding: 2rem 1.5rem;
+
+        .metric-value {
+          font-size: 2.2rem;
+        }
+      }
+    }
+
+    .impact-statement {
+      padding: 2rem;
+
+      .statement-text {
+        font-size: 1.1rem;
+      }
+    }
+  }
+}

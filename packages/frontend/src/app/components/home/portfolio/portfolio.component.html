@@ -1,12 +1,21 @@
 <section class="section my-work" data-section="section3" id="section3">
   <div class="container">
     <div class="section-heading">
-      @if (sectionHeader(); as header) {
+      @if (isLoading()) {
+        <app-loading message="Loading portfolio content..." size="large"></app-loading>
+      } @else if (error()) {
+        <app-loading 
+          [error]="error()"
+          [showRetry]="true"
+          [isRetrying]="isRetrying()"
+          (retry)="retryLoad()"
+          message="Failed to load portfolio"
+          size="large">
+        </app-loading>
+      } @else if (sectionHeader(); as header) {
         <h2>{{ header.title }}</h2>
         <div class="line-dec"></div>
         <span>{{ header.description }}</span>
-      } @else {
-        <app-loading message="Loading portfolio content..." size="large"></app-loading>
       }
     </div>
     <div class="row">

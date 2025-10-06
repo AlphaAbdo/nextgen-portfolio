@@ -1,7 +1,8 @@
-import { Injectable } from '@angular/core';
-import { Observable, BehaviorSubject, of, filter } from 'rxjs';
-import { DataLoadingService } from '../../../../services/data-loading.service';
+import { Injectable, inject } from '@angular/core';
+import { Observable, BehaviorSubject, of, filter, firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import { SkillsData, OrbitConfig as IOrbitConfig, OrbitStyles as IOrbitStyles } from '../../../../models/skills-definitions';
+import { ErrorHandlerService } from '../../../../services/error-handler.service';
 
 // Use the unified SkillsData interface instead of ISkillsData
 type ISkillsData = SkillsData;
@@ -22,8 +23,9 @@ export class SkillsService {
   // Cached data to prevent multiple HTTP requests
   private cachedSkillsData: ISkillsData | null = null;
   private isLoading = false;
+  private errorHandler = inject(ErrorHandlerService);
 
-  constructor(private dataLoadingService: DataLoadingService) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Get skills data with unified loading logic
@@ -46,8 +48,8 @@ export class SkillsService {
       this.loadingSubject.next(true);
       this.errorSubject.next(null);
 
-      // Use the unified getData method with direct path
-      const data = await this.dataLoadingService.getData<ISkillsData>('assets/data/skills.json');
+      // Use standard HttpClient - interceptor handles all enhancements automatically
+      const data = await firstValueFrom(this.http.get<ISkillsData>('assets/data/skills.json'));
 
       this.cachedSkillsData = data;
       this.skillsDataSubject.next(data);
@@ -55,8 +57,8 @@ export class SkillsService {
 
       return of(data);
     } catch (error) {
-      const errorMessage = error instanceof Error ? error.message : 'Failed to load skills data';
-      this.errorSubject.next(errorMessage);
+      const sanitizedError = this.errorHandler.sanitizeError(error, 'skills data');
+      this.errorSubject.next(sanitizedError);
       this.loadingSubject.next(false);
       throw error;
     } finally {
@@ -79,14 +81,31 @@ export class SkillsService {
     if (skillsData.metadata.orbits && skillsData.metadata.orbits.length > 0) {
       return skillsData.metadata.orbits;
     }
-    // Otherwise, extract from skills strings
-    const allTechnologies: string[] = [];
-    skillsData.skills.forEach(skill => {
-      // Split skills string by comma and clean up whitespace
-      const technologies = skill.skills.split(',').map(tech => tech.trim());
-      allTechnologies.push(...technologies.slice(0, 2)); // Take first 2 from each category
-    });
-    return allTechnologies.slice(0, count);
+    
+    // If using new tree format, extract from tree branches
+    if (skillsData.tree && skillsData.tree.branches) {
+      const allTechnologies: string[] = [];
+      skillsData.tree.branches.forEach(branch => {
+        branch.skills.forEach(skill => {
+          allTechnologies.push(skill.name);
+        });
+      });
+      return allTechnologies.slice(0, count);
+    }
+    
+    // Otherwise, extract from legacy skills strings format
+    if (skillsData.skills && skillsData.skills.length > 0) {
+      const allTechnologies: string[] = [];
+      skillsData.skills.forEach(skill => {
+        // Split skills string by comma and clean up whitespace
+        const technologies = skill.skills.split(',').map(tech => tech.trim());
+        allTechnologies.push(...technologies.slice(0, 2)); // Take first 2 from each category
+      });
+      return allTechnologies.slice(0, count);
+    }
+    
+    // Fallback
+    return this.getFallbackSkills();
   }
 
   /**

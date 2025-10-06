@@ -1,0 +1,22 @@
+<section class="cern-impact">
+  <div class="impact-header">
+    <h2>The Impact</h2>
+    <p class="impact-subtitle">Real metrics. Real results. Real physics.</p>
+  </div>
+  
+  <div class="metrics-grid">
+    <div class="metric-card" *ngFor="let metric of metrics">
+      <div class="metric-icon">{{ metric.icon }}</div>
+      <div class="metric-value">{{ metric.value }}</div>
+      <div class="metric-label">{{ metric.label }}</div>
+      <div class="metric-description">{{ metric.description }}</div>
+    </div>
+  </div>
+
+  <div class="impact-statement">
+    <p class="statement-text">
+      "Before CERN: I knew JavaScript and Angular.<br>
+      After CERN: I ship production code that particle physicists use to <span class="highlight">discover the universe</span>."
+    </p>
+  </div>
+</section>

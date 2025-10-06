@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Observable, throwError, from } from 'rxjs';
+import { Observable, throwError, from, firstValueFrom } from 'rxjs';
 import { catchError, map, switchMap } from 'rxjs/operators';
-import { DataLoadingService } from '../../../../services/data-loading.service';
+import { HttpClient } from '@angular/common/http';
 import { IAboutContent, IAboutDataResult, ITimelineData } from '../journey-timeline/about.types';
 
 @Injectable({
@@ -10,7 +10,7 @@ import { IAboutContent, IAboutDataResult, ITimelineData } from '../journey-timel
 export class AboutContentService {
   private isLoadingData = false; // Guard against multiple simultaneous calls
 
-  constructor(private dataLoadingService: DataLoadingService) {}
+  constructor(private http: HttpClient) {}
 
   /**
    * Load about content from JSON file - NEW CLEAN API
@@ -25,8 +25,8 @@ export class AboutContentService {
     this.isLoadingData = true;
 
     try {
-      // NEW CLEAN API - Just specify the endpoint, service handles everything else
-      const content = await this.dataLoadingService.getData<IAboutContent>('assets/data/about-content.json');
+      // Use standard HttpClient - interceptor handles all enhancements automatically
+      const content = await firstValueFrom(this.http.get<IAboutContent>('assets/data/about-content.json'));
 
       // Return as observable for compatibility
       return new Observable<IAboutContent>(observer => {

@@ -1,8 +1,8 @@
 import { Component, Input, OnInit, OnDestroy, ElementRef, Inject, PLATFORM_ID } from '@angular/core';
 import { CommonModule, isPlatformBrowser } from '@angular/common';
-import { Subject, takeUntil, fromEvent, timer, interval, Observable, Subscription } from 'rxjs';
+import { Subject, takeUntil, fromEvent, timer, interval, Observable, Subscription, firstValueFrom } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 import type { MenuAction } from '../../header.types';
-import { DataLoadingService } from '../../../../../services/data-loading.service';
 
 interface IHologramLayer {
   id: string;
@@ -30,6 +30,14 @@ interface IParticle {
   computedStyles?: { [key: string]: string };
 }
 
+// 🌍 CV Language Interface
+interface ICvLanguage {
+  code: string;
+  label: string;
+  url: string;
+  icon?: string;
+}
+
 @Component({
   selector: 'app-cv-download',
   standalone: true,
@@ -38,9 +46,14 @@ interface IParticle {
   styleUrls: ['./cv-download.component.scss']
 })
 export class CvDownloadComponent implements OnInit, OnDestroy {
-  @Input() cvUrl: string = '';
+  @Input() cvUrl: string = ''; // Deprecated - kept for backward compatibility
   @Input() accessibilityMode: boolean = false;
   @Input() menuInteraction$?: Observable<MenuAction>;
+  
+  // 🌍 Multi-language CV support
+  cvLanguages: ICvLanguage[] = [];
+  selectedLanguage: ICvLanguage | null = null;
+  showLanguageMenu = false;
   
   private destroy$ = new Subject<void>();
   private animationFrame: number | null = null;
@@ -79,10 +92,11 @@ export class CvDownloadComponent implements OnInit, OnDestroy {
   constructor(
     private elementRef: ElementRef,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private dataLoadingService: DataLoadingService
+    private http: HttpClient
   ) {}
 
   ngOnInit() {
+    this.loadCvLanguages(); // 🌍 Load multi-language CV configuration
     this.initializeHologramSystem();
     this.setupSideMenuListener();
     this.startEasterEggTimer();
@@ -93,6 +107,85 @@ export class CvDownloadComponent implements OnInit, OnDestroy {
     this.destroy$.next();
     this.destroy$.complete();
     this.stopAllAnimations();
+  }
+
+  // 🌍 Load CV languages from skills.json
+  private async loadCvLanguages() {
+    try {
+      const response = await firstValueFrom(
+        this.http.get<any>('/assets/data/skills.json')
+      );
+      
+      const cvMeta = response?.metadata?.cv;
+      
+      if (cvMeta?.enabled) {
+        // Check if multi-language format
+        if (cvMeta.languages && Array.isArray(cvMeta.languages)) {
+          this.cvLanguages = cvMeta.languages;
+          const defaultLang = cvMeta.defaultLanguage || cvMeta.languages[0]?.code;
+          this.selectedLanguage = this.cvLanguages.find(lang => lang.code === defaultLang) || this.cvLanguages[0];
+        } 
+        // Fallback to old single URL format
+        else if (cvMeta.url) {
+          this.cvLanguages = [{
+            code: 'default',
+            label: 'CV',
+            url: cvMeta.url
+          }];
+          this.selectedLanguage = this.cvLanguages[0];
+        }
+        // Fallback to old @Input cvUrl
+        else if (this.cvUrl) {
+          this.cvLanguages = [{
+            code: 'default',
+            label: 'CV',
+            url: this.cvUrl
+          }];
+          this.selectedLanguage = this.cvLanguages[0];
+        }
+      }
+    } catch (error) {
+      console.error('Failed to load CV configuration:', error);
+      // Fallback to @Input cvUrl if JSON load fails
+      if (this.cvUrl) {
+        this.cvLanguages = [{
+          code: 'default',
+          label: 'CV',
+          url: this.cvUrl
+        }];
+        this.selectedLanguage = this.cvLanguages[0];
+      }
+    }
+  }
+
+  // 🌍 Toggle language selection menu
+  toggleLanguageMenu(event?: Event) {
+    if (event) {
+      event.stopPropagation();
+      const target = event.target as HTMLElement;
+      const button = target.closest('.holo-lang-button') as HTMLElement;
+      
+      if (button && isPlatformBrowser(this.platformId)) {
+        const rect = button.getBoundingClientRect();
+        const menu = button.parentElement?.querySelector('.holo-lang-menu') as HTMLElement;
+        
+        if (menu) {
+          // Position menu below button
+          menu.style.top = `${rect.bottom + 12}px`;
+          menu.style.left = `${rect.left + rect.width / 2}px`;
+        }
+      }
+    }
+    this.showLanguageMenu = !this.showLanguageMenu;
+  }
+
+  // 🌍 Select a language
+  selectLanguage(language: ICvLanguage, event?: Event) {
+    if (event) {
+      event.stopPropagation();
+    }
+    this.selectedLanguage = language;
+    this.showLanguageMenu = false;
   }
 
   private getCachedSin(value: number, precision: number = 100): number {
@@ -469,8 +562,12 @@ export class CvDownloadComponent implements OnInit, OnDestroy {
     }
   }
 
+  // 🌍 Download the selected CV (MULTI-LANGUAGE SUPPORT)
   async onDownloadClick() {
-    if (!this.cvUrl) {
+    // Backward compatibility: Check selectedLanguage first, fallback to cvUrl
+    const downloadUrl = this.selectedLanguage?.url || this.cvUrl;
+    
+    if (!downloadUrl) {
       console.warn('CV URL not provided');
       return;
     }
@@ -485,14 +582,18 @@ export class CvDownloadComponent implements OnInit, OnDestroy {
     }
 
     try {
-      // Use the enhanced DataLoadingService to fetch the PDF
-      const pdfBlob = await this.dataLoadingService.getBlob(this.cvUrl);
+      // Use standard HttpClient - interceptor handles all enhancements automatically
+      const pdfBlob = await firstValueFrom(this.http.get(downloadUrl, { responseType: 'blob' }));
 
       // Create download link with the blob
       const blobUrl = URL.createObjectURL(pdfBlob);
       const link = document.createElement('a');
       link.href = blobUrl;
-      link.download = 'CV-Abdelkader-Kantaoui.pdf';
+      // Use language code in filename if available
+      const filename = this.selectedLanguage 
+        ? `CV-${this.selectedLanguage.code}.pdf` 
+        : 'CV-Abdelkader-Kantaoui.pdf';
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
@@ -509,8 +610,11 @@ export class CvDownloadComponent implements OnInit, OnDestroy {
 
       // Fallback to direct link if blob download fails
       const link = document.createElement('a');
-      link.href = this.cvUrl;
-      link.download = 'CV-Abdelkader-Kantaoui.pdf';
+      link.href = downloadUrl;
+      const filename = this.selectedLanguage 
+        ? `CV-${this.selectedLanguage.code}.pdf` 
+        : 'CV-Abdelkader-Kantaoui.pdf';
+      link.download = filename;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

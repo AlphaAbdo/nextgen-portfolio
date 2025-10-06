@@ -119,6 +119,23 @@
         &:hover { background: rgba(40, 167, 69, 0.2); }
       }
       
+      &.btn-calibrate {
+        border-color: #00ccff;
+        background: rgba(0, 204, 255, 0.15);
+        font-weight: bold;
+        
+        &:hover:not(:disabled) { 
+          background: rgba(0, 204, 255, 0.3);
+          box-shadow: 0 2px 8px rgba(0, 204, 255, 0.5);
+        }
+        
+        &:disabled {
+          opacity: 0.6;
+          cursor: not-allowed;
+          animation: pulse-calibrating 1.5s ease-in-out infinite;
+        }
+      }
+      
       &.btn-reset {
         border-color: var(--color-warning);
         &:hover { background: rgba(255, 193, 7, 0.2); }
@@ -130,6 +147,11 @@
       }
     }
   }
+}
+
+@keyframes pulse-calibrating {
+  0%, 100% { opacity: 0.6; transform: scale(1); }
+  50% { opacity: 0.8; transform: scale(1.02); }
 }
 
 /* Reduce motion for accessibility */

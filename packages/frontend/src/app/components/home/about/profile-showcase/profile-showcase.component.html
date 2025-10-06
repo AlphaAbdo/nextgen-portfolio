@@ -2,23 +2,24 @@
 <div class="hero-section">
   <!-- Loading State -->
   <app-loading
-    *ngIf="isLoading"
+    *ngIf="isLoading()"
     message="Loading profile information..."
     size="large">
   </app-loading>
 
   <!-- Error State -->
   <app-loading
-    *ngIf="error && !isLoading"
-    [error]="error"
+    *ngIf="error() && !isLoading()"
+    [error]="error()"
     message="Failed to load profile"
     size="large"
-    [isRetrying]="isRetrying"
+    [showRetry]="true"
+    [isRetrying]="isRetrying()"
     (retry)="retryLoad()">
   </app-loading>
 
   <!-- Main Content -->
-  <div *ngIf="!isLoading && !error && personalInfo">
+  <app-underwork *ngIf="!isLoading() && !error() && personalInfo">
   <div class="hero-background">
     <div class="floating-elements">
       <div class="float-item float-1"></div>
@@ -30,10 +31,22 @@
   <div class="profile-showcase" #showcaseContainer>
     <div class="profile-visual">
       <div class="profile-frame">
-        <img [src]="profileImageSrc()"
+        <img #profileImage
+             [src]="profileImageSrc()"
              alt="{{ personalInfo.profile.image.alt }}" />
         <div class="profile-glow"></div>
+        @if (sashVisible()) {
+          <app-smart-sash
+            [radius]="sashRadius()"
+            [thickness]="sashThickness()"
+            [arcAngle]="sashArcAngle()"
+            [startAngle]="personalInfo.status?.startAngle ?? 180"
+            [text]="personalInfo.status?.text ?? 'Searching for opportunities'">
+          </app-smart-sash>
+        }
       </div>
+
+
       <div class="profile-badge">
         <i class="fas fa-code"></i>
       </div>
@@ -74,5 +87,4 @@
       </div>
     </div>
   </div>
-</div>
-</div>
+</app-underwork>

@@ -1,0 +1,28 @@
+<section class="cern-gallery">
+  <div class="gallery-header">
+    <h2>Where It Happened</h2>
+    <p class="gallery-subtitle">
+      16.7 miles of pure physics · 100 meters underground · Where science meets engineering
+    </p>
+  </div>
+  
+  <div class="gallery-grid">
+    <div class="gallery-item" 
+         *ngFor="let item of galleryItems; let i = index"
+         [attr.data-category]="item.category"
+         [style.animation-delay.ms]="i * 100">
+      <img [src]="item.image" [alt]="item.title" class="gallery-image">
+      <div class="item-overlay">
+        <h3 class="item-title">{{ item.title }}</h3>
+        <p class="item-caption">{{ item.caption }}</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="gallery-footer">
+    <p class="footer-text">
+      "Working at CERN isn't just about the code you write—<br>
+      it's about being part of humanity's quest to understand the universe."
+    </p>
+  </div>
+</section>

@@ -1,0 +1,320 @@
+// =====================================================
+// 🌍 PERMANENT LANGUAGE SELECTOR (Transform Approach)
+// Button transforms into menu, pushing content down
+// No z-index issues!
+// =====================================================
+
+.language-selector-permanent {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 1rem;
+  position: relative;
+  width: 95%;
+
+  .holo-lang-button {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 10px 20px;
+    background: transparent;
+    border: 2px solid var(--color-border-primary);
+    border-radius: 8px;
+    color: var(--color-primary);
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    cursor: pointer;
+    position: relative;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+    &:hover {
+      border-color: var(--color-primary);
+      background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+      box-shadow:
+        0 0 20px color-mix(in srgb, var(--color-primary) 40%, transparent),
+        inset 0 0 15px color-mix(in srgb, var(--color-primary) 8%, transparent);
+      transform: translateY(-2px);
+    }
+
+    .holo-bracket {
+      color: var(--color-secondary);
+      font-size: 1.2rem;
+      font-weight: bold;
+      opacity: 0.8;
+      animation: bracket-pulse 2s ease-in-out infinite;
+    }
+
+    .holo-icon {
+      font-size: 1.3rem;
+      line-height: 1;
+    }
+
+    .holo-code {
+      color: var(--color-text-primary);
+      text-transform: uppercase;
+      font-weight: 700;
+    }
+  }
+
+  // Holographic Language Menu (transforms from button)
+  .holo-lang-menu {
+    width: 95%;
+    margin-top: 1rem;
+    animation: menu-expand 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+
+    .holo-menu-frame {
+      position: relative;
+      width: 100%;
+      background: hsl(var(--color-primary-hue), 20%, 10%);
+      backdrop-filter: blur(12px);
+      border: 2px solid var(--color-primary);
+      border-radius: 10px;
+      box-shadow:
+        0 0 30px color-mix(in srgb, var(--color-primary) 40%, transparent),
+        inset 0 0 20px color-mix(in srgb, var(--color-primary) 5%, transparent),
+        0 8px 32px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+
+      // Corner brackets
+      &::before,
+      &::after {
+        content: '';
+        position: absolute;
+        width: 14px;
+        height: 14px;
+        border: 2px solid var(--color-secondary);
+        opacity: 0.6;
+      }
+
+      &::before {
+        top: 6px;
+        left: 6px;
+        border-right: none;
+        border-bottom: none;
+      }
+
+      &::after {
+        bottom: 6px;
+        right: 6px;
+        border-left: none;
+        border-top: none;
+      }
+    }
+
+    .holo-menu-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 16px;
+      background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+      border-bottom: 1px solid var(--color-primary);
+
+      .holo-menu-title {
+        font-family: 'Courier New', monospace;
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 2px;
+        color: var(--color-primary);
+        text-transform: uppercase;
+      }
+
+      .holo-menu-close {
+        font-size: 1.5rem;
+        line-height: 1;
+        color: var(--color-secondary);
+        cursor: pointer;
+        opacity: 0.7;
+        transition: all 0.2s ease;
+
+        &:hover {
+          opacity: 1;
+          transform: rotate(90deg);
+          color: var(--color-danger);
+        }
+      }
+    }
+
+    .holo-menu-items {
+      padding: 10px;
+      max-height: 300px;
+      overflow-y: auto;
+
+      // Custom scrollbar
+      &::-webkit-scrollbar {
+        width: 6px;
+      }
+
+      &::-webkit-scrollbar-track {
+        background: color-mix(in srgb, var(--color-bg-glass) 10%, transparent);
+      }
+
+      &::-webkit-scrollbar-thumb {
+        background: var(--color-primary);
+        border-radius: 3px;
+
+        &:hover {
+          background: var(--color-secondary);
+        }
+      }
+    }
+
+    .holo-lang-option {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      width: 100%;
+      padding: 12px 14px;
+      margin-bottom: 6px;
+      background: transparent;
+      border: 1px solid transparent;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      color: var(--color-text-primary);
+      text-align: left;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+      &:last-child {
+        margin-bottom: 0;
+      }
+
+      &::before {
+        content: '';
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 100%;
+        background: linear-gradient(180deg,
+          transparent,
+          var(--color-primary),
+          transparent);
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+
+      &:hover {
+        background: color-mix(in srgb, var(--color-primary) 10%, transparent);
+        border-color: var(--color-border-primary);
+        transform: translateX(6px);
+
+        &::before {
+          opacity: 1;
+        }
+      }
+
+      &.selected {
+        background: color-mix(in srgb, var(--color-primary) 20%, transparent);
+        border-color: var(--color-primary);
+        font-weight: 700;
+
+        &::before {
+          opacity: 1;
+          background: linear-gradient(180deg,
+            var(--color-secondary),
+            var(--color-primary),
+            var(--color-secondary));
+        }
+      }
+
+      .holo-option-bracket {
+        color: var(--color-secondary);
+        font-weight: bold;
+        opacity: 0.7;
+        font-size: 1rem;
+      }
+
+      .holo-option-icon {
+        font-size: 1.4rem;
+        line-height: 1;
+      }
+
+      .holo-option-label {
+        flex: 1;
+        font-weight: 600;
+      }
+
+      .holo-option-code {
+        font-size: 0.75rem;
+        color: var(--color-text-secondary);
+        opacity: 0.8;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .holo-option-indicator {
+        color: var(--color-primary);
+        font-size: 0.9rem;
+        animation: indicator-pulse 1.5s ease-in-out infinite;
+      }
+    }
+
+    // Scanning effect
+    .holo-menu-scanline {
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg,
+        transparent,
+        var(--color-primary),
+        transparent);
+      opacity: 0.5;
+      animation: holo-menu-scan 3s linear infinite;
+      pointer-events: none;
+    }
+  }
+}
+
+// =====================================================
+// ANIMATIONS
+// =====================================================
+
+@keyframes bracket-pulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+@keyframes menu-expand {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+@keyframes holo-menu-scan {
+  0% { top: 0%; }
+  100% { top: 100%; }
+}
+
+@keyframes indicator-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+// =====================================================
+// RESPONSIVE DESIGN
+// =====================================================
+
+@media (max-width: 768px) {
+  .language-selector-permanent {
+    .holo-lang-button {
+      padding: 8px 16px;
+      font-size: 0.9rem;
+    }
+
+    .holo-lang-menu {
+      max-width: 250px;
+    }
+  }
+}

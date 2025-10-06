@@ -24,33 +24,54 @@ export class PortfolioComponent implements OnInit {
   // Loading and error states
   isLoading = signal<boolean>(true);
   error = signal<string | null>(null);
+  isRetrying = signal<boolean>(false);
 
-  async ngOnInit() {
-    // Load portfolio data from JSON
-    await this.portfolioService.loadPortfolioData();
-    
-    // Subscribe to service signals
-    const data = this.portfolioService.portfolioData();
-    const loading = this.portfolioService.isLoading();
-    const error = this.portfolioService.error();
-    
-    this.isLoading.set(loading);
-    this.error.set(error);
-    
-    if (data) {
-      this.portfolioItems.set(data.projects);
-      this.categories.set(data.categories || []);
-      this.sectionHeader.set(data.sectionHeader);
+  ngOnInit() {
+    // Start loading immediately without await - allows template to render with loading state
+    this.loadPortfolioData();
+  }
+
+  private async loadPortfolioData() {
+    try {
+      this.isLoading.set(true);
+      this.error.set(null);
       
-      // Set default filter
-      const defaultCategory = data.categories?.find(cat => cat.isDefault);
-      if (defaultCategory) {
-        this.activeFilter.set(defaultCategory.id);
+      // Load portfolio data from JSON
+      await this.portfolioService.loadPortfolioData();
+      
+      // Subscribe to service signals
+      const data = this.portfolioService.portfolioData();
+      const loading = this.portfolioService.isLoading();
+      const error = this.portfolioService.error();
+      
+      this.isLoading.set(loading);
+      this.error.set(error);
+      
+      if (data) {
+        this.portfolioItems.set(data.projects);
+        this.categories.set(data.categories || []);
+        this.sectionHeader.set(data.sectionHeader);
+        
+        // Set default filter
+        const defaultCategory = data.categories?.find(cat => cat.isDefault);
+        if (defaultCategory) {
+          this.activeFilter.set(defaultCategory.id);
+        }
       }
+      
+      // Initialize filtered items
+      this.updateFilteredItems();
+      this.isRetrying.set(false);
+    } catch (err) {
+      this.error.set(err instanceof Error ? err.message : 'Failed to load portfolio');
+      this.isLoading.set(false);
+      this.isRetrying.set(false);
     }
-    
-    // Initialize filtered items
-    this.updateFilteredItems();
+  }
+
+  retryLoad(): void {
+    this.isRetrying.set(true);
+    this.loadPortfolioData();
   }
 
   filterItems(category: string): void {

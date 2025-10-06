@@ -1,0 +1,67 @@
+<section class="cern-challenges">
+  <div class="challenges-header">
+    <h2>Key Contributions</h2>
+    <p class="challenges-subtitle">Four Technical Challenges That Shaped My Journey</p>
+  </div>
+
+  <div class="challenges-grid">
+    <div 
+      *ngFor="let contribution of contributions; let i = index" 
+      class="challenge-card"
+      [style.animation-delay]="(i * 0.15) + 's'">
+      
+      <div class="card-header">
+        <div class="card-icon">{{ contribution.icon }}</div>
+        <div class="card-number">#{{ i + 1 }}</div>
+      </div>
+
+      <div class="card-content">
+        <h3 class="card-title">{{ contribution.title }}</h3>
+        
+        <div class="card-meta">
+          <span class="meta-item">
+            <span class="meta-icon">📅</span>
+            <span>{{ contribution.timeline || 'Apr-Aug 2025' }}</span>
+          </span>
+          <span class="meta-item">
+            <span class="meta-icon">💻</span>
+            <span>{{ contribution.subtitle }}</span>
+          </span>
+        </div>
+
+        <p class="card-problem">
+          <strong>The Challenge:</strong> {{ contribution.problem }}
+        </p>
+
+        <p class="card-solution">
+          <strong>My Approach:</strong> {{ contribution.solution }}
+        </p>
+
+        <div class="card-tech">
+          <span class="tech-label">Tech Stack:</span>
+          <div class="tech-tags">
+            <span *ngFor="let tech of contribution.technologies" class="tech-tag">
+              {{ tech }}
+            </span>
+          </div>
+        </div>
+
+        <div class="card-impact">
+          <div class="impact-stat" *ngFor="let metric of contribution.metrics">
+            <span class="stat-value">{{ metric.after }}</span>
+            <span class="stat-label">{{ metric.label }}</span>
+          </div>
+        </div>
+
+        <a 
+          *ngIf="contribution.github && contribution.github.url" 
+          [href]="contribution.github.url" 
+          target="_blank" 
+          class="card-link">
+          <span class="link-icon">🔗</span>
+          <span>View Code</span>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>

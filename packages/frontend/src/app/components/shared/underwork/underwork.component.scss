@@ -1,0 +1,466 @@
+:host {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.underwork-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100px;
+}
+
+.underwork-wrapper.impact {
+  animation: screenShake 0.3s ease-out;
+}
+
+@keyframes screenShake {
+  0%, 100% { transform: translate(0, 0); }
+  10% { transform: translate(-2px, 1px) rotate(0.2deg); }
+  20% { transform: translate(2px, -1px) rotate(-0.2deg); }
+  30% { transform: translate(-1px, 2px) rotate(0.1deg); }
+  40% { transform: translate(1px, -1px) rotate(-0.1deg); }
+  50% { transform: translate(0, 0); }
+}
+
+.content-area {
+  width: 100%;
+  height: 100%;
+}
+
+.construction-indicator {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  pointer-events: none;
+  /* REMOVED contain - it was causing clipping! */
+  overflow: visible;
+}
+
+/* Pause animations when not visible */
+.underwork-wrapper:not(.visible) .pickaxe-wrapper,
+.underwork-wrapper:not(.visible) .dust,
+.underwork-wrapper:not(.visible) .spark,
+.underwork-wrapper:not(.visible) .crack,
+.underwork-wrapper:not(.visible) .fragment,
+.underwork-wrapper:not(.visible) .impact-wave {
+  animation-play-state: paused !important;
+}
+
+.pickaxe-wrapper {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  pointer-events: auto;
+  cursor: pointer;
+  animation: mineLeft 2s ease-in-out infinite;
+  transform-origin: 80% 80%;
+  /* Added for GPU acceleration without clipping */
+  transform: translateZ(0);
+}
+
+.pickaxe-wrapper svg {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
+.underwork-wrapper:not(.reduced-quality) .pickaxe-wrapper svg {
+  filter: drop-shadow(2px 2px 3px rgba(0,0,0,0.4));
+}
+
+.underwork-wrapper.reduced-quality .pickaxe-wrapper svg {
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+}
+
+@keyframes mineLeft {
+  0%, 100% {
+    transform: rotate(30deg) translate(5%, -5%) translateZ(0);
+  }
+  15% {
+    transform: rotate(45deg) translate(8%, -8%) scale(1.1) translateZ(0);
+  }
+  30% {
+    transform: rotate(-25deg) translate(-15%, 10%) scale(0.95) translateZ(0);
+  }
+  32% {
+    transform: rotate(-20deg) translate(-12%, 8%) scale(1) translateZ(0);
+  }
+  35%, 60% {
+    transform: rotate(-15deg) translate(-10%, 5%) translateZ(0);
+  }
+  70% {
+    transform: rotate(10deg) translate(2%, -2%) translateZ(0);
+  }
+  85% {
+    transform: rotate(25deg) translate(5%, -5%) translateZ(0);
+  }
+}
+
+.impact-wave {
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 165, 0, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  animation: shockwave 2s ease-out infinite;
+  will-change: transform, opacity;
+}
+
+.impact-wave-2 {
+  animation-delay: 0.1s;
+  border-color: rgba(255, 100, 0, 0.6);
+}
+
+@keyframes shockwave {
+  0%, 25% {
+    opacity: 0;
+    transform: scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: scale(0.5);
+  }
+  50% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(2.5);
+  }
+}
+
+.dust-container {
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.dust {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  background: radial-gradient(circle, #8B7355 0%, #A0826D 40%, transparent 70%);
+  border-radius: 50%;
+  opacity: 0;
+  animation: dustBurst 2s ease-out infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+@keyframes dustBurst {
+  0%, 28% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5);
+  }
+  32% {
+    opacity: 0.9;
+    transform: translate(
+      calc(-50% + var(--distance) * cos(var(--angle))),
+      calc(-50% + var(--distance) * sin(var(--angle)))
+    ) scale(1.2);
+  }
+  60% {
+    opacity: 0.3;
+    transform: translate(
+      calc(-50% + var(--distance) * 2.5 * cos(var(--angle))),
+      calc(-50% + var(--distance) * 2.5 * sin(var(--angle)))
+    ) scale(0.8);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--distance) * 3 * cos(var(--angle))),
+      calc(-50% + var(--distance) * 3 * sin(var(--angle)))
+    ) scale(0.3);
+  }
+}
+
+.dust-1 { animation-delay: 0.30s; }
+.dust-2 { animation-delay: 0.31s; }
+.dust-3 { animation-delay: 0.32s; }
+.dust-4 { animation-delay: 0.33s; }
+.dust-5 { animation-delay: 0.34s; }
+.dust-6 { animation-delay: 0.35s; }
+.dust-7 { animation-delay: 0.36s; }
+.dust-8 { animation-delay: 0.37s; }
+.dust-9 { animation-delay: 0.38s; }
+.dust-10 { animation-delay: 0.39s; }
+.dust-11 { animation-delay: 0.40s; }
+.dust-12 { animation-delay: 0.41s; }
+
+.fragments-container {
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  width: 20px;
+  height: 20px;
+  pointer-events: none;
+}
+
+.fragment {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  animation: fragmentFly 2s ease-out infinite;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  will-change: transform, opacity;
+}
+
+.fragment svg {
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+.underwork-wrapper:not(.reduced-quality) .fragment svg {
+  filter: drop-shadow(1px 1px 2px rgba(0,0,0,0.3));
+}
+
+@keyframes fragmentFly {
+  0%, 29% {
+    opacity: 0;
+    transform: translate(-50%, -50%) rotate(0deg) scale(0);
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) rotate(0deg) scale(1);
+  }
+  32% {
+    opacity: 1;
+    transform: translate(calc(-50% + var(--fx)), calc(-50% + var(--fy)))
+               rotate(90deg) scale(1.1);
+  }
+  50% {
+    opacity: 0.8;
+    transform: translate(calc(-50% + var(--fx) * 3), calc(-50% + var(--fy) * 2 + 10px))
+               rotate(270deg) scale(0.9);
+  }
+  70% {
+    opacity: 0.4;
+    transform: translate(calc(-50% + var(--fx) * 4), calc(-50% + var(--fy) * 3 + 20px))
+               rotate(450deg) scale(0.7);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(calc(-50% + var(--fx) * 5), calc(-50% + var(--fy) * 4 + 30px))
+               rotate(720deg) scale(0.3);
+  }
+}
+
+.fragment-1 { animation-delay: 0.30s; --fx: -20px; --fy: -15px; }
+.fragment-2 { animation-delay: 0.31s; --fx: 15px; --fy: -20px; }
+.fragment-3 { animation-delay: 0.32s; --fx: -25px; --fy: 5px; }
+.fragment-4 { animation-delay: 0.33s; --fx: 20px; --fy: 10px; }
+.fragment-5 { animation-delay: 0.34s; --fx: -10px; --fy: -25px; }
+.fragment-6 { animation-delay: 0.35s; --fx: 25px; --fy: -5px; }
+
+.spark-container {
+  position: absolute;
+  top: 30%;
+  right: 30%;
+  width: 30px;
+  height: 30px;
+  pointer-events: none;
+}
+
+.spark {
+  position: absolute;
+  width: 2px;
+  height: 12px;
+  background: linear-gradient(to top, transparent, #FFF, #FFE4B5, #FFA500, transparent);
+  opacity: 0;
+  animation: sparkBurst 2s ease-out infinite;
+  top: 50%;
+  left: 50%;
+  transform-origin: center bottom;
+  will-change: transform, opacity;
+}
+
+.underwork-wrapper:not(.reduced-quality) .spark {
+  box-shadow: 0 0 6px #FFA500, 0 0 12px #FF6347;
+}
+
+.underwork-wrapper.reduced-quality .spark {
+  box-shadow: 0 0 4px #FFA500;
+}
+
+@keyframes sparkBurst {
+  0%, 29% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0) rotate(var(--spark-angle));
+  }
+  30% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.5) rotate(var(--spark-angle));
+  }
+  35% {
+    opacity: 0.8;
+    transform: translate(
+      calc(-50% + var(--sx)),
+      calc(-50% + var(--sy))
+    ) scale(1) rotate(var(--spark-angle));
+  }
+  50% {
+    opacity: 0;
+    transform: translate(
+      calc(-50% + var(--sx) * 2),
+      calc(-50% + var(--sy) * 2)
+    ) scale(0.5) rotate(var(--spark-angle));
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+.spark-1 { animation-delay: 0.29s; --spark-angle: -45deg; --sx: -25px; --sy: -20px; }
+.spark-2 { animation-delay: 0.30s; --spark-angle: -30deg; --sx: -20px; --sy: -25px; }
+.spark-3 { animation-delay: 0.31s; --spark-angle: -60deg; --sx: -30px; --sy: -10px; }
+.spark-4 { animation-delay: 0.32s; --spark-angle: 0deg; --sx: 0; --sy: -30px; }
+.spark-5 { animation-delay: 0.295s; --spark-angle: -90deg; --sx: -35px; --sy: 0; }
+.spark-6 { animation-delay: 0.305s; --spark-angle: -15deg; --sx: -10px; --sy: -30px; }
+.spark-7 { animation-delay: 0.315s; --spark-angle: -75deg; --sx: -32px; --sy: -8px; }
+.spark-8 { animation-delay: 0.325s; --spark-angle: -50deg; --sx: -28px; --sy: -15px; }
+
+.cracks {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+}
+
+.crack {
+  stroke-dasharray: 30;
+  stroke-dashoffset: 30;
+  opacity: 0;
+  animation: crackGrow 2s ease-out infinite;
+}
+
+@keyframes crackGrow {
+  0%, 29% {
+    stroke-dashoffset: 30;
+    opacity: 0;
+  }
+  30% {
+    stroke-dashoffset: 30;
+    opacity: 1;
+  }
+  45% {
+    stroke-dashoffset: 0;
+    opacity: 0.8;
+  }
+  60% {
+    stroke-dashoffset: 0;
+    opacity: 0.3;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+.crack-1 { animation-delay: 0.30s; }
+.crack-2 { animation-delay: 0.32s; }
+.crack-3 { animation-delay: 0.34s; }
+.crack-4 { animation-delay: 0.36s; }
+
+.tooltip {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  margin-top: 8px;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  pointer-events: none;
+  transform: translateY(-5px) scale(0.9);
+}
+
+.tooltip.visible {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0) scale(1);
+}
+
+.tooltip-text {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: linear-gradient(135deg, #333, #444);
+  color: #FFA500;
+  padding: 8px 14px;
+  border-radius: 4px;
+  font-size: 13px;
+  font-weight: 700;
+  white-space: nowrap;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.4);
+  position: relative;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  border: 2px solid #FFA500;
+  font-family: 'Courier New', monospace;
+}
+
+.tooltip-icon {
+  font-size: 16px;
+  animation: pulse 1s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.2); }
+}
+
+.tooltip-text::before {
+  content: '';
+  position: absolute;
+  bottom: 100%;
+  right: 20px;
+  border: 6px solid transparent;
+  border-bottom-color: #FFA500;
+}
+
+@media (max-width: 768px) {
+  .construction-indicator {
+    top: 5px;
+    right: 5px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pickaxe-wrapper,
+  .dust,
+  .spark,
+  .crack,
+  .fragment,
+  .impact-wave {
+    animation: none !important;
+  }
+
+  .underwork-wrapper.impact {
+    animation: none !important;
+  }
+}

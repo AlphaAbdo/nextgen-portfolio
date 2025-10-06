@@ -1,0 +1,67 @@
+// CERN Internship Main Container Styles
+
+.cern-internship-container {
+  width: 100%;
+  min-height: 100vh;
+  background: #1a1a2e;
+  color: #f8f9fa;
+  overflow-x: hidden;
+
+  // Smooth scrolling behavior
+  scroll-behavior: smooth;
+
+  // CERN Color Palette
+  --cern-blue: #0053a1;
+  --cern-light-blue: #00a8e1;
+  --cern-green: #00c48c;
+  --cern-yellow: #ffb020;
+  --cern-red: #ff4757;
+  --cern-dark: #1a1a2e;
+  --cern-light: #f8f9fa;
+
+  // Typography
+  --font-heading: 'Rajdhani', 'Orbitron', sans-serif;
+  --font-body: 'Inter', 'Work Sans', sans-serif;
+  --font-code: 'Fira Code', 'JetBrains Mono', monospace;
+
+  // Spacing
+  --section-padding: 4rem 2rem;
+  --section-gap: 6rem;
+
+  h1 {
+    font-family: var(--font-heading);
+    font-size: 3rem;
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(90deg, var(--cern-blue), var(--cern-light-blue));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  p {
+    font-family: var(--font-body);
+    text-align: center;
+    padding: 1rem;
+    opacity: 0.8;
+  }
+}
+
+// Responsive breakpoints
+@media (max-width: 768px) {
+  .cern-internship-container {
+    --section-padding: 2rem 1rem;
+    --section-gap: 3rem;
+
+    h1 {
+      font-size: 2rem;
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .cern-internship-container {
+    --section-padding: 3rem 1.5rem;
+    --section-gap: 4.5rem;
+  }
+}

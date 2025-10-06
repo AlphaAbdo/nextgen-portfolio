@@ -1,0 +1,20 @@
+<section class="cern-interactive-demo">
+  <h2>See the Problem I Solved</h2>
+  
+  <div class="demo-container">
+    <div class="scene-wrapper">
+      <div class="scene before" [class.active]="showBefore">
+        <div class="canvas-placeholder">BEFORE: Chaotic</div>
+      </div>
+      <div class="scene after" [class.active]="!showBefore">
+        <div class="canvas-placeholder">AFTER: Organized</div>
+      </div>
+    </div>
+
+    <div class="controls">
+      <button (click)="toggleView()">
+        Toggle {{ showBefore ? 'After' : 'Before' }}
+      </button>
+    </div>
+  </div>
+</section>

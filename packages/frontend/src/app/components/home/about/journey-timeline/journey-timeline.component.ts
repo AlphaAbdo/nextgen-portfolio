@@ -1,9 +1,10 @@
-import { Component, OnInit, HostListener, OnDestroy } from '@angular/core';
+import { Component, OnInit, HostListener, OnDestroy, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { JourneyTimelineDefaultComponent } from './journey-timeline-default/journey-timeline-default.component';
 import { JourneyTimelineReducedComponent } from './journey-timeline-reduced/journey-timeline-reduced.component';
 import { LoadingComponent } from '../../../shared/loading/loading.component';
 import { TimelineService } from '../services/timeline.service';
+import { ErrorHandlerService } from '../../../../services/error-handler.service';
 import { Subscription } from 'rxjs';
 import { IAboutContent } from './about.types';
 
@@ -21,12 +22,16 @@ import { IAboutContent } from './about.types';
 export class JourneyTimelineComponent implements OnInit, OnDestroy {
   aboutContent: IAboutContent | null = null;
   isMobile: boolean = false;
-  isLoading: boolean = true;
-  error: string | null = null;
+  isLoading = signal<boolean>(true);
+  error = signal<string | null>(null);
+  isRetrying = signal<boolean>(false);
 
   private subscription: Subscription = new Subscription();
 
-  constructor(private timelineService: TimelineService) {
+  constructor(
+    private timelineService: TimelineService,
+    private errorHandler: ErrorHandlerService
+  ) {
     this.checkScreenSize();
   }
 
@@ -39,7 +44,8 @@ export class JourneyTimelineComponent implements OnInit, OnDestroy {
         },
         error: (error) => {
           console.error('Error loading about content:', error);
-          this.error = 'Failed to load content. Please try again.';
+          const sanitizedError = this.errorHandler.sanitizeError(error, 'timeline content');
+          this.error.set(sanitizedError);
         }
       })
     );
@@ -48,7 +54,7 @@ export class JourneyTimelineComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.timelineService.loading$.subscribe({
         next: (loading) => {
-          this.isLoading = loading;
+          this.isLoading.set(loading);
         }
       })
     );
@@ -57,7 +63,7 @@ export class JourneyTimelineComponent implements OnInit, OnDestroy {
     this.subscription.add(
       this.timelineService.error$.subscribe({
         next: (error) => {
-          this.error = error;
+          this.error.set(error);
         }
       })
     );
@@ -80,6 +86,7 @@ export class JourneyTimelineComponent implements OnInit, OnDestroy {
    * Retry loading data
    */
   onRetry(): void {
+    this.isRetrying.set(true);
     this.timelineService.retry();
   }
 }

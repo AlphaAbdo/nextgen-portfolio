@@ -81,15 +81,15 @@ export const THEME_MODES: ThemeMode[] = [
 export const COLOR_THEMES: ColorTheme[] = [
   {
     id: 'default',
-    name: 'Default',
-    description: 'Classic blue professional theme',
+    name: 'Emerald',
+    description: 'Fresh emerald and coral professional theme',
     colors: {
-      primary: '#4058d3',
-      primaryLight: '#5a6dd8',
-      primaryDark: '#2d4bb5',
-      secondary: '#a43f49',
-      secondaryLight: '#b85861',
-      secondaryDark: '#8b2e38'
+      primary: '#10b981',     // Emerald green
+      primaryLight: '#34d399', // Light emerald
+      primaryDark: '#059669',  // Dark emerald
+      secondary: '#f87171',    // Coral red
+      secondaryLight: '#fca5a5', // Light coral
+      secondaryDark: '#dc2626'  // Dark coral
     }
   },
   {

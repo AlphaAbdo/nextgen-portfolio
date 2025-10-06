@@ -1,0 +1,38 @@
+<div class="cern-internship-container">
+  <!-- Enhanced Header with folded mode and home button -->
+  <app-header 
+    [alwaysReduced]="true"
+    [showHomeButton]="true"
+    [sections]="cernSections">
+  </app-header>
+
+  <!-- Hero Section -->
+  <section id="hero" data-section="hero">
+    <app-cern-hero></app-cern-hero>
+  </section>
+  
+  <!-- Timeline Section -->
+  <section id="timeline" data-section="timeline">
+    <app-cern-timeline></app-cern-timeline>
+  </section>
+  
+  <!-- Challenge Cards -->
+  <section id="challenges" data-section="challenges">
+    <app-cern-challenge-card></app-cern-challenge-card>
+  </section>
+  
+  <!-- Impact Section -->
+  <section id="impact" data-section="impact">
+    <app-cern-impact></app-cern-impact>
+  </section>
+  
+  <!-- Photo Gallery -->
+  <section id="gallery" data-section="gallery">
+    <app-cern-gallery></app-cern-gallery>
+  </section>
+  
+  <!-- Reflection Section -->
+  <section id="reflection" data-section="reflection">
+    <app-cern-reflection></app-cern-reflection>
+  </section>
+</div>

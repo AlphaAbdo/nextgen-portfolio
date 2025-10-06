@@ -16,6 +16,10 @@ import { MENU_OPEN_CLASS } from './header.constants';
 export class HeaderComponent implements OnInit, OnDestroy, AfterViewInit, OnChanges {
   // Input to force reduced mode (mobile-like) regardless of screen size
   @Input() alwaysReduced: boolean = false;
+  // Input for custom sections (auto-detected or manually provided)
+  @Input() sections?: { section: string; label: string; icon: string; description: string }[];
+  // Input to show home button when not on main portfolio
+  @Input() showHomeButton: boolean = false;
 
   // Reactive screen size detection
   isDesktop = signal(false);

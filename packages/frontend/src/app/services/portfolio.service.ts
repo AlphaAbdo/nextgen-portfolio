@@ -1,6 +1,8 @@
 import { Injectable, inject, signal } from '@angular/core';
-import { DataLoadingService } from './data-loading.service';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 import { PortfolioCardData } from '../components/home/portfolio/portfolio-card/portfolio-card.interface';
+import { ErrorHandlerService } from './error-handler.service';
 
 interface PortfolioResponse {
   sectionHeader: {
@@ -24,7 +26,8 @@ interface PortfolioResponse {
   providedIn: 'root'
 })
 export class PortfolioService {
-  private dataLoadingService = inject(DataLoadingService);
+  private http = inject(HttpClient);
+  private errorHandler = inject(ErrorHandlerService);
   
   // Signals for reactive data
   portfolioData = signal<PortfolioResponse | null>(null);
@@ -45,8 +48,8 @@ export class PortfolioService {
       this.isLoading.set(true);
       this.error.set(null);
 
-      // NEW CLEAN API - Just specify the endpoint, service handles everything else
-      const data = await this.dataLoadingService.getData<PortfolioResponse>('assets/data/portfolio.json');
+      // Use standard HttpClient - interceptor handles all enhancements automatically
+      const data = await firstValueFrom(this.http.get<PortfolioResponse>('assets/data/portfolio.json'));
 
       // Process the data
       const processedData = this.processPortfolioData(data);
@@ -55,7 +58,9 @@ export class PortfolioService {
       this.portfolioData.set(processedData);
       this.isLoading.set(false);
     } catch (error) {
-      this.error.set(error instanceof Error ? error.message : 'Failed to load portfolio data');
+      const sanitizedError = this.errorHandler.sanitizeError(error, 'portfolio data');
+      this.error.set(sanitizedError);
+      this.isLoading.set(false);
     } finally {
       this.isLoadingData = false;
     }

@@ -1,0 +1,67 @@
+.cern-interactive-demo {
+  padding: var(--section-padding, 4rem 2rem);
+  min-height: 100vh;
+
+  h2 {
+    font-family: var(--font-heading, 'Rajdhani', sans-serif);
+    font-size: 2.5rem;
+    color: #00a8e1;
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .demo-container {
+    max-width: 1200px;
+    margin: 0 auto;
+
+    .scene-wrapper {
+      position: relative;
+      height: 500px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 8px;
+      overflow: hidden;
+
+      .scene {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: none;
+        align-items: center;
+        justify-content: center;
+
+        &.active {
+          display: flex;
+        }
+
+        .canvas-placeholder {
+          font-family: var(--font-heading);
+          font-size: 2rem;
+          color: #f8f9fa;
+        }
+      }
+    }
+
+    .controls {
+      margin-top: 2rem;
+      text-align: center;
+
+      button {
+        padding: 1rem 2rem;
+        font-family: var(--font-body);
+        font-size: 1rem;
+        background: linear-gradient(90deg, #0053a1, #00a8e1);
+        color: white;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        transition: transform 0.2s;
+
+        &:hover {
+          transform: scale(1.05);
+        }
+      }
+    }
+  }
+}

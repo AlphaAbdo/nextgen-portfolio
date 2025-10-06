@@ -1,0 +1,346 @@
+.cern-timeline {
+  padding: 6rem 2rem;
+  position: relative;
+  overflow: hidden;
+
+  // Subtle background pattern
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      radial-gradient(circle at 20% 50%, rgba(0, 83, 161, 0.06) 0%, transparent 50%),
+      radial-gradient(circle at 80% 50%, rgba(0, 168, 225, 0.06) 0%, transparent 50%);
+    pointer-events: none;
+  }
+
+  .timeline-header {
+    text-align: center;
+    margin-bottom: 4rem;
+    position: relative;
+    z-index: 1;
+
+    h2 {
+      font-family: var(--font-heading, 'Rajdhani', sans-serif);
+      font-size: 3rem;
+      font-weight: 700;
+      color: #00a8e1;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 0.2rem;
+    }
+
+    .timeline-subtitle {
+      font-family: var(--font-body, 'Inter', sans-serif);
+      font-size: 1.2rem;
+      color: #f8f9fa;
+      opacity: 0.8;
+    }
+  }
+
+  .timeline-track {
+    max-width: 1200px;
+    margin: 0 auto;
+    position: relative;
+    padding: 2rem 0;
+
+    // Ensure dynamic timeline lines are positioned correctly
+    .timeline-line {
+      pointer-events: none;
+      border-radius: 2px;
+    }
+  }
+
+  .timeline-event {
+    // Force all timeline event containers above the timeline line
+    z-index: 10;
+    display: flex;
+    align-items: center; // Center markers horizontally with content
+    gap: 2rem;
+    margin-bottom: 4rem;
+    opacity: 0;
+    animation: fadeInUp 0.8s ease-out forwards;
+    position: relative;
+    min-height: 120px; // Minimum height to prevent tiny events
+
+    // Left side events (odd) - content on left, marker in middle
+    &:nth-child(odd) {
+      justify-content: flex-end;
+
+      .event-content {
+        text-align: right;
+        order: 1;
+        flex: 0 0 calc(50% - 50px);
+      }
+
+      .event-marker {
+        order: 2;
+        flex: 0 0 60px;
+        align-self: center; // Force marker to vertical center
+      }
+    }
+
+    // Right side events (even) - marker in middle, content on right
+    &:nth-child(even) {
+      justify-content: flex-start;
+
+      .event-marker {
+        order: 1;
+        flex: 0 0 60px;
+        align-self: center; // Force marker to vertical center
+        margin-right: 2rem;
+      }
+
+      .event-content {
+        text-align: left;
+        order: 2;
+        flex: 0 0 calc(50% - 50px);
+      }
+    }
+
+    &.milestone {
+      .event-marker .event-icon {
+        background: linear-gradient(135deg, #00c48c, #00a8e1);
+        box-shadow: 0 0 30px rgba(0, 196, 140, 0.6);
+        transform: scale(1.2);
+      }
+
+      .event-content .event-phase {
+        color: #00c48c;
+      }
+    }
+
+    .event-marker {
+      // Marker above the timeline line, but below event content
+      position: relative;
+      z-index: 10;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      .event-icon {
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #0053a1, #00a8e1);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        box-shadow: 0 0 20px rgba(0, 168, 225, 0.4);
+        border: 4px solid #1a1a2e;
+        transition: all 0.3s ease;
+        cursor: pointer;
+
+        &:hover {
+          transform: scale(1.15);
+          box-shadow: 0 0 30px rgba(0, 168, 225, 0.7);
+        }
+      }
+
+      .event-pulse {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 60px;
+        height: 60px;
+        border-radius: 50%;
+        background: rgba(0, 196, 140, 0.3);
+        animation: pulse-ring 2s ease-out infinite;
+        pointer-events: none;
+      }
+    }
+
+    .event-content {
+      // Event content above marker and timeline line
+      z-index: 11;
+      position: relative;
+      flex-shrink: 0;
+      display: inline-block;
+      padding: 1.5rem 2rem;
+      background: rgba(0, 83, 161, 0.1);
+      border: 2px solid rgba(0, 168, 225, 0.3);
+      border-radius: 12px;
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+      max-width: 500px;
+
+      &:hover {
+        background: rgba(0, 83, 161, 0.2);
+        border-color: rgba(0, 168, 225, 0.5);
+        transform: translateY(-5px);
+        box-shadow: 0 10px 30px rgba(0, 168, 225, 0.2);
+      }
+
+      .event-date {
+        font-family: var(--font-heading);
+        font-size: 0.9rem;
+        color: #00a8e1;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.1rem;
+        margin-bottom: 0.5rem;
+      }
+
+      .event-phase {
+        font-family: var(--font-heading);
+        font-size: 1.3rem;
+        color: #f8f9fa;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+      }
+
+      .event-description {
+        font-family: var(--font-body);
+        font-size: 1rem;
+        color: #f8f9fa;
+        opacity: 0.85;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  .timeline-footer {
+    margin-top: 4rem;
+    text-align: center;
+    position: relative;
+    z-index: 1;
+
+    .demo-links {
+      display: flex;
+      gap: 2rem;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      .demo-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 1rem 2rem;
+        background: linear-gradient(135deg, #0053a1, #00a8e1);
+        color: white;
+        text-decoration: none;
+        border-radius: 8px;
+        font-family: var(--font-body);
+        font-weight: 600;
+        font-size: 1rem;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(0, 168, 225, 0.3);
+
+        .link-icon {
+          font-size: 1.5rem;
+        }
+
+        &:hover {
+          transform: translateY(-3px);
+          box-shadow: 0 8px 25px rgba(0, 168, 225, 0.5);
+          background: linear-gradient(135deg, #00a8e1, #00c48c);
+        }
+
+        &:active {
+          transform: translateY(-1px);
+        }
+      }
+    }
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes pulse-ring {
+  0% {
+    transform: translate(-50%, -50%) scale(0.8);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -50%) scale(2);
+    opacity: 0;
+  }
+}
+
+// Responsive
+@media (max-width: 768px) {
+  .cern-timeline {
+    padding: 4rem 1rem;
+
+    .timeline-header {
+      h2 {
+        font-size: 2rem;
+      }
+
+      .timeline-subtitle {
+        font-size: 1rem;
+      }
+    }
+
+    .timeline-event {
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+      z-index: 10;
+      position: relative;
+
+      // Mobile: all events same layout
+      &:nth-child(odd),
+      &:nth-child(even) {
+        justify-content: flex-start;
+
+        .event-marker {
+          order: 1;
+          align-self: flex-start;
+          margin-left: 1rem;
+          z-index: 10;
+          position: relative;
+        }
+
+        .event-content {
+          order: 2;
+          flex: 1 1 auto;
+          text-align: left;
+          margin-left: 5rem;
+          z-index: 11;
+          position: relative;
+        }
+      }
+    }
+
+    .timeline-footer {
+      .demo-links {
+        flex-direction: column;
+        gap: 1rem;
+
+        .demo-link {
+          width: 100%;
+          max-width: 300px;
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .cern-timeline {
+    padding: 5rem 1.5rem;
+
+    .timeline-header {
+      h2 {
+        font-size: 2.5rem;
+      }
+    }
+  }
+}

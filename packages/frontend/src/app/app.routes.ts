@@ -10,6 +10,10 @@ export const routes: Routes = [
     loadComponent: () => import('./components/fish-engine/main.component').then(m => m.FishEngineMainComponent)
   },
   {
+    path: 'cern-internship',
+    loadComponent: () => import('./components/cern-internship/main.component').then(m => m.CernInternshipComponent)
+  },
+  {
     path: '**',
     redirectTo: ''
   }

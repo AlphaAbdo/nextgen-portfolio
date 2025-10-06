@@ -1,0 +1,27 @@
+<section class="cern-reflection">
+  <div class="reflection-header">
+    <h2>Reflections</h2>
+    <p class="reflection-subtitle">21 weeks of growth, learning, and shipping code</p>
+  </div>
+
+  <div class="learning-grid">
+    <div class="learning-category" *ngFor="let category of learningCategories">
+      <h3 class="category-title" [style.color]="category.color">
+        {{ category.title }}
+      </h3>
+      <div class="learning-items">
+        <div class="learning-item" *ngFor="let item of category.items">
+          <span class="item-icon">{{ item.icon }}</span>
+          <span class="item-text">{{ item.text }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="reflection-quote">
+    <p class="quote-text">
+      "Before CERN: I knew JavaScript and Angular.<br>
+      <span class="highlight">After CERN: I ship production code that particle physicists use to discover the universe.</span>"
+    </p>
+  </div>
+</section>

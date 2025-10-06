@@ -1,0 +1,46 @@
+<section class="cern-timeline">
+  <div class="timeline-header">
+    <h2>The Journey</h2>
+    <p class="timeline-subtitle">April 1 - August 28, 2025 • 21 Weeks at CERN</p>
+  </div>
+  
+  <div class="timeline-track" #timelineTrack>
+    <!-- Dynamic timeline lines -->
+    <div 
+      *ngFor="let line of timelineLines" 
+      class="timeline-line"
+      [ngStyle]="getTimelineLineStyle(line)">
+    </div>
+    
+    <div 
+      *ngFor="let event of events; let i = index" 
+      class="timeline-event"
+      [class.milestone]="event.milestone"
+      [style.animation-delay]="(i * 0.2) + 's'">
+      
+      <div class="event-marker">
+        <div class="event-icon">{{ event.icon }}</div>
+        <div class="event-pulse" *ngIf="event.milestone"></div>
+      </div>
+      
+      <div class="event-content">
+        <div class="event-date">{{ event.date }}</div>
+        <div class="event-phase">{{ event.phase }}</div>
+        <div class="event-description">{{ event.description }}</div>
+      </div>
+    </div>
+  </div>
+  
+  <div class="timeline-footer">
+    <div class="demo-links">
+      <a href="https://hepsoftwarefoundation.org/phoenix/" target="_blank" class="demo-link">
+        <span class="link-icon">🔗</span>
+        <span>Live Phoenix Demo</span>
+      </a>
+      <a href="https://github.com/HSF/phoenix" target="_blank" class="demo-link">
+        <span class="link-icon">💻</span>
+        <span>Phoenix on GitHub</span>
+      </a>
+    </div>
+  </div>
+</section>

@@ -3,11 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { HeaderComponent } from './header/header.component';
 import { AboutComponent } from './about/about.component';
-import { SkillsComponent } from './skills/skills.component';
+import { SkillsTreeComponent } from './skills/skills-tree.component';
 import { PortfolioComponent } from './portfolio/portfolio.component';
 import { AnimatedBackgroundComponent } from '../shared/animated-background/animated-background.component';
 import { ThemeSwitcherComponent } from '../shared/theme-switcher/theme-switcher.component';
-import { SeparatorComponent } from '../shared/separator/separator.component';
 
 @Component({
   selector: 'app-home-main',
@@ -17,7 +16,7 @@ import { SeparatorComponent } from '../shared/separator/separator.component';
     RouterOutlet,
     HeaderComponent,
     AboutComponent,
-    SkillsComponent,
+    SkillsTreeComponent,
     PortfolioComponent,
     AnimatedBackgroundComponent,
     ThemeSwitcherComponent,
