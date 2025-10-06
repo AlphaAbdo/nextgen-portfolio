@@ -179,13 +179,13 @@ app-animated-background {
 
 .card-content {
   text-align: center;
-  color: var(--color-text-primary);
+  color: #ffffff; /* Always white text */
   
   h4 {
     margin: 0 0 16px 0;
     font-size: 1.5rem;
     font-weight: 700;
-    color: var(--color-primary);
+    color: #ffffff; /* Always white heading */
     line-height: 1.3;
   }
   
@@ -193,7 +193,7 @@ app-animated-background {
     margin: 0 0 20px 0;
     font-size: 1rem;
     line-height: 1.6;
-    color: var(--color-text-secondary);
+    color: #ffffff; /* Always white paragraph text */
     max-width: 280px;
   }
 }
@@ -215,7 +215,7 @@ app-animated-background {
   padding: 4px 8px;
   font-size: 0.75rem;
   font-weight: 500;
-  color: var(--color-text-primary);
+  color: #ffffff; /* Always white text for tech tags */
   backdrop-filter: blur(5px);
 }
 
